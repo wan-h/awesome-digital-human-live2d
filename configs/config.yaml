@@ -1,0 +1,20 @@
+COMMON:
+  NAME: "Awesome-Digital-Human"
+  VERSION: "v0.0.1"
+  LOG_LEVEL: "DEBUG"
+SERVER:
+  IP: "0.0.0.0"
+  PORT: 8080
+  ENGINES:
+    ASR: 
+      SUPPORT_LIST: [ "baiduAPI.yaml" ]
+      DEFAULT: "baiduAPI.yaml"
+    LLM: 
+      SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]
+      DEFAULT: "baiduAPI.yaml"
+    TTS: 
+      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml" ]
+      DEFAULT: "edgeAPI.yaml"
+  AGENTS: 
+    SUPPORT_LIST: [ "repeater.yaml", "dialogue.yaml" ]
+    DEFAULT: "dialogue.yaml"

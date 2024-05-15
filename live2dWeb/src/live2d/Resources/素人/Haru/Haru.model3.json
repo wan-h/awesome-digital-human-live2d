@@ -1,0 +1,119 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Haru.moc3",
+		"Textures": [
+			"Haru.2048/texture_00.png",
+			"Haru.2048/texture_01.png"
+		],
+		"Physics": "Haru.physics3.json",
+		"Pose": "Haru.pose3.json",
+		"DisplayInfo": "Haru.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "smile",
+				"File": "expressions/微笑.exp3.json"
+			},
+			{
+				"Name": "happy-01",
+				"File": "expressions/开心张嘴.exp3.json"
+			},
+			{
+				"Name": "angry",
+				"File": "expressions/生气.exp3.json"
+			},
+			{
+				"Name": "sad",
+				"File": "expressions/难过.exp3.json"
+			},
+			{
+				"Name": "happy-02",
+				"File": "expressions/开心眯眼.exp3.json"
+			},
+			{
+				"Name": "surprise",
+				"File": "expressions/惊讶.exp3.json"
+			},
+			{
+				"Name": "shy",
+				"File": "expressions/脸红.exp3.json"
+			},
+			{
+				"Name": "coldness",
+				"File": "expressions/冷漠.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/微笑-正常.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/高兴-左右摇摆.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/高兴-身体前倾眯眼.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/疑惑-张开双手定睛轻微往前一看.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/脸红-眯眼埋头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5,
+					"Sound": "sounds/haru_talk_13.wav"
+				},
+				{
+					"File": "motions/脸红-眯眼笑.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5,
+					"Sound": "sounds/haru_Info_14.wav"
+				},
+				{
+					"File": "motions/脸红-身体往前倾.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5,
+					"Sound": "sounds/haru_normal_6.wav"
+				}
+			]
+		},
+		"UserData": "Haru.userdata3.json"
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	],
+	"HitAreas": [
+		{
+			"Id": "HitArea",
+			"Name": "Head"
+		},
+		{
+			"Id": "HitArea2",
+			"Name": "Body"
+		}
+	]
+}

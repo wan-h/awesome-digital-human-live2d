@@ -1,0 +1,7 @@
+NAME: "BaiduAPI"
+VERSION: "v0.0.1"
+TOKEN_URL: "http://aip.baidubce.com/oauth/2.0/token"
+ASR_URL: "http://vop.baidu.com/pro_api"
+DEV_PID: 80001
+AK: "xxx"
+SK: "xxx"

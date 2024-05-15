@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "sourceMap": true,
+    "baseUrl": "./",
+    "paths": {
+      "@framework/*": ["./src/live2d/Framework/src/*"]
+    },
+    "noImplicitAny": true,
+    "useUnknownInCatchVariables": true,
+    "jsx": "preserve",
+  },
+  "include": [
+    "src/**/*", 
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

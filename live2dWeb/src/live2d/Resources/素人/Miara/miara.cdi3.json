@@ -1,0 +1,1104 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamMoveX",
+			"GroupId": "ParamGroup13",
+			"Name": "F Move Overall X"
+		},
+		{
+			"Id": "ParamMoveY",
+			"GroupId": "ParamGroup13",
+			"Name": "F Move Overall Y"
+		},
+		{
+			"Id": "ParamBodyAngleZ2",
+			"GroupId": "ParamGroup13",
+			"Name": "F Body Z"
+		},
+		{
+			"Id": "ParamScaling",
+			"GroupId": "ParamGroup13",
+			"Name": "F Scaling Body"
+		},
+		{
+			"Id": "ParamEffect1",
+			"GroupId": "ParamGroup13",
+			"Name": "F Scaling Light"
+		},
+		{
+			"Id": "ParamBodyAngleX2",
+			"GroupId": "ParamGroup13",
+			"Name": "F Body X"
+		},
+		{
+			"Id": "ParamFlapping8",
+			"GroupId": "ParamGroup13",
+			"Name": "F Flapping Upper Wing Tip L"
+		},
+		{
+			"Id": "ParamFlapping7",
+			"GroupId": "ParamGroup13",
+			"Name": "F Flapping Upper Wing Root L"
+		},
+		{
+			"Id": "ParamFlapping4",
+			"GroupId": "ParamGroup13",
+			"Name": "F Flapping Upper Wing Tip R"
+		},
+		{
+			"Id": "ParamFlapping3",
+			"GroupId": "ParamGroup13",
+			"Name": "F Flapping Upper Wing Root R"
+		},
+		{
+			"Id": "ParamFairyDO",
+			"GroupId": "ParamGroup13",
+			"Name": "Fairy Drawing Order"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh181",
+			"GroupId": "ParamGroup18",
+			"Name": "[0]F Wing R 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh181",
+			"GroupId": "ParamGroup18",
+			"Name": "[1]F Wing R 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh181",
+			"GroupId": "ParamGroup18",
+			"Name": "[2]F Wing R 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh181",
+			"GroupId": "ParamGroup18",
+			"Name": "[3]F Wing R 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh181",
+			"GroupId": "ParamGroup18",
+			"Name": "[4]F Wing R 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh179",
+			"GroupId": "ParamGroup19",
+			"Name": "[0]F Wing L 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh179",
+			"GroupId": "ParamGroup19",
+			"Name": "[1]F Wing L 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh179",
+			"GroupId": "ParamGroup19",
+			"Name": "[2]F Wing L 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh179",
+			"GroupId": "ParamGroup19",
+			"Name": "[3]F Wing L 2"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh179",
+			"GroupId": "ParamGroup19",
+			"Name": "[4]F Wing L 2"
+		},
+		{
+			"Id": "ParamWaterSurfaceLight1",
+			"GroupId": "ParamGroup12",
+			"Name": "Water Surface Light 1"
+		},
+		{
+			"Id": "ParamWaterSurfaceLight2",
+			"GroupId": "ParamGroup12",
+			"Name": "Water Surface Light 2"
+		},
+		{
+			"Id": "ParamWaterSurfaceLight3",
+			"GroupId": "ParamGroup12",
+			"Name": "Water Surface Light 3"
+		},
+		{
+			"Id": "ParamWaterSurface1",
+			"GroupId": "ParamGroup11",
+			"Name": "Water Surface 1"
+		},
+		{
+			"Id": "ParamWaterSurface2",
+			"GroupId": "ParamGroup11",
+			"Name": "Water Surface 2"
+		},
+		{
+			"Id": "ParamWaterSurfaceLower1",
+			"GroupId": "ParamGroup11",
+			"Name": "Water Surface Lower 1"
+		},
+		{
+			"Id": "ParamWaterSurfaceLower2",
+			"GroupId": "ParamGroup11",
+			"Name": "Water Surface Lower 2"
+		},
+		{
+			"Id": "ParamWaterSurfaceBack1",
+			"GroupId": "ParamGroup11",
+			"Name": "Water Surface Back 1"
+		},
+		{
+			"Id": "ParamWaterSurfaceBack2",
+			"GroupId": "ParamGroup11",
+			"Name": "Water Surface Back 2"
+		},
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "ParamGroup5",
+			"Name": "Angle X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "ParamGroup5",
+			"Name": "Angle Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "ParamGroup5",
+			"Name": "Angle Z"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "ParamGroup5",
+			"Name": "Mouth Form"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "ParamGroup5",
+			"Name": "Mouth Open"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "ParamGroup9",
+			"Name": "Eye L Open"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "ParamGroup9",
+			"Name": "Eye R Open"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "ParamGroup9",
+			"Name": "Eyeball X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "ParamGroup9",
+			"Name": "Eyeball Y"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow L Y"
+		},
+		{
+			"Id": "ParamBrowLX",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow L X"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow R Y"
+		},
+		{
+			"Id": "ParamBrowRX",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow R X"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow L Angle"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow R Angle"
+		},
+		{
+			"Id": "ParamBrowLForm",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow L Form"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"GroupId": "ParamGroup8",
+			"Name": "Brow R Form"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "ParamGroup6",
+			"Name": "Body X"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "ParamGroup6",
+			"Name": "Body Z"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "ParamGroup6",
+			"Name": "Breath"
+		},
+		{
+			"Id": "ParamHairFront",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Front"
+		},
+		{
+			"Id": "ParamHairFront2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Front 2"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Side"
+		},
+		{
+			"Id": "ParamHairSide2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Side 2"
+		},
+		{
+			"Id": "ParamHairBack",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Back"
+		},
+		{
+			"Id": "ParamHairBack2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Back 2"
+		},
+		{
+			"Id": "ParamHairTail",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Tail"
+		},
+		{
+			"Id": "ParamHairTail2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Tail 2"
+		},
+		{
+			"Id": "ParamHairAho1",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Ahoge"
+		},
+		{
+			"Id": "ParamHairAho2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Ahoge 2"
+		},
+		{
+			"Id": "ParamHairCloth",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Cloth"
+		},
+		{
+			"Id": "ParamHairCloth2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Hair Cloth 2"
+		},
+		{
+			"Id": "ParamBustX",
+			"GroupId": "ParamGroup3",
+			"Name": "Bust X"
+		},
+		{
+			"Id": "ParamBust",
+			"GroupId": "ParamGroup3",
+			"Name": "Bust Y"
+		},
+		{
+			"Id": "ParamChestAccessory",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Chest Accessory"
+		},
+		{
+			"Id": "ParamCloth1",
+			"GroupId": "ParamGroup3",
+			"Name": "Twist Chest Cloth"
+		},
+		{
+			"Id": "ParamCloth2",
+			"GroupId": "ParamGroup3",
+			"Name": "Twist Chest Cloth 2"
+		},
+		{
+			"Id": "ParamSleeve",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Sleeve"
+		},
+		{
+			"Id": "ParamSleeve2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Sleeve2"
+		},
+		{
+			"Id": "ParamSleeveRibbon",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Sleeve Ribbon"
+		},
+		{
+			"Id": "ParamSleeveL",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Sleeve L"
+		},
+		{
+			"Id": "ParamSleeveL2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Sleeve L 2"
+		},
+		{
+			"Id": "ParamSleeveRibbonL",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Sleeve Ribbon L"
+		},
+		{
+			"Id": "ParamPepram1",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Pepram"
+		},
+		{
+			"Id": "ParamPepram2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Pepram 2"
+		},
+		{
+			"Id": "ParamLegRibbonR1",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Leg Ribbon R"
+		},
+		{
+			"Id": "ParamLegRibbonR2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Leg Ribbon R 2"
+		},
+		{
+			"Id": "ParamLegRibbonL1",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Leg Ribbon L"
+		},
+		{
+			"Id": "ParamLegRibbonL2",
+			"GroupId": "ParamGroup3",
+			"Name": "Move Leg Ribbon L 2"
+		},
+		{
+			"Id": "ParamArmL1",
+			"GroupId": "ParamGroup4",
+			"Name": "Arm L 1"
+		},
+		{
+			"Id": "ParamArmL2",
+			"GroupId": "ParamGroup4",
+			"Name": "Arm L 2"
+		},
+		{
+			"Id": "ParamArmL3",
+			"GroupId": "ParamGroup4",
+			"Name": "Arm L 3"
+		},
+		{
+			"Id": "ParamFingerL1X",
+			"GroupId": "ParamGroup4",
+			"Name": "Finger Thumb L"
+		},
+		{
+			"Id": "ParamFingerL1Z",
+			"GroupId": "ParamGroup4",
+			"Name": "Finger Thumb L Z"
+		},
+		{
+			"Id": "ParamFingerL2",
+			"GroupId": "ParamGroup4",
+			"Name": "Finger Index L"
+		},
+		{
+			"Id": "ParamFingerL3",
+			"GroupId": "ParamGroup4",
+			"Name": "Finger Middle L"
+		},
+		{
+			"Id": "ParamFingerL4",
+			"GroupId": "ParamGroup4",
+			"Name": "Finger Ring and Little L"
+		},
+		{
+			"Id": "ParamArmR1",
+			"GroupId": "ParamGroup7",
+			"Name": "Arm R 1"
+		},
+		{
+			"Id": "ParamArmR2",
+			"GroupId": "ParamGroup7",
+			"Name": "Arm R 2"
+		},
+		{
+			"Id": "ParamArmR3",
+			"GroupId": "ParamGroup7",
+			"Name": "Arm R 3"
+		},
+		{
+			"Id": "ParamFingerR1",
+			"GroupId": "ParamGroup7",
+			"Name": "Finger Thumb R"
+		},
+		{
+			"Id": "ParamFingerR2",
+			"GroupId": "ParamGroup7",
+			"Name": "Finger Index R"
+		},
+		{
+			"Id": "ParamFingerR3",
+			"GroupId": "ParamGroup7",
+			"Name": "Finger Middle R"
+		},
+		{
+			"Id": "ParamFingerR4",
+			"GroupId": "ParamGroup7",
+			"Name": "Finger Little R"
+		},
+		{
+			"Id": "ParamLegL1X",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L 1 X"
+		},
+		{
+			"Id": "ParamLegL1Z",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L 1 Z"
+		},
+		{
+			"Id": "ParamLegL2X",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L 2 X"
+		},
+		{
+			"Id": "ParamLegL2Z",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L 2 Z"
+		},
+		{
+			"Id": "ParamLegL3X",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L 3 X"
+		},
+		{
+			"Id": "ParamLegL3Z",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L 3 Z"
+		},
+		{
+			"Id": "ParamLegLDO",
+			"GroupId": "ParamGroup2",
+			"Name": "Leg L Drawing Order"
+		},
+		{
+			"Id": "ParamLegR1X",
+			"GroupId": "ParamGroup",
+			"Name": "Leg R 1 X"
+		},
+		{
+			"Id": "ParamLegR1Z",
+			"GroupId": "ParamGroup",
+			"Name": "Leg R 1 Z"
+		},
+		{
+			"Id": "ParamLegR2X",
+			"GroupId": "ParamGroup",
+			"Name": "Leg R 2 X"
+		},
+		{
+			"Id": "ParamLegR2",
+			"GroupId": "ParamGroup",
+			"Name": "Leg R 2"
+		},
+		{
+			"Id": "ParamLegR3X",
+			"GroupId": "ParamGroup",
+			"Name": "Leg R 3 X"
+		},
+		{
+			"Id": "ParamLegR3Z",
+			"GroupId": "ParamGroup",
+			"Name": "Leg R 3 Z"
+		},
+		{
+			"Id": "ParamAllX",
+			"GroupId": "ParamGroup10",
+			"Name": "Move Overall X"
+		},
+		{
+			"Id": "ParamAllY",
+			"GroupId": "ParamGroup10",
+			"Name": "Move Overall Y"
+		},
+		{
+			"Id": "ParamAllRotate",
+			"GroupId": "ParamGroup10",
+			"Name": "Rotation Overall"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[0]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[1]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[2]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[3]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[4]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_6_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[5]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_7_ArtMesh109",
+			"GroupId": "ParamGroup15",
+			"Name": "[6]Feather Back L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[0]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[1]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[2]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[3]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[4]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_6_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[5]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_7_ArtMesh108",
+			"GroupId": "ParamGroup14",
+			"Name": "[6]Feather Back R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[0]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[1]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[2]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[3]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[4]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_6_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[5]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_7_ArtMesh76",
+			"GroupId": "ParamGroup16",
+			"Name": "[6]Chest Cloth L"
+		},
+		{
+			"Id": "Param_Angle_Rotation_1_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[0]Chest Cloth R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_2_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[1]Chest Cloth R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_3_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[2]Chest Cloth R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_4_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[3]Chest Cloth R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_5_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[4]Chest Cloth R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_6_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[5]Chest Cloth R"
+		},
+		{
+			"Id": "Param_Angle_Rotation_7_ArtMesh77",
+			"GroupId": "ParamGroup17",
+			"Name": "[6]Chest Cloth R"
+		}
+	],
+	"ParameterGroups": [
+		{
+			"Id": "ParamGroup13",
+			"GroupId": "",
+			"Name": "[Fairy] Fairy"
+		},
+		{
+			"Id": "ParamGroup18",
+			"GroupId": "",
+			"Name": "[Fairy] Wing R"
+		},
+		{
+			"Id": "ParamGroup19",
+			"GroupId": "",
+			"Name": "[Fairy] Wing L"
+		},
+		{
+			"Id": "ParamGroup12",
+			"GroupId": "",
+			"Name": "[BG] Water Surface Light"
+		},
+		{
+			"Id": "ParamGroup11",
+			"GroupId": "",
+			"Name": "[BG] Water Surface"
+		},
+		{
+			"Id": "ParamGroup5",
+			"GroupId": "",
+			"Name": "[Miara] Head"
+		},
+		{
+			"Id": "ParamGroup9",
+			"GroupId": "",
+			"Name": "[Miara] Eyes"
+		},
+		{
+			"Id": "ParamGroup8",
+			"GroupId": "",
+			"Name": "[Miara] Brows"
+		},
+		{
+			"Id": "ParamGroup6",
+			"GroupId": "",
+			"Name": "[Miara] Body"
+		},
+		{
+			"Id": "ParamGroup3",
+			"GroupId": "",
+			"Name": "[Miara] Move"
+		},
+		{
+			"Id": "ParamGroup4",
+			"GroupId": "",
+			"Name": "[Miara] Arm L"
+		},
+		{
+			"Id": "ParamGroup7",
+			"GroupId": "",
+			"Name": "[Miara] Arm R"
+		},
+		{
+			"Id": "ParamGroup2",
+			"GroupId": "",
+			"Name": "[Miara] Leg L"
+		},
+		{
+			"Id": "ParamGroup",
+			"GroupId": "",
+			"Name": "[Miara] Leg R"
+		},
+		{
+			"Id": "ParamGroup10",
+			"GroupId": "",
+			"Name": "[Miara]Overall"
+		},
+		{
+			"Id": "ParamGroup15",
+			"GroupId": "",
+			"Name": "[Miara]Feather Back L"
+		},
+		{
+			"Id": "ParamGroup14",
+			"GroupId": "",
+			"Name": "[Miara]Feather Back R"
+		},
+		{
+			"Id": "ParamGroup16",
+			"GroupId": "",
+			"Name": "[Miara]Chest Cloth L"
+		},
+		{
+			"Id": "ParamGroup17",
+			"GroupId": "",
+			"Name": "[Miara]Chest Cloth R"
+		}
+	],
+	"Parts": [
+		{
+			"Id": "PartFairy",
+			"Name": "Fairy"
+		},
+		{
+			"Id": "PartHairAccFront",
+			"Name": "Hair Accessory Front"
+		},
+		{
+			"Id": "PartHairFront",
+			"Name": "Hair Front"
+		},
+		{
+			"Id": "PartHairSideL",
+			"Name": "Hair Side L"
+		},
+		{
+			"Id": "PartHairAhoge",
+			"Name": "Hair Ahoge"
+		},
+		{
+			"Id": "PartHairSideR",
+			"Name": "Hair Side R"
+		},
+		{
+			"Id": "PartArmL",
+			"Name": "Arm L"
+		},
+		{
+			"Id": "PartHairL",
+			"Name": "Hair L"
+		},
+		{
+			"Id": "PartFace",
+			"Name": "Face"
+		},
+		{
+			"Id": "PartBody",
+			"Name": "Body"
+		},
+		{
+			"Id": "PartArmR",
+			"Name": "Arm R"
+		},
+		{
+			"Id": "PartHairR",
+			"Name": "Hair R"
+		},
+		{
+			"Id": "PartHairBack",
+			"Name": "Hair Back"
+		},
+		{
+			"Id": "PartBackgroundAll",
+			"Name": "Background All"
+		},
+		{
+			"Id": "PartFairyBody",
+			"Name": "Fairy Body"
+		},
+		{
+			"Id": "PartFairyUpperWingL",
+			"Name": "Fairy Upper Wing L"
+		},
+		{
+			"Id": "PartFairyLowerWingL",
+			"Name": "Fairy Lower Wing L"
+		},
+		{
+			"Id": "PartFairyUpperWingR",
+			"Name": "Fairy Upper Wing R"
+		},
+		{
+			"Id": "PartFairyLowerWingR",
+			"Name": "Fairy Lower Wing R"
+		},
+		{
+			"Id": "PartHandL",
+			"Name": "Hand L"
+		},
+		{
+			"Id": "PartHairTwinL",
+			"Name": "Hair Twin L"
+		},
+		{
+			"Id": "PartBrow",
+			"Name": "Brows"
+		},
+		{
+			"Id": "PartEye",
+			"Name": "Eye"
+		},
+		{
+			"Id": "PartMouth",
+			"Name": "Mouth"
+		},
+		{
+			"Id": "PartUpperBody",
+			"Name": "Upper Body"
+		},
+		{
+			"Id": "PartLowerBody",
+			"Name": "Lower Body"
+		},
+		{
+			"Id": "ArtMesh109_Skinning",
+			"Name": "Wing Back L(Skinning)"
+		},
+		{
+			"Id": "PartWingBackLRotation",
+			"Name": "Wing Back L(Rotation)"
+		},
+		{
+			"Id": "ArtMesh108_Skinning",
+			"Name": "Wing Back R(Skinning)"
+		},
+		{
+			"Id": "PartWingBackRRotation",
+			"Name": "Wing Back R(Rotation)"
+		},
+		{
+			"Id": "PartHairTwinR",
+			"Name": "Hair Twin R"
+		},
+		{
+			"Id": "PartHairSideLBack",
+			"Name": "Hair Side Back"
+		},
+		{
+			"Id": "PartHairBackRBack",
+			"Name": "Hair Back Back R"
+		},
+		{
+			"Id": "PartHairBackTail",
+			"Name": "Hair Back Tale"
+		},
+		{
+			"Id": "PartWaterSurface",
+			"Name": "Water Surface"
+		},
+		{
+			"Id": "PartBackground",
+			"Name": "Background"
+		},
+		{
+			"Id": "ArtMesh179_Skinning",
+			"Name": "Wing L 2(Skinning)"
+		},
+		{
+			"Id": "PartWingL2Rotation",
+			"Name": "Wing L 2(Rotation)"
+		},
+		{
+			"Id": "ArtMesh181_Skinning",
+			"Name": "Wing R 2(Skinning)"
+		},
+		{
+			"Id": "PartWingR2Rotation",
+			"Name": "Wing R 2(Rotation)"
+		},
+		{
+			"Id": "PartBust",
+			"Name": "Bust"
+		},
+		{
+			"Id": "PartTrunk",
+			"Name": "Trunk"
+		},
+		{
+			"Id": "PartLegL",
+			"Name": "Leg L"
+		},
+		{
+			"Id": "PartLegR",
+			"Name": "Leg R"
+		},
+		{
+			"Id": "PartSparkle",
+			"Name": "Sparkle"
+		},
+		{
+			"Id": "PartWaterSurfaceUpper",
+			"Name": "Water Surface Upper"
+		},
+		{
+			"Id": "PartWaterSurfaceBack",
+			"Name": "Water Surface Back"
+		},
+		{
+			"Id": "PartWaterSurfaceUnder",
+			"Name": "Water Surface Under"
+		},
+		{
+			"Id": "ArtMesh76_Skinning",
+			"Name": "Chest Cloth L(Skinning)"
+		},
+		{
+			"Id": "PartChestClothLRotation",
+			"Name": "Chest Cloth L(Rotation)"
+		},
+		{
+			"Id": "ArtMesh77_Skinning",
+			"Name": "Chest Cloth R(Skinning)"
+		},
+		{
+			"Id": "PartChestClothRRotation",
+			"Name": "Chest Cloth R(Rotation)"
+		},
+		{
+			"Id": "PartWaterSurfaceReflection",
+			"Name": "Water Surface Reflection"
+		}
+	],
+	"CombinedParameters": [
+		[
+			"ParamMoveX",
+			"ParamMoveY"
+		],
+		[
+			"ParamFlapping8",
+			"ParamFlapping7"
+		],
+		[
+			"ParamFlapping4",
+			"ParamFlapping3"
+		],
+		[
+			"ParamAngleX",
+			"ParamAngleY"
+		],
+		[
+			"ParamEyeBallX",
+			"ParamEyeBallY"
+		],
+		[
+			"ParamBrowRY",
+			"ParamBrowRX"
+		],
+		[
+			"ParamHairFront",
+			"ParamHairFront2"
+		],
+		[
+			"ParamHairSide",
+			"ParamHairSide2"
+		],
+		[
+			"ParamHairBack",
+			"ParamHairBack2"
+		],
+		[
+			"ParamHairTail",
+			"ParamHairTail2"
+		],
+		[
+			"ParamHairAho1",
+			"ParamHairAho2"
+		],
+		[
+			"ParamHairCloth",
+			"ParamHairCloth2"
+		],
+		[
+			"ParamBustX",
+			"ParamBust"
+		],
+		[
+			"ParamSleeve",
+			"ParamSleeve2"
+		],
+		[
+			"ParamSleeveL",
+			"ParamSleeveL2"
+		],
+		[
+			"ParamPepram1",
+			"ParamPepram2"
+		],
+		[
+			"ParamLegRibbonR1",
+			"ParamLegRibbonR2"
+		],
+		[
+			"ParamLegRibbonL1",
+			"ParamLegRibbonL2"
+		],
+		[
+			"ParamLegL1X",
+			"ParamLegL1Z"
+		],
+		[
+			"ParamLegL2X",
+			"ParamLegL2Z"
+		],
+		[
+			"ParamLegL3X",
+			"ParamLegL3Z"
+		],
+		[
+			"ParamLegR1X",
+			"ParamLegR1Z"
+		],
+		[
+			"ParamLegR2X",
+			"ParamLegR2"
+		],
+		[
+			"ParamLegR3X",
+			"ParamLegR3Z"
+		]
+	]
+}

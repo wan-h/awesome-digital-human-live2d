@@ -1,0 +1,71 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "izumi.moc3",
+		"Textures": [
+			"izumi.1024/texture_00.png",
+			"izumi.1024/texture_01.png",
+			"izumi.1024/texture_02.png",
+			"izumi.1024/texture_03.png"
+		],
+		"Physics": "izumi.physics3.json",
+		"DisplayInfo": "izumi.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "angry",
+				"File": "expressions/生气.exp3.json"
+			},
+			{
+				"Name": "blushing",
+				"File": "expressions/脸红.exp3.json"
+			},
+			{
+				"Name": "coldness",
+				"File": "expressions/冷漠.exp3.json"
+			},
+			{
+				"Name": "smile",
+				"File": "expressions/微笑.exp3.json"
+			},
+			{
+				"Name": "sad",
+				"File": "expressions/伤心.exp3.json"
+			},
+			{
+				"Name": "happy",
+				"File": "expressions/开心.exp3.json"
+			},
+			{
+				"Name": "surprised",
+				"File": "expressions/惊讶.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+			],
+			"TapBody": [
+				{
+					"File": "motions/开心-眯眼.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	],
+	"HitAreas": []
+}

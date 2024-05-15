@@ -1,0 +1,65 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "hibiki.moc3",
+		"Textures": [
+			"hibiki.2048/texture_00.png"
+		],
+		"Physics": "hibiki.physics3.json",
+		"DisplayInfo": "hibiki.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "Angry",
+				"File": "expressions/生气.exp3.json"
+			},
+			{
+				"Name": "Blushing",
+				"File": "expressions/脸红.exp3.json"
+			},
+			{
+				"Name": "coldness",
+				"File": "expressions/冷漠.exp3.json"
+			},
+			{
+				"Name": "smile",
+				"File": "expressions/微笑.exp3.json"
+			},
+			{
+				"Name": "Sad",
+				"File": "expressions/伤心.exp3.json"
+			},
+			{
+				"Name": "Surprised",
+				"File": "expressions/惊喜.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				
+			],
+			"TapBody": [
+				{
+					"File": "motions/生气-转无辜.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	],
+	"HitAreas": []
+}

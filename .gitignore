@@ -1,0 +1,23 @@
+# IDE File
+.idea
+
+# log File
+logs
+*log.txt
+
+# Output File
+outputs
+*.wav
+*.mp3
+*.mp4
+
+# Python tmp File
+__pycache__
+
+# web tmp File
+node_modules
+dist
+package-lock.json
+
+# sql Folder
+data

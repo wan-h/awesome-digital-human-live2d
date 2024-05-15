@@ -1,0 +1,389 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "",
+			"Name": "左眼　開閉"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "",
+			"Name": "右眼　開閉"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "",
+			"Name": "目玉 X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "",
+			"Name": "目玉 Y"
+		},
+		{
+			"Id": "ParamEyeBallForm",
+			"GroupId": "",
+			"Name": "目玉 変形"
+		},
+		{
+			"Id": "ParamEyeBallKirakira",
+			"GroupId": "",
+			"Name": "目玉　キラキラ"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "",
+			"Name": "左眉　上下"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "",
+			"Name": "右眉　上下"
+		},
+		{
+			"Id": "ParamBrowLX",
+			"GroupId": "",
+			"Name": "左眉　左右"
+		},
+		{
+			"Id": "ParamBrowRX",
+			"GroupId": "",
+			"Name": "右眉　左右"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"GroupId": "",
+			"Name": "左眉　角度"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "",
+			"Name": "右眉　角度"
+		},
+		{
+			"Id": "ParamBrowLForm",
+			"GroupId": "",
+			"Name": "左眉　変形"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"GroupId": "",
+			"Name": "右眉　変形"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "",
+			"Name": "口　開閉"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "",
+			"Name": "口　変形"
+		},
+		{
+			"Id": "ParamMouthSize",
+			"GroupId": "",
+			"Name": "口　拡縮"
+		},
+		{
+			"Id": "ParamTere",
+			"GroupId": "",
+			"Name": "照れ"
+		},
+		{
+			"Id": "ParamBodyX",
+			"GroupId": "",
+			"Name": "体回転 X"
+		},
+		{
+			"Id": "ParamBodyZ",
+			"GroupId": "",
+			"Name": "体回転 Z"
+		},
+		{
+			"Id": "ParamBodyY",
+			"GroupId": "",
+			"Name": "体回転 Y"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "ParamArmL",
+			"GroupId": "",
+			"Name": "左腕"
+		},
+		{
+			"Id": "ParamArmL02",
+			"GroupId": "",
+			"Name": "左腕２"
+		},
+		{
+			"Id": "ParamHandL",
+			"GroupId": "",
+			"Name": "左手"
+		},
+		{
+			"Id": "ParamArmR",
+			"GroupId": "",
+			"Name": "右腕"
+		},
+		{
+			"Id": "ParamArmR02",
+			"GroupId": "",
+			"Name": "右腕２"
+		},
+		{
+			"Id": "ParamHandR",
+			"GroupId": "",
+			"Name": "右手"
+		},
+		{
+			"Id": "ParamArm02L01",
+			"GroupId": "",
+			"Name": "左腕３"
+		},
+		{
+			"Id": "ParamArm02L02",
+			"GroupId": "",
+			"Name": "左腕４"
+		},
+		{
+			"Id": "ParamHand02L",
+			"GroupId": "",
+			"Name": "左手２"
+		},
+		{
+			"Id": "ParamArm02R01",
+			"GroupId": "",
+			"Name": "右腕３"
+		},
+		{
+			"Id": "ParamArm02R02",
+			"GroupId": "",
+			"Name": "右腕４"
+		},
+		{
+			"Id": "ParamHand02R",
+			"GroupId": "",
+			"Name": "右手２"
+		},
+		{
+			"Id": "ParamKamiyureFront",
+			"GroupId": "",
+			"Name": "揺れ　前髪"
+		},
+		{
+			"Id": "ParamKamiyureBack",
+			"GroupId": "",
+			"Name": "揺れ　後ろ髪"
+		},
+		{
+			"Id": "ParamKamiyureSideL",
+			"GroupId": "",
+			"Name": "揺れ　横左"
+		},
+		{
+			"Id": "ParamKamiyureSideR",
+			"GroupId": "",
+			"Name": "揺れ　横右"
+		},
+		{
+			"Id": "ParamKamiyureTwinL",
+			"GroupId": "",
+			"Name": "揺れ　ツイン左"
+		},
+		{
+			"Id": "ParamKamiyureTwinR",
+			"GroupId": "",
+			"Name": "揺れ　ツイン右"
+		},
+		{
+			"Id": "ParamDonyori",
+			"GroupId": "",
+			"Name": "どんより"
+		},
+		{
+			"Id": "ParamDesk",
+			"GroupId": "",
+			"Name": "机"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part01Sketch",
+			"Name": "[ 下絵 ]"
+		},
+		{
+			"Id": "Part01Background03Plus",
+			"Name": "マグカップ・クッキー"
+		},
+		{
+			"Id": "Part01Background03",
+			"Name": "背景　家"
+		},
+		{
+			"Id": "Part01Background02",
+			"Name": "背景　学校"
+		},
+		{
+			"Id": "Part01Background",
+			"Name": "背景"
+		},
+		{
+			"Id": "Part01Kirakira",
+			"Name": "キラキラ"
+		},
+		{
+			"Id": "Part01Ase",
+			"Name": "汗"
+		},
+		{
+			"Id": "Part01Iraira",
+			"Name": "イライラ"
+		},
+		{
+			"Id": "Part01Body",
+			"Name": "体"
+		},
+		{
+			"Id": "Part01Neck",
+			"Name": "首"
+		},
+		{
+			"Id": "Part01Pajama",
+			"Name": "パジャマ"
+		},
+		{
+			"Id": "Part01Uniform",
+			"Name": "制服※座標系はコアに移動"
+		},
+		{
+			"Id": "Part01ArmPajamaR02",
+			"Name": "右腕２ パジャマ"
+		},
+		{
+			"Id": "Part01ArmPajamaL02",
+			"Name": "左腕２ パジャマ"
+		},
+		{
+			"Id": "Part01ArmPajamaR01",
+			"Name": "右腕１ パジャマ"
+		},
+		{
+			"Id": "Part01ArmPajamaL01",
+			"Name": "左腕１ パジャマ"
+		},
+		{
+			"Id": "Part01ArmR02",
+			"Name": "右腕２"
+		},
+		{
+			"Id": "Part01ArmL02",
+			"Name": "左腕２"
+		},
+		{
+			"Id": "Part01ArmR01",
+			"Name": "右腕１"
+		},
+		{
+			"Id": "Part01ArmL01",
+			"Name": "左腕１"
+		},
+		{
+			"Id": "Part01HairBack001",
+			"Name": "ツインテール　後ろ"
+		},
+		{
+			"Id": "Part01HairTwinR",
+			"Name": "ツインテール　右"
+		},
+		{
+			"Id": "Part01HairTwinL",
+			"Name": "ツインテール　左"
+		},
+		{
+			"Id": "Part01HairBack002",
+			"Name": "下ろし髪　後ろ"
+		},
+		{
+			"Id": "Part01HairSide001",
+			"Name": "横髪"
+		},
+		{
+			"Id": "Part01HairFront001",
+			"Name": "前髪"
+		},
+		{
+			"Id": "Part01Ear001",
+			"Name": "耳"
+		},
+		{
+			"Id": "Part01Nose001",
+			"Name": "鼻"
+		},
+		{
+			"Id": "Part01Mouth001",
+			"Name": "口"
+		},
+		{
+			"Id": "Part01Brow001",
+			"Name": "まゆ毛"
+		},
+		{
+			"Id": "Part01EyeBall001",
+			"Name": "目玉"
+		},
+		{
+			"Id": "Part01EyeBall002",
+			"Name": "目玉 ぐるぐる"
+		},
+		{
+			"Id": "Part01EyeBall003",
+			"Name": "目玉 キラキラ"
+		},
+		{
+			"Id": "Part01Eye001",
+			"Name": "目"
+		},
+		{
+			"Id": "Part01Face001",
+			"Name": "顔"
+		},
+		{
+			"Id": "Part01Hoho01",
+			"Name": "頬"
+		},
+		{
+			"Id": "Part01Faceshadow001",
+			"Name": "顔影"
+		},
+		{
+			"Id": "PartCore",
+			"Name": "コアパーツ"
+		},
+		{
+			"Id": "Rough",
+			"Name": "ラフ"
+		}
+	]
+}

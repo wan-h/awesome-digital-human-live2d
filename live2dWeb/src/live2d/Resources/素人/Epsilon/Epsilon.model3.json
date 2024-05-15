@@ -1,0 +1,86 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Epsilon.moc3",
+		"Textures": [
+			"Epsilon.1024/texture_00.png",
+			"Epsilon.1024/texture_01.png",
+			"Epsilon.1024/texture_02.png"
+		],
+		"Physics": "Epsilon.physics3.json",
+		"DisplayInfo": "Epsilon.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "angry",
+				"File": "expressions/生气.exp3.json"
+			},
+			{
+				"Name": "blushing",
+				"File": "expressions/脸红.exp3.json"
+			},
+			{
+				"Name": "innocent",
+				"File": "expressions/无辜.exp3.json"
+			},
+			{
+				"Name": "sad",
+				"File": "expressions/伤心.exp3.json"
+			},
+			{
+				"Name": "smile",
+				"File": "expressions/微笑.exp3.json"
+			},
+			{
+				"Name": "happy",
+				"File": "expressions/开心.exp3.json"
+			},
+			{
+				"Name": "scare",
+				"File": "expressions/惊吓.exp3.json"
+			},
+			{
+				"Name": "upset",
+				"File": "expressions/难过.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/微笑-平淡.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/生气-叉手.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/生气-皱眉.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	],
+	"HitAreas": []
+}
