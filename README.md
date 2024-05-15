@@ -6,8 +6,7 @@
 ---  
 
 ## 演示
-
-
+https://github.com/wan-h/awesome-digital-human-live2d/assets/33694585/776b6fc8-8fad-4c61-a14d-660346c6fb5b
 
 ## 部署
 推荐使用容器部署，本地开发使用裸机开发部署
@@ -128,12 +127,12 @@ SERVER:                                                      # 服务配置项
 ![](assets/llm-extend-3.png)
 
 ## Tips
-前端默认使用复读机模型  
-后端tts默认使用edge-tts(不需要申请key)  
-后端llm默认使用BaiduAPI(需要申请key)  
-切换到对话模式时需要在[百度智能云](https://console.bce.baidu.com/qianfan/ais/console/applicationConsole/application)
+* 前端默认使用复读机模型  
+* 后端tts默认使用edge-tts(不需要申请key)  
+* 后端llm默认使用BaiduAPI(需要申请key)  
+* 切换到对话模式时需要在[百度智能云](https://console.bce.baidu.com/qianfan/ais/console/applicationConsole/application)
 申请AK和SK后填写到[baiduAPI.yaml](configs/engines/llm/baiduAPI.yaml)配置文件中  
-切换到对话模式没有正确配置key时会出现如下回复:  
+* 切换到对话模式没有正确配置key时会出现如下回复:  
 ![](assets/chatError.png)  
 
 ## 分享
