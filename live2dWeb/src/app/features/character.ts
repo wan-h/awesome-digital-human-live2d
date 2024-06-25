@@ -15,7 +15,7 @@ interface characterState {
 
 // 使用该类型定义初始 state
 const initialState: characterState = {
-    value: {name: "Zei", portrait: "", intro: ""},
+    value: {name: "Kei", portrait: "", intro: ""},
 };
 
 export const characterStateSlice = createSlice({
