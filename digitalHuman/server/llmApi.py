@@ -23,12 +23,12 @@ class InferIn(BaseModel):
 class InferOut(BaseResponse):
     data: Optional[str]
 
-@router.post("/v0/infer", response_model=InferOut, summary="Large Lanuage Model")
+@router.post("/v0/infer", response_model=InferOut, summary="Large Lanuage Model Inference")
 async def apiInfer(item: InferIn):
     response = Response()
     try:
         input = TextMessage(data=item.data)
-        output: TextMessage = await enginePool.getEngine(EngineType.LLM, item.engine).run(input)
+        output: Optional[TextMessage] = await enginePool.getEngine(EngineType.LLM, item.engine).run(input)
         if output is None:
             raise RuntimeError("LLM engine run failed")
         response.data = output.data

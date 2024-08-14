@@ -4,11 +4,11 @@ COMMON:
   LOG_LEVEL: "DEBUG"
 SERVER:
   IP: "0.0.0.0"
-  PORT: 8080
+  PORT: 8000
   ENGINES:
     ASR: 
-      SUPPORT_LIST: [ "baiduAPI.yaml" ]
-      DEFAULT: "baiduAPI.yaml"
+      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml" ]
+      DEFAULT: "googleAPI.yaml"
     LLM: 
       SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]
       DEFAULT: "baiduAPI.yaml"
@@ -16,5 +16,5 @@ SERVER:
       SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml" ]
       DEFAULT: "edgeAPI.yaml"
   AGENTS: 
-    SUPPORT_LIST: [ "repeater.yaml", "dialogue.yaml" ]
-    DEFAULT: "dialogue.yaml"
+    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml" ]
+    DEFAULT: "repeaterAgent.yaml"

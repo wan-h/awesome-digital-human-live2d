@@ -5,7 +5,7 @@
 '''
 
 from threading import RLock
-from typing import Optional
+from typing import Optional, List
 from yacs.config import CfgNode as CN
 from digitalHuman.utils import logger
 from .agentBase import BaseAgent
@@ -43,3 +43,6 @@ class AgentPool():
             logger.error(f"[AgentPool] No such agent: {name}")
             return None
         return self._pool[name]
+
+    def list(self) -> List[str]:
+        return list(self._pool.keys())

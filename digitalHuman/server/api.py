@@ -29,8 +29,8 @@ app.add_middleware(
 )
 
 # 路由
-app.include_router(commonRouter, prefix="/common", tags=["COMMON"])
-app.include_router(asrRouter, prefix="/asr", tags=["ASR"])
-app.include_router(llmRouter, prefix="/llm", tags=["LLM"])
-app.include_router(ttsRouter, prefix="/tts", tags=["TTS"])
-app.include_router(agentRouter, prefix="/agent", tags=["AGENT"])
+app.include_router(commonRouter, prefix="/adh/common", tags=["COMMON"])
+app.include_router(asrRouter, prefix="/adh/asr", tags=["ASR"])
+app.include_router(llmRouter, prefix="/adh/llm", tags=["LLM"])
+app.include_router(ttsRouter, prefix="/adh/tts", tags=["TTS"])
+app.include_router(agentRouter, prefix="/adh/agent", tags=["AGENT"])

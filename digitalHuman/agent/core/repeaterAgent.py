@@ -6,7 +6,6 @@
 
 from ..builder import AGENTS
 from ..agentBase import BaseAgent
-from .characterManager import CharacterVoiceManager
 from typing import List, Optional, Union
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
@@ -15,28 +14,22 @@ from digitalHuman.engine.engineBase import BaseEngine
 __all__ = ["Repeater"]
 
 
-@AGENTS.register("Repeater")
-class Repeater(BaseAgent):
+@AGENTS.register("RepeaterAgent")
+class RepeaterAgent(BaseAgent):
 
     def checkKeys(self) -> List[str]:
         return []
     
     async def run(
-        self, input: Union[TextMessage, AudioMessage], 
-        asrEngine: Optional[BaseEngine] = None,
-        llmEngine: Optional[BaseEngine] = None,
-        ttsEngine: Optional[BaseEngine] = None, 
-        character: str = "",
+        self, 
+        input: Union[TextMessage, AudioMessage], 
+        streaming: False,
         **kwargs
-    ) -> Optional[TextMessage]:
+    ):
         try: 
             if isinstance(input, AudioMessage):
-                asrResult: TextMessage = await asrEngine.run(input)
-            else:
-                asrResult: TextMessage = input
-            voice = CharacterVoiceManager.getVoice(character) if character else None
-            ttsResult: AudioMessage = await ttsEngine.run(asrResult, voice=voice)
-            return ttsResult
+                raise RuntimeError("RepeaterAgent does not support AudioMessage input")
+            yield bytes(input.data, encoding='utf-8')
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}")
-            return None
+            yield bytes("", encoding='utf-8')

@@ -10,7 +10,7 @@ from httpx import AsyncClient
 class Test_COMMON_API():
     @pytest.mark.asyncio(scope="session")
     async def test_heartbeat(self, version: str, client: AsyncClient):
-        url = f"/common/{version}/heartbeat"
+        url = f"/adh/common/{version}/heartbeat"
         resp = await client.get(url)
         assert resp.status_code == 200
         resp = resp.json()

@@ -4,8 +4,8 @@
 @Author  :   一力辉 
 '''
 
-from .dialogueAgent import Dialogue
-from .repeaterAgent import Repeater
+from .difyAgent import DifyAgent
+from .repeaterAgent import RepeaterAgent
 from .agentFactory import AgentFactory
 
 __all__ = ['AgentFactory']

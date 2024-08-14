@@ -41,10 +41,7 @@ class BaseAgent(metaclass=ABCMeta):
     async def run(
         self, 
         input: Union[TextMessage, AudioMessage], 
-        asrEngine: Optional[BaseEngine] = None,
-        llmEngine: Optional[BaseEngine] = None,
-        ttsEngine: Optional[BaseEngine] = None, 
-        character: str = "",
+        streaming: bool,
         **kwargs
-    ) -> Optional[TextMessage]:
+    ):
         pass

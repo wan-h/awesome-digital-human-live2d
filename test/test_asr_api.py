@@ -10,12 +10,12 @@ from httpx import AsyncClient
 
 class Test_ASR_API():
     @pytest.mark.asyncio(scope="session")
-    async def test_baiduAPI_infer(self, version: str, client: AsyncClient, wavAudioZh: str):
-        url = f"/asr/{version}/infer"
+    async def test_goodleAPI_infer(self, version: str, client: AsyncClient, wavAudioZh: str):
+        url = f"/adh/asr/{version}/infer"
         with open(wavAudioZh, "rb") as f:
             data = base64.b64encode(f.read()).decode('utf-8')
         item = {
-            "engine": "BaiduAPI",
+            "engine": "GoogleAPI",
             "data": data,
             "format": "wav",
             "sampleRate": "16000",
@@ -25,4 +25,4 @@ class Test_ASR_API():
         assert resp.status_code == 200
         resp = resp.json()
         assert resp["code"] == 0
-        assert resp["data"] == "我认为跑步最重要的就是给我带来了身体健康。"
+        assert resp["data"] == "我认为跑步最重要的就是给我带来了身体健康"

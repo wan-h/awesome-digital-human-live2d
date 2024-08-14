@@ -18,7 +18,7 @@ router = APIRouter()
 enginePool = EnginePool()
 
 class InferIn(BaseModel):
-    engine: str = config.SERVER.ENGINES.ASR.DEFAULT
+    engine: str = "default"
     data: str
     format: str
     sampleRate: int
@@ -27,15 +27,17 @@ class InferIn(BaseModel):
 class InferOut(BaseResponse):
     data: Optional[str] = None
 
-@router.post("/v0/infer", response_model=InferOut, summary="Automatic Speech Recognition")
+@router.post("/v0/infer", response_model=InferOut, summary="Automatic Speech Recognition Inference")
 async def apiInfer(item: InferIn):
+    if item.engine.lower() == "default":
+        item.engine = config.SERVER.ENGINES.ASR.DEFAULT
     response = Response()
     try:
         format = AudioFormatType._value2member_map_.get(item.format)
         if format is None:
             raise RuntimeError("Unsupported audio format")
         input = AudioMessage(data=base64.b64decode(item.data), format=format, sampleRate=item.sampleRate, sampleWidth=item.sampleWidth)
-        output: TextMessage = await enginePool.getEngine(EngineType.ASR, item.engine).run(input)
+        output: Optional[TextMessage] = await enginePool.getEngine(EngineType.ASR, item.engine).run(input)
         if output is None:
             raise RuntimeError("ASR engine run failed")
         response.data = output.data

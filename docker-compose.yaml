@@ -1,35 +1,24 @@
-version: "3"
+version: '3'
 services:
-  adh-web:
-    depends_on:
-      - adh-server
+  # awesome digital human web
+  adh_web:
     build:
       context: .
-      dockerfile: docker/live2dWeb.Dockerfile
-    image: "adh-web:v0.0.1"
-    container_name: "adh-web"
-    links:
-      - adh-server
-    ports:
-      - "8000:8000"
-    environment:
-      SERVER_HOST: "127.0.0.1"
-      SERVER_PORT: "8080"
-      SERVER_VERSION: "v0"
-    command: /bin/sh -c "npm run build:prod ; npm run serve"
-    networks:
-      - mynet
-  adh-server:
+      dockerfile: docker/adhWeb.Dockerfile
+    image: "adh-web:v2.0.0"
+    restart: always
+    network_mode: host
+    # ports:
+    #   - "3000:3000"
+    volumes:
+      - ./web/.env:/workspace/.env
+  # awesome digital human server
+  adh_server:
     build:
       context: .
-      dockerfile: docker/server.Dockerfile
-    image: "adh-server:v0.0.1"
-    container_name: "adh-server"
-    ports:
-      - "8080:8080"
-    command: python3 main.py
-    networks:
-      - mynet
-networks: 
-  mynet: 
-    driver: bridge
+      dockerfile: docker/adhServer.Dockerfile
+    image: "adh-server:v2.0.0"
+    restart: always
+    network_mode: host
+    # ports:
+    #   - "8000:8000"
