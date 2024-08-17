@@ -54,15 +54,23 @@ class DifyAgent(BaseAgent):
                 async with client.stream('POST', url + "/chat-messages", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
                         # 避免返回多条
-                        chunkStr = chunk.decode('utf-8')
+                        chunkStr = chunk.decode('utf-8').strip()
+                        # 过滤非data信息
+                        if not chunkStr.startswith("data:"): continue
                         chunkData = chunkStr[6:]
+                        
                         try:
+                            # dify将过长的回复信息直接截断了
+                            if not chunkData.endswith("}"):
+                                logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
+                                continue
                             data = json.loads(chunkData)
                             # 处理流式返回字符串
                             if "message" in data["event"]:
                                 if 'answer' in data: yield bytes(data['answer'], encoding='utf-8')
                         except Exception as e:
-                            yield bytes("内部错误，请检查dify信息", encoding='utf-8')
+                            logger.error(f"[AGENT] Engine run failed: {e}")
+                            yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
                             
             else:
                 response = await client.post(url + "/chat-messages", headers=headers, json=payload) 
@@ -70,4 +78,4 @@ class DifyAgent(BaseAgent):
                 yield bytes(data['answer'], encoding='utf-8')
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}")
-            yield bytes("内部错误，请检查dify配置信息。", encoding='utf-8')
+            yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
