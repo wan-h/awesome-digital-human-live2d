@@ -60,13 +60,15 @@ PC端页面预览：
 [数字人-定义数字世界中的你](https://zhuanlan.zhihu.com/p/676746017)  
 [RAG架构浅析](https://zhuanlan.zhihu.com/p/703262854)  
 [dify源码解析-RAG](https://zhuanlan.zhihu.com/p/704341817)  
-[RAG-索引之PDF文档解析](https://zhuanlan.zhihu.com/p/707271297)
+[RAG-索引之PDF文档解析](https://zhuanlan.zhihu.com/p/707271297)  
+[Dify打造专属数字人灵魂](https://zhuanlan.zhihu.com/p/714961925)
   
 **微信公众号板块**  
 [数字人-定义数字世界中的你](https://mp.weixin.qq.com/s/SQvFysHO8daN0HMA0AaJZw)  
 [RAG架构浅析](https://mp.weixin.qq.com/s/4iWrJonD8_kjxw4ILibzSw)  
 [dify源码解析-RAG](https://mp.weixin.qq.com/s/muCTFTWLY8j5UtxwCaW93A)  
-[RAG-索引之PDF文档解析](https://mp.weixin.qq.com/s/innbTL6aeOsl9vyJSN6yBw)
+[RAG-索引之PDF文档解析](https://mp.weixin.qq.com/s/innbTL6aeOsl9vyJSN6yBw)  
+[Dify打造专属数字人灵魂](https://mp.weixin.qq.com/s/3B4YgYjDY42DNTgE76XOtw)
 
 
 ## 兴趣小组 
