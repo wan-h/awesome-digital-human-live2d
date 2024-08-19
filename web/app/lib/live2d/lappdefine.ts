@@ -33,6 +33,9 @@ export const ViewLogicalMaxTop = 2.0;
 export const ResourcesPath = '/characters/';
 export const BgResourcesPath = '/backgrounds/'
 
+// 嘴唇说话闭合程度
+export const LipSyncWeight = 2.0;
+
 // 模型后面的背景图像文件
 export const BackImages: string[] = [
   'forest_trail', 'night_street'

@@ -49,9 +49,12 @@ SERVER:                                                      # 服务配置项
 （需要live2d支持的模型）  
 * 人物模型控制使用 [live2d web SDK](https://www.live2d.com/en/sdk/about/)  
 * 人物模型均来自 [live2d官方免费素材](https://www.live2d.com/zh-CHS/learn/sample/)  
-* 人物模型添加流程
+* 人物模型添加流程  
 ![](../assets/character-extend-v2.0.0-1.png)
 ![](../assets/character-extend-v2.0.0-2.png)
+* 唇形同步  
+如果想增加或则减小嘴唇根据语音的闭合程度，修改 LipSyncWeight 权重值
+![](../assets/character-lip-ctr.png)
 #### 背景图片
 添加图片到`awesome-digital-human-live2d/web/public/backgrounds`目录下并在`awesome-digital-human-live2d/web/app/lib/live2d/lappdefine.ts`中修改字段`BackImages`添加图片名称即可
 #### 后端模块扩展
