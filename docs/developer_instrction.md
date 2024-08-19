@@ -50,6 +50,7 @@ SERVER:                                                      # 服务配置项
 * 人物模型控制使用 [live2d web SDK](https://www.live2d.com/en/sdk/about/)  
 * 人物模型均来自 [live2d官方免费素材](https://www.live2d.com/zh-CHS/learn/sample/)  
 * 人物模型添加流程  
+（已经上传的人物模型中已经支持了很多的表情和动作，有能力的同学可以自己探索玩儿一下）
 ![](../assets/character-extend-v2.0.0-1.png)
 ![](../assets/character-extend-v2.0.0-2.png)
 * 唇形同步  

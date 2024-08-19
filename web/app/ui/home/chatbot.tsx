@@ -1,6 +1,7 @@
 'use client';
 // import Image from "next/image";
 import clsx from "clsx";
+import { debounce } from 'lodash';
 import { useEffect, useRef, useState } from "react";
 import { useChatRecordStore, ChatRole, ChatMessage, useAgentEngineSettingsStore, useAgentModeStore, useMuteStore, useInteractionModeStore, InteractionMode } from "@/app/lib/store";
 import { ConfirmAlert } from "@/app/ui/common/alert";
@@ -20,13 +21,13 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const { agentEngine } = useAgentModeStore();
     const { mode } = useInteractionModeStore();
     const { settings } = useAgentEngineSettingsStore();
-    const [ micRecording, setMicRecording ] = useState(false);
-    const [ micRecordAlert, setmicRecordAlert ] = useState(false);
-    const [ isProcessing, setIsProcessing ] = useState(false);
+    const [micRecording, setMicRecording] = useState(false);
+    const [micRecordAlert, setmicRecordAlert] = useState(false);
+    const [isProcessing, setIsProcessing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const chatbotRef = useRef<HTMLDivElement>(null);
 
-    const chatWithAI = (message: string) => { 
+    const chatWithAI = (message: string) => {
         addChatRecord({ role: ChatRole.HUMAN, content: message });
         // 请求AI
         let responseText = "";
@@ -35,7 +36,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderIndex = 0;
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
-        Comm.getInstance().streamingChat(message, agentEngine, settings, (index: number, data: string)=>{
+        Comm.getInstance().streamingChat(message, agentEngine, settings, (index: number, data: string) => {
             responseText += data;
             updateLastRecord({ role: ChatRole.AI, content: responseText });
             if (!mute && mode != InteractionMode.CHATBOT) {
@@ -44,7 +45,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                 // 断句判断符号
                 let punc = ["。", ".", "！", "!", "？", "?", "；", ";", "，", ","];
                 // 找到最后一个包含这些符号的位置
-                let lastPuncIndex =  -1;
+                let lastPuncIndex = -1;
                 for (let i = 0; i < punc.length; i++) {
                     let index = audioText.lastIndexOf(punc[i]);
                     if (index > lastPuncIndex) {
@@ -57,7 +58,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                     let secondPart = audioText.slice(lastPuncIndex + 1);
                     console.log("tts:", firstPart);
                     Comm.getInstance().tts(firstPart).then(
-                        (data: ArrayBuffer) => { 
+                        (data: ArrayBuffer) => {
                             if (data) {
                                 audioRecorderDict.set(index, data);
                                 while (true) {
@@ -73,12 +74,12 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                     audioRecorderDict.set(index, null)
                 }
             }
-        }, (index: number)=>{
+        }, (index: number) => {
             // 处理剩余tts
             if (!mute && audioText) {
                 console.log("tts:", audioText);
                 Comm.getInstance().tts(audioText).then(
-                    (data: ArrayBuffer) => { 
+                    (data: ArrayBuffer) => {
                         if (data) {
                             audioRecorderDict.set(index, data);
                             while (true) {
@@ -91,11 +92,12 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                 )
             }
             setIsProcessing(false);
-        });        
+        });
     }
 
 
     const micClick = () => {
+        if (isProcessing) return;
         if (micRecorder == null) {
             micRecorder = new Recorder({
                 sampleBits: 16,         // 采样位数，支持 8 或 16，默认是16
@@ -105,13 +107,13 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         }
         if (!isRecording) {
             micRecorder.start().then(
-                () => { 
+                () => {
                     isRecording = true;
                     setMicRecording(true);
                 },
-                (error) => { 
+                (error) => {
                     console.error(error);
-                    setmicRecordAlert(true); 
+                    setmicRecordAlert(true);
                 }
             );
         } else {
@@ -133,26 +135,48 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const fileClick = () => {
         console.log("file clicked");
     }
+
     const sendClick = () => {
         if (inputRef.current.value === "") return;
         setIsProcessing(true);
         chatWithAI(inputRef.current.value);
         inputRef.current.value = "";
     }
+
     const enterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             sendClick();
         }
     }
 
+    // 定义一个防抖函数，用于处理 Ctrl + M 的按键组合  
+    const handleCtrlM = debounce(() => {
+        console.log('Ctrl + M was pressed!');
+        micClick();
+    }, 500); // 1000 毫秒内多次触发只执行一次   
+
     useEffect(() => {
         // 聊天滚动条到底部
         chatbotRef.current.scrollTop = chatbotRef.current.scrollHeight + 100;
+        // 添加事件监听器  
+        const handleKeyDown = (event: KeyboardEvent) => {
+            // 检查是否按下了 Ctrl + M
+            if (event.ctrlKey && event.key === 'm') {
+                handleCtrlM();
+            }
+        };
+
+        // 绑定事件监听器到 document 或其他适当的 DOM 元素  
+        document.addEventListener('keydown', handleKeyDown);
+        // 清理函数，用于移除事件监听器  
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
     })
 
     return (
         <div className="p-2 sm:p-6 justify-between flex flex-col h-full">
-            {micRecordAlert ?  <ConfirmAlert message={AUDIO_SUPPORT_ALERT} /> : null}
+            {micRecordAlert ? <ConfirmAlert message={AUDIO_SUPPORT_ALERT} /> : null}
             <div id="messages" ref={chatbotRef} className="flex flex-col space-y-4 p-3 overflow-y-auto no-scrollbar z-10">
                 {
                     showChatHistory ?
