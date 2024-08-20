@@ -36,7 +36,7 @@ PC端页面预览：
   * Agent支持：repeater(复读机)、dialogue(对话)
   * 人物类型支持：女友（1）、心理师（1）、素人（11）
 > ### v2.0.0
-**拥抱Dify生态，打造自己的数字人灵魂**
+**拥抱Dify生态，打造自己的数字人灵魂（已测试最新dify版本：0.7.1）**
 * [v2.0.0 - 2024-08-08](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
   * 前端页面全面升级：nextjs + nextui
   * 前端页面兼容移动端访问
@@ -47,9 +47,9 @@ PC端页面预览：
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
 [开发说明](./docs/developer_instrction.md)  
-[常见问题](./docs/Q&A.md)
-  
-[B站视频教程](https://www.bilibili.com/video/BV1szePeaEak/)
+[常见问题](./docs/Q&A.md)  
+
+[B站视频教程](https://www.bilibili.com/video/BV1szePeaEak/)  
 
 ## Thanks
 [Dify](https://github.com/langgenius/dify)  
@@ -70,6 +70,9 @@ PC端页面预览：
 [dify源码解析-RAG](https://mp.weixin.qq.com/s/muCTFTWLY8j5UtxwCaW93A)  
 [RAG-索引之PDF文档解析](https://mp.weixin.qq.com/s/innbTL6aeOsl9vyJSN6yBw)  
 [Dify打造专属数字人灵魂](https://mp.weixin.qq.com/s/3B4YgYjDY42DNTgE76XOtw)
+
+**产研板块**  
+[数字人调研问卷](https://ec5cjmeodk.feishu.cn/share/base/dashboard/shrcnu1DNMUCTU18f5tF2q9qoQh)（感谢 [@plumixius](https://github.com/plumixius) 同学）
 
 
 ## 兴趣小组 
