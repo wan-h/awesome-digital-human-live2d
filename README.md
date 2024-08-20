@@ -47,6 +47,7 @@ PC端页面预览：
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
 [开发说明](./docs/developer_instrction.md)  
+[常见问题](./docs/Q&A.md)
   
 [B站视频教程](https://www.bilibili.com/video/BV1szePeaEak/)
 
