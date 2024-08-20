@@ -13,6 +13,7 @@ from typing import List, Optional, Union
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
 from digitalHuman.engine.engineBase import BaseEngine
+import re
 
 __all__ = ["DifyAgent"]
 
@@ -34,7 +35,7 @@ class DifyAgent(BaseAgent):
         key: str,
         **kwargs
     ):
-        try: 
+        try:
             if isinstance(input, AudioMessage):
                 raise RuntimeError("RepeaterAgent does not support AudioMessage input")
             headers = {
@@ -49,6 +50,7 @@ class DifyAgent(BaseAgent):
                 "user": "adh",
                 "files":[]
             }
+            pattern = re.compile(r'data:\s*({.*})')
             client = httpx.AsyncClient(headers=headers)
             if streaming:
                 async with client.stream('POST', url + "/chat-messages", headers=headers, json=payload) as response:
@@ -57,8 +59,9 @@ class DifyAgent(BaseAgent):
                         chunkStr = chunk.decode('utf-8').strip()
                         # 过滤非data信息
                         if not chunkStr.startswith("data:"): continue
-                        chunkData = chunkStr[6:]
-                        
+                        chunkData = pattern.search(chunkStr)
+                        chunkData = chunkData.group(1)
+
                         try:
                             # dify将过长的回复信息直接截断了
                             if not chunkData.endswith("}"):
@@ -71,9 +74,9 @@ class DifyAgent(BaseAgent):
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}")
                             yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
-                            
+
             else:
-                response = await client.post(url + "/chat-messages", headers=headers, json=payload) 
+                response = await client.post(url + "/chat-messages", headers=headers, json=payload)
                 data = json.loads(response.text)
                 yield bytes(data['answer'], encoding='utf-8')
         except Exception as e:
