@@ -6,6 +6,7 @@
 
 from ..builder import AGENTS
 from ..agentBase import BaseAgent
+import re
 import json
 import httpx
 import requests
@@ -13,7 +14,6 @@ from typing import List, Optional, Union
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
 from digitalHuman.engine.engineBase import BaseEngine
-import re
 
 __all__ = ["DifyAgent"]
 
@@ -50,23 +50,21 @@ class DifyAgent(BaseAgent):
                 "user": "adh",
                 "files":[]
             }
+
             pattern = re.compile(r'data:\s*({.*})')
             client = httpx.AsyncClient(headers=headers)
             if streaming:
                 async with client.stream('POST', url + "/chat-messages", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
-                        # 避免返回多条
                         chunkStr = chunk.decode('utf-8').strip()
-                        # 过滤非data信息
-                        if not chunkStr.startswith("data:"): continue
                         chunkData = pattern.search(chunkStr)
+                        # 部分dify返回不完整，该模板匹配会失效
+                        if not chunkData: 
+                            logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
+                            continue
                         chunkData = chunkData.group(1)
 
                         try:
-                            # dify将过长的回复信息直接截断了
-                            if not chunkData.endswith("}"):
-                                logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
-                                continue
                             data = json.loads(chunkData)
                             # 处理流式返回字符串
                             if "message" in data["event"]:
