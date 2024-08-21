@@ -61,12 +61,14 @@ SERVER:                                                      # 服务配置项
 #### 后端模块扩展
 （后端引擎均通过注册的方式，asr、llm、tts、agent方式相同）
 ##### 常规引擎  
-对于asr、llm、tts的扩展实现在`digitalHuman/engine`目录下，也可以依葫芦画瓢扩展更多的引擎，以扩展openai大模型为例:  
+对于asr、llm、tts的扩展实现在`digitalHuman/engine`目录下，也可以依葫芦画瓢扩展更多的引擎，以扩展openai大模型为例（这里只是作为一个示例，使用difyAgent后并不会再使用llm engine）:  
 * 新增llm配置文件  
 ![](../assets/llm-extend-1.png)
 * 全局配置文件支持新增的llm  
 ![](../assets/llm-extend-2.png)
 * llm推理实现并注册  
 ![](../assets/llm-extend-3.png)
+* 模块入口函数引用(动态注册的方式，需要被import一下)  
+![](../assets/llm-extend-4.png)
 ##### agent
 对于agent的扩展实现在`digitalHuman/agent/core`目录下，扩展方式和常规引擎相同，这里的agent可以使用上面的常规引擎自己构建，也可以接入像dify这样的编排框架平台
