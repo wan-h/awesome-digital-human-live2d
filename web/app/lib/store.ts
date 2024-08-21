@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { ModelDefault } from "@/app/lib/live2d/lappdefine";
+import { Comm } from "@/app/lib/comm";
 
 // ==================== 交互模式 ==================
 export enum InteractionMode {
@@ -87,12 +88,21 @@ export const useChatRecordStore = create<ChatRecordState>()(
 // ==================== agent引擎 ==================
 interface AgentEngineState {
     agentEngine: string
+    fetchDefaultAgent: () => Promise<void>;
     setAgentEngine: (engine: string) => void
 }
 export const useAgentModeStore = create<AgentEngineState>()(
     persist(
         (set) => ({
             agentEngine: "RepeaterAgent",
+            // 获取默认的agent引擎
+            fetchDefaultAgent: async () => {
+                Comm.getInstance().getDefaultAgent().then((res) => {
+                    if (res) {
+                        set({ agentEngine: res })
+                    }
+                })
+            },
             setAgentEngine: (engine: string) => set((state) => ({ agentEngine: engine } )),
         }),
         {

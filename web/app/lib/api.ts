@@ -4,9 +4,14 @@ import 'whatwg-fetch';
 const SERVER_PORT = process.env.NEXT_PUBLIC_ADH_SERVER_PORT || "8000";
 const VERSION = process.env.NEXT_PUBLIC_ADH_SERVER_VERSION || "v0";
 
-export async function common_heatbeat_api() {
+function getURL(): string {
     const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location.hostname
     const URL = SERVER_IP + ":" + SERVER_PORT;
+    return URL;
+}
+
+export async function common_heatbeat_api() {
+    const URL = getURL();
     let response = await fetch(URL + `/adh/common/${VERSION}/heartbeat`, {
         method: "GET"
     });
@@ -20,8 +25,7 @@ export async function asr_infer_api(
     sampleRate: Number = 16000, 
     sampleWidth: Number = 2
 ) {
-    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location.hostname
-    const URL = SERVER_IP + ":" + SERVER_PORT;
+    const URL = getURL();
     let response = await fetch(URL + `/adh/asr/${VERSION}/infer`, {
         method: "POST",
         body: JSON.stringify(
@@ -44,8 +48,7 @@ export async function tts_infer_api(
     data: string, 
     engine: string = "default"
 ) {
-    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location.hostname
-    const URL = SERVER_IP + ":" + SERVER_PORT;
+    const URL = getURL();
     let response = await fetch(URL + `/adh/tts/${VERSION}/infer`, {
         method: "POST",
         body: JSON.stringify(
@@ -62,9 +65,19 @@ export async function tts_infer_api(
 }
 
 export async function agents_list_api() {
-    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location.hostname
-    const URL = SERVER_IP + ":" + SERVER_PORT;
+    const URL = getURL();
     let response = await fetch(URL + `/adh/agent/${VERSION}/list`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return await response.json();
+}
+
+export async function agent_default_api() {
+    const URL = getURL();
+    let response = await fetch(URL + `/adh/agent/${VERSION}/default`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -78,8 +91,7 @@ export async function agent_infer_streaming_api(
     engine: string = "default", 
     settings: {[key: string]:string} = {},
 ) {
-    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location.hostname
-    const URL = SERVER_IP + ":" + SERVER_PORT;
+    const URL = getURL();
     let response = await fetch(URL + `/adh/agent/${VERSION}/infer`, {
         method: "POST",
         body: JSON.stringify(

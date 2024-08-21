@@ -49,7 +49,7 @@ async def apiInfer(item: InferIn):
 class ListOut(BaseResponse):
     data: List[str] = []
 
-@router.get("/v0/list", response_model=ListOut, summary="AI Agent List")
+@router.get("/v0/list", response_model=ListOut, summary="Get AI Agent List")
 async def apiList():
     response = Response()
     try:
@@ -57,3 +57,18 @@ async def apiList():
     except Exception as e:
         response.error(str(e))
     return JSONResponse(content=response.validate(ListOut), status_code=200)
+
+
+class DefaultOut(BaseResponse):
+    data: str
+
+@router.get("/v0/default", response_model=DefaultOut, summary="Get Default AI Agent")
+async def apiList():
+    response = Response()
+    try:
+        print("=" * 100)
+        print(config.SERVER.AGENTS.DEFAULT)
+        response.data = config.SERVER.AGENTS.DEFAULT
+    except Exception as e:
+        response.error(str(e))
+    return JSONResponse(content=response.validate(DefaultOut), status_code=200)
