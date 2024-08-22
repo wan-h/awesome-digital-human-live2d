@@ -53,6 +53,9 @@ function SettingServer() {
     const [agentsList, setAgentsList] = useState([]);
     const difySettingUrlRef = useRef<HTMLInputElement>(null);
     const difySettingKeyRef = useRef<HTMLInputElement>(null);
+
+    const fastgptSettingUrlRef = useRef<HTMLInputElement>(null);
+    const fastgptSettingKeyRef = useRef<HTMLInputElement>(null);
     
     const agentEngineRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAgentEngine(e.target.value);
@@ -62,6 +65,12 @@ function SettingServer() {
         if (difySettingUrlRef.current && difySettingKeyRef.current) {
             console.log("settings: ", difySettingUrlRef.current.value, difySettingKeyRef.current.value);
             setSettings(difySettingUrlRef.current.value, difySettingKeyRef.current.value);
+        }
+    }
+    const fastgptSettingChange = () => {
+        if (fastgptSettingUrlRef.current && fastgptSettingKeyRef.current) {
+            console.log("settings: ", fastgptSettingUrlRef.current.value, fastgptSettingKeyRef.current.value);
+            setSettings(fastgptSettingUrlRef.current.value, fastgptSettingKeyRef.current.value);
         }
     }
 
@@ -93,7 +102,17 @@ function SettingServer() {
                         </div>
                     </div>
                     :
-                    <></>
+                    (agentEngine == "FastgptAgent" ?
+                     <div>
+                        <Divider />
+                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
+                            <Input label="fastgpt_url" defaultValue={settings.url} ref={fastgptSettingUrlRef}/>
+                            <Input label="fastgpt_key" defaultValue={settings.key} ref={fastgptSettingKeyRef}/>
+                            <Button color="primary" onPress={fastgptSettingChange}>确认</Button>
+                        </div>
+                    </div>
+                    :
+                    <></>)
                 }
                 </div>
             </CardBody>
@@ -114,6 +133,8 @@ function SettingsTabs() {
         </Tabs>
     )
 }
+
+
 
 export default function Settings() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
