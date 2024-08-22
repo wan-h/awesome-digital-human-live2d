@@ -128,15 +128,14 @@ export const useAgentEngineSettingsStore = create<AgentEngineSettings>()(
                     agents.forEach((agent) => {
                         Comm.getInstance().getAgentSettings(agent).then((res) => {
                             if (res) {
-                                console.log(res)
                                 set((state) => ({agentSettings: {...state.agentSettings, [agent]: res}}))
                             }
                         })
                     })
                 })
             },
-            setAgentSettings: (engine: string, newSettings: { [key: string]: string }[]) => set(
-                (state) => ({agentSettings: {...state.agentSettings, [engine]: newSettings}})
+            setAgentSettings: (agent: string, newSettings: { [key: string]: string }[]) => set(
+                (state) => ({agentSettings: {...state.agentSettings, [agent]: newSettings}})
             )
         }),
         {

@@ -37,7 +37,7 @@ class DifyAgent(BaseAgent):
             if isinstance(input, AudioMessage):
                 raise RuntimeError("DifyAgent does not support AudioMessage input")
             # 参数校验
-            for paramter in self.cfg.PARAMETERS:
+            for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
             API_URL = kwargs["API_URL"]
@@ -63,8 +63,8 @@ class DifyAgent(BaseAgent):
                         chunkStr = chunk.decode('utf-8').strip()
                         chunkData = pattern.search(chunkStr)
                         # 部分dify返回不完整，该模板匹配会失效
-                        if not chunkData: 
-                            logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
+                        if not chunkStr.endswith('}') or not chunkData: 
+                            logger.warning(f"[AGENT] Engine return truncated data: {chunkStr}")
                             continue
                         chunkData = chunkData.group(1)
 

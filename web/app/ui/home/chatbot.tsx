@@ -20,7 +20,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const { mute } = useMuteStore();
     const { agentEngine } = useAgentModeStore();
     const { mode } = useInteractionModeStore();
-    const { settings } = useAgentEngineSettingsStore();
+    const { agentSettings } = useAgentEngineSettingsStore();
     const [micRecording, setMicRecording] = useState(false);
     const [micRecordAlert, setmicRecordAlert] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -36,6 +36,10 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderIndex = 0;
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
+        let settings: {[key: string]: string} = {}
+        for (let setting of agentSettings[agentEngine]){
+            settings[setting.NAME] = setting.DEFAULT;
+        }
         Comm.getInstance().streamingChat(message, agentEngine, settings, (index: number, data: string) => {
             responseText += data;
             updateLastRecord({ role: ChatRole.AI, content: responseText });

@@ -44,12 +44,8 @@ async def apiAgentInfer(item: AgentInferIn):
 class AgentSettingsIn(BaseModel):
     engine: str
 
-class AgentSettings(BaseResponse):
-    NAME: str
-    DEFAULT: str
-
 class AgentSettingsOut(BaseResponse):
-    data: List[AgentSettings]
+    data: List[dict]
 
 @router.post("/v0/settings", response_model=AgentSettingsOut, summary="Get AI Agent Settings")
 async def apiAgentSettings(item: AgentSettingsIn):

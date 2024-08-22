@@ -90,7 +90,7 @@ export async function agent_settings_api(
     engine: string
 ) {
     const URL = getURL();
-    let response = await fetch(URL + `/adh/agent/${VERSION}/settings/`, {
+    let response = await fetch(URL + `/adh/agent/${VERSION}/settings`, {
         method: "POST",
         body: JSON.stringify(
             {

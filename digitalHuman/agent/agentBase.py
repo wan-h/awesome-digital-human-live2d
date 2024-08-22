@@ -28,6 +28,9 @@ class BaseAgent(metaclass=ABCMeta):
     def name(self) -> str:
         return self.cfg.NAME
     
+    def parameters(self) -> List[str]:
+        return self.cfg.PARAMETERS if "PARAMETERS" in self.cfg else []
+    
     def setup(self):
         pass
 

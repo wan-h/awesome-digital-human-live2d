@@ -47,41 +47,55 @@ function SettingBasic() {
     )
 }
 
-async function AgentSettingsComponent(props: { engine: string }) {
+function AgentSettingsComponent(props: { engine: string }) {
     const { engine } = props;
-    const { AgentSettings, setAgentSettings } = useAgentEngineSettingsStore();
-    const engineSettings = await Comm.getInstance().getAgentSettings(engine);
-    setAgentSettings(engine, engineSettings);
-    console.log("AgentSettingsComponent: ", AgentSettings);
-    const settingChange = () => {
-        // if (difySettingUrlRef.current && difySettingKeyRef.current) {
-        //     console.log("settings: ", difySettingUrlRef.current.value, difySettingKeyRef.current.value);
-        //     setSettings(difySettingUrlRef.current.value, difySettingKeyRef.current.value);
-        // }
-        console.log("settings: ", engineSettings);
+    const { agentSettings, setAgentSettings } = useAgentEngineSettingsStore();
+    const agentSetting = agentSettings[engine];
+    const [inputSettings, setInputSettings] = useState(agentSetting);
+    
+    useEffect(() => {
+        setInputSettings(agentSetting);
+    }, [agentSettings, engine])
+
+    const handleSettingChange = () => {
+        console.log(inputSettings);
+        setAgentSettings(engine, inputSettings);
+    }
+    const handleInputChange = (name: string, value: string) => {
+        let newInputSettings = inputSettings;
+        // 更新对应的值
+        for (let i = 0; i < newInputSettings.length; i++) {
+            if (newInputSettings[i].NAME == name) {
+                newInputSettings[i].DEFAULT = value;
+                break;
+            }
+        }
+        setInputSettings(newInputSettings);
     }
     return (
-        engineSettings.length > 0 ? 
-        <div className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
-            {/* <Input label="dify_url" defaultValue={settings.url} ref={difySettingUrlRef}/>
-            <Input label="dify_key" defaultValue={settings.key} ref={difySettingKeyRef}/>
-             */}
-            {
-                engineSettings.map((setting) => <Input key={setting.NAME} label={setting.NAME} />)
-            }
-            <Button color="primary" onPress={settingChange}>确认</Button>
-        </div>
-        :
-        <></>
+        agentSetting.length > 0 ?
+            <div className="flex flex-col w-full flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
+                {
+                    agentSetting.map((setting) =>
+                        <Input
+                            key={setting.NAME}
+                            label={setting.NAME}
+                            defaultValue={setting.DEFAULT}
+                            onChange={(e) => { handleInputChange(setting.NAME, e.target.value) }}
+                        />
+                    )
+                }
+                <Button className="self-end" color="primary" onPress={handleSettingChange}>确认</Button>
+            </div>
+            :
+            <></>
     )
 }
 
 function SettingServer() {
     const { agentEngine, setAgentEngine } = useAgentModeStore();
     const [agentsList, setAgentsList] = useState([]);
-    const difySettingUrlRef = useRef<HTMLInputElement>(null);
-    const difySettingKeyRef = useRef<HTMLInputElement>(null);
-    
+
     const agentEngineRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAgentEngine(e.target.value);
     };
