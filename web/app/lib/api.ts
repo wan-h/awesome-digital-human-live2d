@@ -86,6 +86,24 @@ export async function agent_default_api() {
     return await response.json();
 }
 
+export async function agent_settings_api(
+    engine: string
+) {
+    const URL = getURL();
+    let response = await fetch(URL + `/adh/agent/${VERSION}/settings/`, {
+        method: "POST",
+        body: JSON.stringify(
+            {
+                engine: engine
+            }
+        ),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.json();
+}
+
 export async function agent_infer_streaming_api(
     data: string,
     engine: string = "default", 

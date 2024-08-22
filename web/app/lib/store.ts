@@ -25,7 +25,7 @@ export const useInteractionModeStore = create<InteractionModeState>()(
         setDigitalhuamnMode: () => set((state) => ({ mode: InteractionMode.DIGITALHUMAN })),
         setImmersiveMode: () => set((state) => ({ mode: InteractionMode.IMMERSIVE })),
     })
-    
+
 )
 
 // ==================== 人物选择 ==================
@@ -37,13 +37,13 @@ export const useCharacterStore = create<CharacterState>()(
     persist(
         (set) => ({
             character: ModelDefault,
-            setCharacter: (by: string) => set((state) => ({ character: by } )),
-        }), 
+            setCharacter: (by: string) => set((state) => ({ character: by })),
+        }),
         {
             name: 'character-storage',
         }
     )
-    
+
 )
 
 // ==================== 背景选择 ==================
@@ -55,7 +55,7 @@ export const useBackgroundStore = create<BackgroundState>()(
     persist(
         (set) => ({
             background: null,
-            setBackground: (by: string | null) => set((state) => ({ background: by } )),
+            setBackground: (by: string | null) => set((state) => ({ background: by })),
         }),
         {
             name: 'background-storage',
@@ -80,8 +80,8 @@ interface ChatRecordState {
 export const useChatRecordStore = create<ChatRecordState>()(
     (set) => ({
         chatRecord: [],
-        addChatRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord, message] } )),
-        updateLastRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord.slice(0, -1), message] } )),
+        addChatRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord, message] })),
+        updateLastRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord.slice(0, -1), message] })),
     })
 )
 
@@ -103,7 +103,7 @@ export const useAgentModeStore = create<AgentEngineState>()(
                     }
                 })
             },
-            setAgentEngine: (engine: string) => set((state) => ({ agentEngine: engine } )),
+            setAgentEngine: (engine: string) => set((state) => ({ agentEngine: engine })),
         }),
         {
             name: 'agentEngine-storage',
@@ -113,42 +113,54 @@ export const useAgentModeStore = create<AgentEngineState>()(
 
 // ==================== agent设置 ==================
 
-interface DifyAgentEngineSetting {
-    settings: {url: string, key: string}
-    setSettings: (url: string, key: string) => void
+interface AgentEngineSettings {
+    agentSettings: { [key: string]: { [key: string]: string }[] }
+    fetchAgentSettings: () => Promise<void>;
+    setAgentSettings: (engine: string, settings: { [key: string]: string }[]) => void
 }
 
-const DIFY_URL = process.env.NEXT_PUBLIC_DIFY_SERVER || "";
-const DIFY_KEY = process.env.NEXT_PUBLIC_DIFY_KEY || "";
-export const useAgentEngineSettingsStore = create<DifyAgentEngineSetting>()(
+export const useAgentEngineSettingsStore = create<AgentEngineSettings>()(
     persist(
         (set) => ({
-            settings: {url: DIFY_URL, key: DIFY_KEY},
-            setSettings: (url: string, key: string) => set((state) => ({ settings: {...state.settings, url: url, key: key} } ))
+            agentSettings: {},
+            fetchAgentSettings: async () => {
+                Comm.getInstance().getAgentsList().then((agents) => {
+                    agents.forEach((agent) => {
+                        Comm.getInstance().getAgentSettings(agent).then((res) => {
+                            if (res) {
+                                console.log(res)
+                                set((state) => ({agentSettings: {...state.agentSettings, [agent]: res}}))
+                            }
+                        })
+                    })
+                })
+            },
+            setAgentSettings: (engine: string, newSettings: { [key: string]: string }[]) => set(
+                (state) => ({agentSettings: {...state.agentSettings, [engine]: newSettings}})
+            )
         }),
         {
             name: 'agentEngineSettings-storage',
         }
     )
-    
 )
 
 // ==================== 静音设置 ==================
- interface MuteState {
+interface MuteState {
     mute: boolean
     setMute: (mute: boolean) => void
- }
+}
 export const useMuteStore = create<MuteState>()(
     persist(
         (set) => ({
             mute: false,
-            setMute: (mute: boolean) => set((state) => ({ mute: mute } )),
+            setMute: (mute: boolean) => set((state) => ({ mute: mute })),
         }),
         {
             name: 'mute-storage', // name of the item in the storage (must be unique)
         }
     )
-    
+
 )
 
 // ==================== 心跳标志 ==================
@@ -159,6 +171,6 @@ interface HeartbeatState {
 export const useHeartbeatStore = create<HeartbeatState>()(
     (set) => ({
         heartbeat: false,
-        setHeartbeat: (heartbeat: boolean) => set((state) => ({ heartbeat: heartbeat } )),
+        setHeartbeat: (heartbeat: boolean) => set((state) => ({ heartbeat: heartbeat })),
     })
 )

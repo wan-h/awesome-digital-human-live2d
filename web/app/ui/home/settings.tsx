@@ -47,9 +47,37 @@ function SettingBasic() {
     )
 }
 
+async function AgentSettingsComponent(props: { engine: string }) {
+    const { engine } = props;
+    const { AgentSettings, setAgentSettings } = useAgentEngineSettingsStore();
+    const engineSettings = await Comm.getInstance().getAgentSettings(engine);
+    setAgentSettings(engine, engineSettings);
+    console.log("AgentSettingsComponent: ", AgentSettings);
+    const settingChange = () => {
+        // if (difySettingUrlRef.current && difySettingKeyRef.current) {
+        //     console.log("settings: ", difySettingUrlRef.current.value, difySettingKeyRef.current.value);
+        //     setSettings(difySettingUrlRef.current.value, difySettingKeyRef.current.value);
+        // }
+        console.log("settings: ", engineSettings);
+    }
+    return (
+        engineSettings.length > 0 ? 
+        <div className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
+            {/* <Input label="dify_url" defaultValue={settings.url} ref={difySettingUrlRef}/>
+            <Input label="dify_key" defaultValue={settings.key} ref={difySettingKeyRef}/>
+             */}
+            {
+                engineSettings.map((setting) => <Input key={setting.NAME} label={setting.NAME} />)
+            }
+            <Button color="primary" onPress={settingChange}>确认</Button>
+        </div>
+        :
+        <></>
+    )
+}
+
 function SettingServer() {
     const { agentEngine, setAgentEngine } = useAgentModeStore();
-    const { settings, setSettings } = useAgentEngineSettingsStore();
     const [agentsList, setAgentsList] = useState([]);
     const difySettingUrlRef = useRef<HTMLInputElement>(null);
     const difySettingKeyRef = useRef<HTMLInputElement>(null);
@@ -57,13 +85,6 @@ function SettingServer() {
     const agentEngineRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAgentEngine(e.target.value);
     };
-
-    const difySettingChange = () => {
-        if (difySettingUrlRef.current && difySettingKeyRef.current) {
-            console.log("settings: ", difySettingUrlRef.current.value, difySettingKeyRef.current.value);
-            setSettings(difySettingUrlRef.current.value, difySettingKeyRef.current.value);
-        }
-    }
 
     if (agentsList.length == 0) {
         Comm.getInstance().getAgentsList().then((agents) => setAgentsList(agents));
@@ -81,20 +102,7 @@ function SettingServer() {
                     >
                         {agentsList.map((agent) => <Radio key={agent} value={agent}>{agent}</Radio>)}
                     </RadioGroup>
-                
-                {
-                    agentEngine == "DifyAgent" ?
-                    <div>
-                        <Divider />
-                        <div className="flex w-full flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
-                            <Input label="dify_url" defaultValue={settings.url} ref={difySettingUrlRef}/>
-                            <Input label="dify_key" defaultValue={settings.key} ref={difySettingKeyRef}/>
-                            <Button color="primary" onPress={difySettingChange}>确认</Button>
-                        </div>
-                    </div>
-                    :
-                    <></>
-                }
+                    <AgentSettingsComponent engine={agentEngine} />
                 </div>
             </CardBody>
         </Card>

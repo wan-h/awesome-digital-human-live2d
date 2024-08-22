@@ -74,6 +74,15 @@ export class Comm {
     })
   }
 
+  public async getAgentSettings(agent: string): Promise<{[key: string]: string}[]> {
+    return API.agent_settings_api(agent).then(response => {
+      return response.data;
+    }).catch(error => {
+      console.error(error);
+      return {}
+    })
+  }
+
   public async streamingChat(
     data: string,
     engine: string = "default",

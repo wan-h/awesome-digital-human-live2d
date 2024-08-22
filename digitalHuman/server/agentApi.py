@@ -16,59 +16,72 @@ from digitalHuman.agent import AgentPool
 router = APIRouter()
 agentPool = AgentPool()
 
-class InferIn(BaseModel):
+class AgentInferIn(BaseModel):
     engine: str = "default"
     settings: dict = {}
     streaming: bool = False
     data: str
 
-class InferOut(BaseResponse):
+class AgentInferOut(BaseResponse):
     data: bytes
 
 async def interalError():
     yield "内部错误"
 
-@router.post("/v0/infer", response_model=InferOut, summary="AI Agent Inference")
-async def apiInfer(item: InferIn):
+@router.post("/v0/infer", response_model=AgentInferOut, summary="AI Agent Inference")
+async def apiAgentInfer(item: AgentInferIn):
     if item.engine.lower() == "default":
         item.engine = config.SERVER.AGENTS.DEFAULT
     response = Response()
     try:
         input = TextMessage(data=item.data)
-        # dify服务参数校验
-        if "dify" in item.engine.lower():
-            if "url" not in item.settings or "key" not in item.settings:
-                raise RuntimeError("dify url and key is required")
-            
         return StreamingResponse(agentPool.get(item.engine).run(input, item.streaming, **item.settings))
     except Exception as e:
         response.error(str(e))
         return StreamingResponse(interalError)
 
 
-class ListOut(BaseResponse):
+class AgentSettingsIn(BaseModel):
+    engine: str
+
+class AgentSettings(BaseResponse):
+    NAME: str
+    DEFAULT: str
+
+class AgentSettingsOut(BaseResponse):
+    data: List[AgentSettings]
+
+@router.post("/v0/settings", response_model=AgentSettingsOut, summary="Get AI Agent Settings")
+async def apiAgentSettings(item: AgentSettingsIn):
+    response = Response()
+    try:
+        response.data = agentPool.get(item.engine).parameters()
+    except Exception as e:
+        response.error(str(e))
+    return JSONResponse(content=response.validate(AgentSettingsOut), status_code=200)
+
+
+class AgentListOut(BaseResponse):
     data: List[str] = []
 
-@router.get("/v0/list", response_model=ListOut, summary="Get AI Agent List")
-async def apiList():
+@router.get("/v0/list", response_model=AgentListOut, summary="Get AI Agent List")
+async def apiAgentList():
     response = Response()
     try:
         response.data = agentPool.list()
     except Exception as e:
         response.error(str(e))
-    return JSONResponse(content=response.validate(ListOut), status_code=200)
+    return JSONResponse(content=response.validate(AgentListOut), status_code=200)
 
 
-class DefaultOut(BaseResponse):
+class AgentDefaultOut(BaseResponse):
     data: str
 
-@router.get("/v0/default", response_model=DefaultOut, summary="Get Default AI Agent")
-async def apiList():
+@router.get("/v0/default", response_model=AgentDefaultOut, summary="Get Default AI Agent")
+async def apiAgentDefault():
     response = Response()
     try:
-        print("=" * 100)
-        print(config.SERVER.AGENTS.DEFAULT)
         response.data = config.SERVER.AGENTS.DEFAULT
     except Exception as e:
         response.error(str(e))
-    return JSONResponse(content=response.validate(DefaultOut), status_code=200)
+    return JSONResponse(content=response.validate(AgentDefaultOut), status_code=200)
