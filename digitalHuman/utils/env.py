@@ -9,7 +9,10 @@ import warnings
 
 ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CONFIG_ROOT_PATH = os.path.join(ROOT_PATH, "configs")
+CONFIG_TEMPLATE_FILE = os.path.join(CONFIG_ROOT_PATH, "config_template.yaml")
 CONFIG_FILE = os.path.join(CONFIG_ROOT_PATH, "config.yaml")
+if not os.path.exists(CONFIG_FILE):
+    CONFIG_FILE = CONFIG_TEMPLATE_FILE
 LOG_PATH = os.path.join(ROOT_PATH, "logs")
 OUTPUT_PATH = os.path.join(ROOT_PATH, "outputs")
 WEB_PATH = os.path.join(ROOT_PATH, "web")

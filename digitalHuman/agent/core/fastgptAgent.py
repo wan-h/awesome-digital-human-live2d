@@ -57,28 +57,29 @@ class FastgptAgent(BaseAgent):
                 async with httpxAsyncClient.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
                         # 避免返回多条
-                        chunkStr = chunk.decode('utf-8').strip()
-                        # 过滤非data信息
-                        if not chunkStr.startswith("data:"): continue
-                        chunkData = pattern.search(chunkStr)
-                        # 将过长的回复信息直接截断了
-                        if not chunkStr.endswith('}') or not chunkData:
-                            logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
-                            continue
-                        chunkData = chunkData.group(1)
+                        chunkStrs = chunk.decode('utf-8').strip()
+                        for chunkStr in chunkStrs.split('\n'):
+                            # 过滤非data信息
+                            if not chunkStr.startswith("data:"): continue
+                            chunkData = pattern.search(chunkStr)
+                            # 将过长的回复信息直接截断了
+                            if not chunkStr.endswith('}') or not chunkData:
+                                logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
+                                continue
+                            chunkData = chunkData.group(1)
 
-                        try:
-                            data = json.loads(chunkData)
-                            # 处理流式返回字符串
-                            if 'choices' in data:
-                                if data["choices"][0]['finish_reason'] == "stop":
-                                    break
-                                else:
-                                    logger.debug(f"[AGENT] Engine response: {data['choices'][0]['delta']['content']}")
-                                    yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
-                        except Exception as e:
-                            logger.error(f"[AGENT] Engine run failed: {e}")
-                            yield bytes("内部错误，请检查fastgpt信息。", encoding='utf-8')
+                            try:
+                                data = json.loads(chunkData)
+                                # 处理流式返回字符串
+                                if 'choices' in data:
+                                    if data["choices"][0]['finish_reason'] == "stop":
+                                        break
+                                    else:
+                                        logger.debug(f"[AGENT] Engine response: {data['choices'][0]['delta']['content']}")
+                                        yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
+                            except Exception as e:
+                                logger.error(f"[AGENT] Engine run failed: {e}")
+                                yield bytes("内部错误，请检查fastgpt信息。", encoding='utf-8')
 
             else:
                 response = await httpxAsyncClient.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
