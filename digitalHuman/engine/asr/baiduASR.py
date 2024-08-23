@@ -56,6 +56,7 @@ class BaiduAPI(BaseEngine):
                 'Content-Length': str(len(input.data))
             }
             resp = await self.client.post(self.cfg.ASR_URL, content=input.data, params=params, headers=headers)
+            logger.debug(f"[ASR] Engine response: {resp.json()}")
             result = resp.json()["result"][0]
             message = TextMessage(data=result)
             return message

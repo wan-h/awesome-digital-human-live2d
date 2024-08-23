@@ -2,7 +2,7 @@
 **打造一个有温度的数字人**  
 **给数字人注入灵魂**  
 ---  
-###### *业务时间发电，你的star是我最大的动力，感谢！*
+###### *业余时间发电，你的star是我最大的动力，感谢！*
 ---  
 
 ## 演示
@@ -49,7 +49,7 @@ PC端页面预览：
 [开发说明](./docs/developer_instrction.md)  
 [常见问题](./docs/Q&A.md)  
 
-[B站视频教程](https://www.bilibili.com/video/BV1szePeaEak/)  
+[B站视频教程-部署](https://www.bilibili.com/video/BV1szePeaEak/)  
 
 ## Thanks
 [Dify](https://github.com/langgenius/dify)  

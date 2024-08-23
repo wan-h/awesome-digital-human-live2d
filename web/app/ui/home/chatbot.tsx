@@ -127,10 +127,16 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             setIsProcessing(true);
             Comm.getInstance().asr(micRecorder.getWAVBlob()).then(
                 (res) => {
+                    console.log("asr: ", res);
                     if (res) {
-                        console.log("asr: ", res);
                         chatWithAI(res);
+                    } else {
+                        setIsProcessing(false);
                     }
+                }
+            ).catch(
+                (error) => {
+                    setIsProcessing(false);
                 }
             )
         }
