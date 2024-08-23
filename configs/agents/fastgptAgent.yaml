@@ -1,0 +1,13 @@
+NAME: "FastgptAgent"
+VERSION: "v0.0.1"
+# 暴露给前端的参数选项以及默认值
+PARAMETERS: [
+  {
+    NAME: "API_URL",
+    DEFAULT: ""
+  },
+  {
+    NAME: "API_KEY",
+    DEFAULT: ""
+  }
+]

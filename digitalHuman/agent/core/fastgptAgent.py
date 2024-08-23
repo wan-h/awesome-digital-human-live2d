@@ -6,7 +6,6 @@
 
 from ..builder import AGENTS
 from ..agentBase import BaseAgent
-import re
 import json
 import httpx
 import requests
@@ -14,12 +13,13 @@ from typing import List, Optional, Union
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
 from digitalHuman.engine.engineBase import BaseEngine
+import re
 
-__all__ = ["DifyAgent"]
+__all__ = ["FastgptAgent"]
 
 
-@AGENTS.register("DifyAgent")
-class DifyAgent(BaseAgent):
+@AGENTS.register("FastgptAgent")
+class FastgptAgent(BaseAgent):
 
     def checkKeys(self) -> List[str]:
         return []
@@ -35,7 +35,7 @@ class DifyAgent(BaseAgent):
     ):
         try:
             if isinstance(input, AudioMessage):
-                raise RuntimeError("DifyAgent does not support AudioMessage input")
+                raise RuntimeError("RepeaterAgent does not support AudioMessage input")
             # 参数校验
             for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
@@ -46,41 +46,49 @@ class DifyAgent(BaseAgent):
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'
             }
-            responseMode = "streaming" if streaming else "blocking"
-            payload = {
-                "inputs": {},
-                "query": input.data,
-                "response_mode": responseMode,
-                "user": "adh",
-                "files":[]
-            }
 
+            payload = {
+                "stream": streaming,
+                "detail": False,
+                "messages":[
+                    {
+                        "role": "user",
+                        "content": input.data,
+                    }
+                ]
+            }
             pattern = re.compile(r'data:\s*({.*})')
-            client = httpx.AsyncClient(headers=headers)
+            client = httpx.AsyncClient(headers=headers,timeout=20.0)
             if streaming:
-                async with client.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
+                async with client.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
+                        # 避免返回多条
                         chunkStr = chunk.decode('utf-8').strip()
+                        # 过滤非data信息
+                        if not chunkStr.startswith("data:"): continue
                         chunkData = pattern.search(chunkStr)
-                        # 部分dify返回不完整，该模板匹配会失效
-                        if not chunkStr.endswith('}') or not chunkData: 
-                            logger.warning(f"[AGENT] Engine return truncated data: {chunkStr}")
+                        # 将过长的回复信息直接截断了
+                        if not chunkStr.endswith('}') or not chunkData.endswith("}"):
+                            logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
                             continue
                         chunkData = chunkData.group(1)
 
                         try:
                             data = json.loads(chunkData)
                             # 处理流式返回字符串
-                            if "message" in data["event"]:
-                                if 'answer' in data: yield bytes(data['answer'], encoding='utf-8')
+                            if 'choices' in data:
+                                if data["choices"][0]['finish_reason'] == "stop":
+                                    break
+                                else:
+                                    yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}")
-                            yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
+                            yield bytes("内部错误，请检查fastgpt信息。", encoding='utf-8')
 
             else:
-                response = await client.post(API_URL + "/chat-messages", headers=headers, json=payload)
+                response = await client.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
                 data = json.loads(response.text)
-                yield bytes(data['answer'], encoding='utf-8')
+                yield bytes(data['choices'], encoding='utf-8')
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}")
-            yield bytes("dify接口请求返回信息。", encoding='utf-8')
+            yield bytes("fastgpt接口请求返回错误。", encoding='utf-8')
