@@ -23,7 +23,7 @@ class DifyAgent(BaseAgent):
 
     def checkKeys(self) -> List[str]:
         return []
-    
+
     def setup(self):
         pass
 
@@ -35,7 +35,7 @@ class DifyAgent(BaseAgent):
     ):
         try:
             if isinstance(input, AudioMessage):
-                raise RuntimeError("DifyAgent does not support AudioMessage input")
+                raise RuntimeError("DifyAgent does not support AudioMessage input yet")
             # 参数校验
             for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
@@ -85,4 +85,4 @@ class DifyAgent(BaseAgent):
                 yield bytes(data['answer'], encoding='utf-8')
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}")
-            yield bytes("dify接口请求返回信息。", encoding='utf-8')
+            yield bytes("dify接口请求返回错误。", encoding='utf-8')

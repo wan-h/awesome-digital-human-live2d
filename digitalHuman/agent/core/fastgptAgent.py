@@ -35,7 +35,7 @@ class FastgptAgent(BaseAgent):
     ):
         try:
             if isinstance(input, AudioMessage):
-                raise RuntimeError("RepeaterAgent does not support AudioMessage input")
+                raise RuntimeError("FastgptAgent does not support AudioMessage input yet")
             # 参数校验
             for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
