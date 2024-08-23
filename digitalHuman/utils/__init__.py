@@ -7,4 +7,5 @@
 from .configParser import config
 from .logger import logger
 from .registry import Registry
+from .httpxClient import asyncClient as httpxAsyncClient
 from .protocol import *

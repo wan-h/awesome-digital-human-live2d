@@ -8,8 +8,8 @@ from ..builder import AGENTS
 from ..agentBase import BaseAgent
 import re
 import json
-import httpx
 from typing import List, Union
+from digitalHuman.utils import httpxAsyncClient
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
 
@@ -21,9 +21,6 @@ class DifyAgent(BaseAgent):
 
     def checkKeys(self) -> List[str]:
         return []
-
-    def setup(self):
-        self.client = httpx.AsyncClient()
 
     async def run(
         self, 
@@ -38,8 +35,8 @@ class DifyAgent(BaseAgent):
             for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
-            API_URL = kwargs["API_URL"]
-            API_KEY = kwargs["API_KEY"]
+            API_URL = kwargs["DIFY_API_URL"]
+            API_KEY = kwargs["DIFY_API_KEY"]
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'
@@ -55,7 +52,7 @@ class DifyAgent(BaseAgent):
 
             pattern = re.compile(r'data:\s*({.*})')
             if streaming:
-                async with self.client.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
+                async with httpxAsyncClient.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
                         chunkStr = chunk.decode('utf-8').strip()
                         chunkData = pattern.search(chunkStr)
@@ -77,7 +74,7 @@ class DifyAgent(BaseAgent):
                             yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
 
             else:
-                response = await self.client.post(API_URL + "/chat-messages", headers=headers, json=payload)
+                response = await httpxAsyncClient.post(API_URL + "/chat-messages", headers=headers, json=payload)
                 data = json.loads(response.text)
                 yield bytes(data['answer'], encoding='utf-8')
         except Exception as e:

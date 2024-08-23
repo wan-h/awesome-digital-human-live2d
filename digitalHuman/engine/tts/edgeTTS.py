@@ -47,5 +47,5 @@ class EdgeAPI(BaseEngine):
             )
             return message
         except Exception as e:
-            logger.error(f"[TTS] Engine run failed: {e}")
+            logger.error(f"[TTS] Engine run failed: {e}", exc_info=True)
             return None

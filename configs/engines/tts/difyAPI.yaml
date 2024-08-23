@@ -3,11 +3,11 @@ VERSION: "v0.0.1"
 # 需求参数
 PARAMETERS: [
   {
-    NAME: "API_URL",
+    NAME: "DIFY_API_URL",
     DEFAULT: ""
   },
   {
-    NAME: "API_KEY",
+    NAME: "DIFY_API_KEY",
     DEFAULT: ""
   }
 ]

@@ -11,9 +11,9 @@ https://cloud.baidu.com/doc/SPEECH/s/qlcirqhz0
 
 from ..builder import ASREngines
 from ..engineBase import BaseEngine
-import requests
 import httpx
 from typing import List, Optional
+from digitalHuman.utils import httpxAsyncClient
 from digitalHuman.utils import AudioMessage, TextMessage
 from digitalHuman.utils import logger
 
@@ -40,13 +40,12 @@ class BaiduAPI(BaseEngine):
             'client_secret': self.cfg.SK
         }
         try:
-            response = requests.post(self.cfg.TOKEN_URL, data=params)
+            response = httpx.post(self.cfg.TOKEN_URL, data=params)
             result = response.json()
             self.token = result.get("access_token")
         except Exception as e:
             self.token = None
             raise RuntimeError(f"[ASR] Engine get token failed: {e}")
-        self.client = httpx.AsyncClient()
     
     async def run(self, input: AudioMessage, **kwargs) -> Optional[TextMessage]:
         try: 
@@ -55,11 +54,11 @@ class BaiduAPI(BaseEngine):
                 'Content-Type': 'audio/' + str(input.format) + '; rate=' + str(input.sampleRate),
                 'Content-Length': str(len(input.data))
             }
-            resp = await self.client.post(self.cfg.ASR_URL, content=input.data, params=params, headers=headers)
+            resp = await httpxAsyncClient.post(self.cfg.ASR_URL, content=input.data, params=params, headers=headers)
             logger.debug(f"[ASR] Engine response: {resp.json()}")
             result = resp.json()["result"][0]
             message = TextMessage(data=result)
             return message
         except Exception as e:
-            logger.error(f"[ASR] Engine run failed: {e}")
+            logger.error(f"[ASR] Engine run failed: {e}", exc_info=True)
             return None

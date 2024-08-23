@@ -8,6 +8,7 @@ from ..builder import TTSEngines
 from ..engineBase import BaseEngine
 import httpx
 from typing import Optional
+from digitalHuman.utils import httpxAsyncClient
 from digitalHuman.utils import logger
 from digitalHuman.utils import TextMessage, AudioMessage, AudioFormatType
 from digitalHuman.utils.audio import mp3ToWav
@@ -23,22 +24,22 @@ class DifyAPI(BaseEngine):
             API_KEY = ""
             # 参数填充
             for paramter in self.parameters():
-                if paramter['NAME'] == "API_URL":
+                if paramter['NAME'] == "DIFY_API_URL":
                     API_URL = paramter['DEFAULT'] if paramter['NAME'] not in kwargs else kwargs[paramter['NAME']]
-                if paramter['NAME'] == "API_KEY":
+                if paramter['NAME'] == "DIFY_API_KEY":
                     API_KEY = paramter['DEFAULT'] if paramter['NAME'] not in kwargs else kwargs[paramter['NAME']]
 
-            import uuid
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'
             }
             payload = {
                 "text": input.data,
-                "user": str(uuid.uuid4().hex),
+                "user": 'adh',
             }
-            async with httpx.AsyncClient() as client:
-                resp = await client.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+
+            resp = httpx.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+
             message = AudioMessage(
                 data=mp3ToWav(resp.content),
                 desc=input.data,
