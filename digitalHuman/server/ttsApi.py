@@ -20,12 +20,13 @@ enginePool = EnginePool()
 class InferIn(BaseModel):
     engine: Optional[str] = config.SERVER.ENGINES.TTS.DEFAULT
     data: str
+    settings: dict = {}
 
 class InferOut(BaseResponse):
     data: Optional[str] = None
-    format: str
-    sampleRate: int
-    sampleWidth: int
+    format: str = ""
+    sampleRate: int = 0
+    sampleWidth: int = 0
 
 
 @router.post("/v0/infer", response_model=InferOut, summary="Text To Speech Inference")
@@ -35,9 +36,10 @@ async def apiInfer(item: InferIn):
     response = Response()
     try:
         input = TextMessage(data=item.data)
-        output: Optional[AudioMessage] = await enginePool.getEngine(EngineType.TTS, item.engine).run(input)
+
+        output: Optional[AudioMessage] = await enginePool.getEngine(EngineType.TTS, item.engine).run(input, **item.settings)
         if output is None:
-            raise RuntimeError("ASR engine run failed")
+            raise RuntimeError("TTS engine run failed")
         response.data = base64.b64encode(output.data).decode('utf-8')
         response.format = str(output.format)
         response.sampleRate = output.sampleRate

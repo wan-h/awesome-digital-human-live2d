@@ -128,7 +128,26 @@ export const useAgentEngineSettingsStore = create<AgentEngineSettings>()(
                     agents.forEach((agent) => {
                         Comm.getInstance().getAgentSettings(agent).then((res) => {
                             if (res) {
-                                set((state) => ({agentSettings: {...state.agentSettings, [agent]: res}}))
+                                set((state) => {
+                                    // 未做持久化存储和后端参数变更的值
+                                    if (!(agent in state.agentSettings) || state.agentSettings[agent].length != res.length) {
+                                        return { agentSettings: { ...state.agentSettings, [agent]: res } }
+                                    }
+                                    // 持久化存储值只对非空字段更新
+                                    let newAgentSetting = state.agentSettings;
+                                    for (let item of res) {
+                                        if (item.DEFAULT != "") {
+                                            // 需要更新的值
+                                            for (let i = 0; i < newAgentSetting[agent].length; i++) {
+                                                if (newAgentSetting[agent][i].NAME == item.NAME) {
+                                                    newAgentSetting[agent][i].DEFAULT = item.DEFAULT;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return { agentSettings: newAgentSetting }
+                                })
                             }
                         })
                     })

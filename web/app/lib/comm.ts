@@ -135,6 +135,7 @@ export class Comm {
 
   public async tts(
     data: string,
+    settings: { [key: string]: string } = {},
     engine: string = "default"
   ): Promise<ArrayBuffer> {
     // 处理tts输入数据
@@ -148,7 +149,7 @@ export class Comm {
     if (data.length == 0) {
       return null;
     }
-    return API.tts_infer_api(data, engine).then(response => {
+    return API.tts_infer_api(data, engine, settings).then(response => {
       return base64ToArrayBuffer(response.data);
     }).catch(error => {
       console.error(error)

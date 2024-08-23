@@ -78,7 +78,7 @@ function AgentSettingsComponent(props: { engine: string }) {
                 {
                     agentSetting.map((setting) =>
                         <Input
-                            key={setting.NAME}
+                            key={engine + '_' + setting.NAME}
                             label={setting.NAME}
                             defaultValue={setting.DEFAULT}
                             onChange={(e) => { handleInputChange(setting.NAME, e.target.value) }}

@@ -25,7 +25,7 @@ class FastgptAgent(BaseAgent):
         return []
     
     def setup(self):
-        pass
+        self.client = httpx.AsyncClient()
 
     async def run(
         self, 
@@ -58,9 +58,8 @@ class FastgptAgent(BaseAgent):
                 ]
             }
             pattern = re.compile(r'data:\s*({.*})')
-            client = httpx.AsyncClient(headers=headers,timeout=20.0)
             if streaming:
-                async with client.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
+                async with self.client.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
                         # 避免返回多条
                         chunkStr = chunk.decode('utf-8').strip()
@@ -87,7 +86,7 @@ class FastgptAgent(BaseAgent):
                             yield bytes("内部错误，请检查fastgpt信息。", encoding='utf-8')
 
             else:
-                response = await client.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
+                response = await self.client.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
                 data = json.loads(response.text)
                 yield bytes(data['choices'], encoding='utf-8')
         except Exception as e:

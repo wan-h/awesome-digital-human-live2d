@@ -1,0 +1,13 @@
+NAME: "DifyAPI"
+VERSION: "v0.0.1"
+# 需求参数
+PARAMETERS: [
+  {
+    NAME: "API_URL",
+    DEFAULT: ""
+  },
+  {
+    NAME: "API_KEY",
+    DEFAULT: ""
+  }
+]

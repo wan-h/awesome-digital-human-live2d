@@ -46,7 +46,8 @@ export async function asr_infer_api(
 
 export async function tts_infer_api(
     data: string, 
-    engine: string = "default"
+    engine: string = "default",
+    settings: {[key: string]:string} = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/tts/${VERSION}/infer`, {
@@ -54,7 +55,8 @@ export async function tts_infer_api(
         body: JSON.stringify(
             {
                 engine: engine,
-                data: data
+                data: data,
+                settings: settings
             }
         ),
         headers: {

@@ -9,11 +9,9 @@ from ..agentBase import BaseAgent
 import re
 import json
 import httpx
-import requests
-from typing import List, Optional, Union
+from typing import List, Union
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
-from digitalHuman.engine.engineBase import BaseEngine
 
 __all__ = ["DifyAgent"]
 
@@ -25,7 +23,7 @@ class DifyAgent(BaseAgent):
         return []
 
     def setup(self):
-        pass
+        self.client = httpx.AsyncClient()
 
     async def run(
         self, 
@@ -56,9 +54,8 @@ class DifyAgent(BaseAgent):
             }
 
             pattern = re.compile(r'data:\s*({.*})')
-            client = httpx.AsyncClient(headers=headers)
             if streaming:
-                async with client.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
+                async with self.client.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
                         chunkStr = chunk.decode('utf-8').strip()
                         chunkData = pattern.search(chunkStr)
@@ -80,7 +77,7 @@ class DifyAgent(BaseAgent):
                             yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
 
             else:
-                response = await client.post(API_URL + "/chat-messages", headers=headers, json=payload)
+                response = await self.client.post(API_URL + "/chat-messages", headers=headers, json=payload)
                 data = json.loads(response.text)
                 yield bytes(data['answer'], encoding='utf-8')
         except Exception as e:

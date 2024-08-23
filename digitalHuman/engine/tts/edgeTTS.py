@@ -7,21 +7,13 @@
 from ..builder import TTSEngines
 from ..engineBase import BaseEngine
 import edge_tts
-from io import BytesIO
 from typing import List, Optional
-from pydub import AudioSegment
 from digitalHuman.utils import logger
 from digitalHuman.utils import TextMessage, AudioMessage, AudioFormatType
+from digitalHuman.utils.audio import mp3ToWav
 
 __all__ = ["EdgeAPI"]
 
-def mp3ToWav(mp3Bytes: bytes) -> bytes:
-    mp3Data = BytesIO(mp3Bytes)
-    audio = AudioSegment.from_mp3(mp3Data)
-    wavData = BytesIO()
-    audio.export(wavData, format="wav")
-    wavBytes = wavData.getvalue()
-    return wavBytes
 
 @TTSEngines.register("EdgeAPI")
 class EdgeAPI(BaseEngine):
