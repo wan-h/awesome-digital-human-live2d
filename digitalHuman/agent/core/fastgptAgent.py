@@ -68,7 +68,7 @@ class FastgptAgent(BaseAgent):
                         if not chunkStr.startswith("data:"): continue
                         chunkData = pattern.search(chunkStr)
                         # 将过长的回复信息直接截断了
-                        if not chunkStr.endswith('}') or not chunkData.endswith("}"):
+                        if not chunkStr.endswith('}') or not chunkData:
                             logger.warning(f"[AGENT] Engine return truncated data: {chunkData}")
                             continue
                         chunkData = chunkData.group(1)
@@ -80,6 +80,7 @@ class FastgptAgent(BaseAgent):
                                 if data["choices"][0]['finish_reason'] == "stop":
                                     break
                                 else:
+                                    logger.debug(f"[AGENT] Engine response: {data['choices'][0]['delta']['content']}")
                                     yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}")

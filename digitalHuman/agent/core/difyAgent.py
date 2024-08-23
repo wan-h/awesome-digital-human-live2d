@@ -72,7 +72,9 @@ class DifyAgent(BaseAgent):
                             data = json.loads(chunkData)
                             # 处理流式返回字符串
                             if "message" in data["event"]:
-                                if 'answer' in data: yield bytes(data['answer'], encoding='utf-8')
+                                if 'answer' in data:
+                                    logger.debug(f"[AGENT] Engine response: {data['answer']}")
+                                    yield bytes(data['answer'], encoding='utf-8')
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}")
                             yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
