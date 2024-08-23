@@ -6,6 +6,8 @@
 
 from .difyAgent import DifyAgent
 from .repeaterAgent import RepeaterAgent
+from .fastgptAgent import FastgptAgent
+
 from .agentFactory import AgentFactory
 
 __all__ = ['AgentFactory']

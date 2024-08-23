@@ -95,7 +95,6 @@ function AgentSettingsComponent(props: { engine: string }) {
 function SettingServer() {
     const { agentEngine, setAgentEngine } = useAgentModeStore();
     const [agentsList, setAgentsList] = useState([]);
-
     const agentEngineRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAgentEngine(e.target.value);
     };
@@ -136,6 +135,8 @@ function SettingsTabs() {
         </Tabs>
     )
 }
+
+
 
 export default function Settings() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();

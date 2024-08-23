@@ -11,10 +11,10 @@ SERVER:
       DEFAULT: "googleAPI.yaml"
     LLM: 
       SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]
-      DEFAULT: "baiduAPI.yaml"
+      DEFAULT: "openaiAPI.yaml"
     TTS: 
       SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml" ]
       DEFAULT: "edgeAPI.yaml"
   AGENTS: 
-    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml" ]
+    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml", "fastgptAgent.yaml" ]
     DEFAULT: "repeaterAgent.yaml"
