@@ -64,7 +64,8 @@ docker-compose up -d
 ![](../assets/difyKey.png)
 #### 配置dify API & 密钥
 数字人页面上点击 **Settings、服务、DifyAgent**，将获取到的API地址和密钥分别填入 **dify_url、dify_key** 即可
-![](../assets/difySetting.png)
+![](../assets/difySetting.png)  
+如果想修改默认值，直接修改`awesome-digital-human-live2d/configs/agents/difyAgent.yaml`中的`DEFAULT`字段，前端会按照默认值自动填充
 
 ### 其他说明
 #### 前端环境变量
@@ -72,12 +73,10 @@ docker-compose up -d
 * `NEXT_PUBLIC_ADH_SERVER_IP`：后端服务地址，默认为浏览器的hostname
 * `NEXT_PUBLIC_ADH_SERVER_PORT`：后端服务端口，默认为8000
 * `NEXT_PUBLIC_ADH_SERVER_VERSION`：API访问地址，默认为`v0`
-* `NEXT_PUBLIC_DIFY_SERVER`：dify API地址（用于填充DifyAgent设置的dify_url默认值），默认为空
-* `NEXT_PUBLIC_DIFY_KEY`：dify API密钥（用于填充DifyAgent设置的dify_key默认值），默认为空
 
 #### 暴露端口
 * 前端端口：`awesome-digital-human-live2d/web/package.json`中的启动脚本中`"start": "next start -p 3000"`，其中`-p`指定了启动端口
 * 后端端口：配置文件`awesome-digital-human-live2d/configs/config.yaml`中`PORT`字段指定了启动端口
 
 #### 快捷按键
-* `Ctr + M`：开启关闭语音（ASR使用google的遗弃免费接口，不好使的话就换成其他的）
+* `Ctr + M`：开启关闭语音（ASR默认使用google的遗弃免费接口，不好使的话就换成其他的）
