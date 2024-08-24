@@ -16,8 +16,9 @@ git clone https://github.com/wan-h/awesome-digital-human-live2d.git
 # 使用 all in dify 配置文件，默认使用 config_template.yaml 配置文件
 cd configs
 cp config_all_in_dify.yaml config.yaml
-```
-后续部署按照后面的方式即可
+```  
+详细部署教程可以参考[B站视频教程-All-in-Dify部署](https://www.bilibili.com/video/BV1kZWvesE25/)  
+后续部署按照下面的流程即可
 
 ### 裸机开发部署 - Ubuntu示例
 > 基础环境
