@@ -7,7 +7,7 @@ SERVER:
   PORT: 8000
   ENGINES:
     ASR: 
-      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml", "difyAPI.yamlif" ]
+      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml", "difyAPI.yaml" ]
       DEFAULT: "googleAPI.yaml"
     LLM: 
       SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]

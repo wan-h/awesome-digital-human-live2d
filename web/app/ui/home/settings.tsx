@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { RadioGroup, Radio, Divider, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore } from "@/app/lib/store";
+import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore, useHeartbeatStore } from "@/app/lib/store";
 import { Comm } from "@/app/lib/comm";
 
 function SettingBasic() {
@@ -50,6 +50,7 @@ function SettingBasic() {
 function AgentSettingsComponent(props: { engine: string }) {
     const { engine } = props;
     const { agentSettings, setAgentSettings } = useAgentEngineSettingsStore();
+    const { heartbeat } = useHeartbeatStore();
     const agentSetting = agentSettings[engine];
     const [inputSettings, setInputSettings] = useState(agentSetting);
     
@@ -73,7 +74,7 @@ function AgentSettingsComponent(props: { engine: string }) {
         setInputSettings(newInputSettings);
     }
     return (
-        agentSetting.length > 0 ?
+        heartbeat && agentSetting.length > 0 ?
             <div className="flex flex-col w-full flex-wrap md:flex-nowrap gap-4 mt-4 items-center">
                 {
                     agentSetting.map((setting) =>
