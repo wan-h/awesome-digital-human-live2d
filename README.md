@@ -10,7 +10,8 @@ https://github.com/user-attachments/assets/0650c443-d19b-4d5e-a409-5eed9a9ea9f7
 
 ## 主要特性
 * 支持 Docker 快速部署
-* 支持 Dify 服务接入
+* 超轻量级，配置要求低于2核2G
+* 支持 Dify/FastGPT 等编排框架服务接入
 * 支持 ASR、LLM、TTS、Agent 模块化扩展
 * 支持 Live2d 人物模型扩展和控制方式
 * 支持PC端和移动端web访问  
@@ -21,7 +22,7 @@ PC端页面预览：
 
 ## 设计架构
 大模型的厂商众多、各种工具繁多、要打造自己的数字人需要一定的代码能力和时间投入。
-基于Dify健全的应用模版和编排框架，让一切变得更加简单。  
+基于Dify等框架健全的应用模版和编排框架，让一切变得更加简单。  
 ![](./assets/arch.png)
 
 ## 版本记录
@@ -38,11 +39,11 @@ PC端页面预览：
 > ### v2.0.0
 **拥抱Dify生态，打造自己的数字人灵魂（已测试最新dify版本：0.7.1）**
 * [v2.0.0 - 2024-08-08](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
-  * 前端页面全面升级：nextjs + nextui
+  * 前端页面全面升级：nextjs + nextui + tailwind
   * 前端页面兼容移动端访问
   * 前端支持三种交互模式：聊天模式、数字人模式、沉浸模式
-  * 前端支持人物模型和背景切换
-  * Agent支持：difyAgent
+  * 前端支持人物模型和背景切换以及个人定制扩展
+  * Agent支持：difyAgent（ASR、TTS均可接入Dify）
 
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  

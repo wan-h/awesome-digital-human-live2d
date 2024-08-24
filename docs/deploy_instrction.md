@@ -6,6 +6,19 @@
 请确保您的机器满足以下最低系统要求：  
 * CPU >= 2 Core
 * RAM >= 2GB
+
+### 如何 All in Dify
+All in Dify 将数字人的三大基础组件（asr、tts、agent）均接入 Dify，要求 Dify构建的应用需要开启**文字转语音**以及**语音转文字**功能  
+启动是唯一不同的区别就是使用 Dify 的配置文件启动服务，`config_all_in_dify.yaml`配置文件默认使用 DifyASR、DifyTTS、DifyAgent，不需要 All in Dify 的可以忽略以下内容  
+```bash
+# 下载源码
+git clone https://github.com/wan-h/awesome-digital-human-live2d.git
+# 使用 all in dify 配置文件，默认使用 config_template.yaml 配置文件
+cd configs
+cp config_all_in_dify.yaml config.yaml
+```
+后续部署按照后面的方式即可
+
 ### 裸机开发部署 - Ubuntu示例
 > 基础环境
 * python3.10（使用其他版本以及对应的库理论上也是可以的）
