@@ -21,11 +21,22 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const { agentEngine } = useAgentModeStore();
     const { mode } = useInteractionModeStore();
     const { agentSettings } = useAgentEngineSettingsStore();
+    const [settings, setSettings] = useState<{[key: string]: string}>({});
     const [micRecording, setMicRecording] = useState(false);
     const [micRecordAlert, setmicRecordAlert] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const chatbotRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        if (agentEngine in agentSettings) {
+            let newSettings: {[key: string]: string} = {}
+            for (let setting of agentSettings[agentEngine]){
+                newSettings[setting.NAME] = setting.DEFAULT;
+            }
+            setSettings(newSettings);
+        }
+    }, [agentEngine, agentSettings]);
 
     const chatWithAI = (message: string) => {
         addChatRecord({ role: ChatRole.HUMAN, content: message });
@@ -36,10 +47,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderIndex = 0;
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
-        let settings: {[key: string]: string} = {}
-        for (let setting of agentSettings[agentEngine]){
-            settings[setting.NAME] = setting.DEFAULT;
-        }
+        
         Comm.getInstance().streamingChat(message, agentEngine, settings, (index: number, data: string) => {
             responseText += data;
             updateLastRecord({ role: ChatRole.AI, content: responseText });
@@ -125,7 +133,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             isRecording = false;
             setMicRecording(false);
             setIsProcessing(true);
-            Comm.getInstance().asr(micRecorder.getWAVBlob()).then(
+            Comm.getInstance().asr(micRecorder.getWAVBlob(), settings).then(
                 (res) => {
                     console.log("asr: ", res);
                     if (res) {

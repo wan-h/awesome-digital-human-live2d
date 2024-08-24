@@ -112,6 +112,7 @@ export class Comm {
 
   public async asr(
     data: Blob,
+    settings: { [key: string]: string } = {},
     engine: string = "default",
     format: string = "wav",
     sampleRate: Number = 16000,
@@ -121,7 +122,7 @@ export class Comm {
       if (base64str == null) {
         return "";
       }
-      return API.asr_infer_api(base64str, engine, format, sampleRate, sampleWidth).then(response => {
+      return API.asr_infer_api(base64str, engine, format, sampleRate, sampleWidth, settings).then(response => {
         return response.data;
       }).catch(error => {
         console.error(error);

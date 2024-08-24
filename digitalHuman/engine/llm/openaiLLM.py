@@ -35,7 +35,10 @@ class OpenaiAPI(BaseEngine):
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {self.cfg.SK}'
             }
+
             resp = await httpxAsyncClient.post(self.cfg.LLM_URL, headers=headers, content=payload, timeout=60)
+            
+            logger.debug(f"[LLM] Engine response: {result.json()}")
             result = resp.json()["choices"][0]["message"]["content"]
             message = TextMessage(data=result)
             return message

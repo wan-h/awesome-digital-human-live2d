@@ -23,7 +23,8 @@ export async function asr_infer_api(
     engine: string = "default", 
     format: string = "wav", 
     sampleRate: Number = 16000, 
-    sampleWidth: Number = 2
+    sampleWidth: Number = 2,
+    settings: {[key: string]:string} = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/asr/${VERSION}/infer`, {
@@ -34,7 +35,8 @@ export async function asr_infer_api(
                 data: data, 
                 format: format,
                 sampleRate: sampleRate,
-                sampleWidth: sampleWidth
+                sampleWidth: sampleWidth,
+                settings: settings
             }
         ),
         headers: {

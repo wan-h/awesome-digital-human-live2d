@@ -63,7 +63,10 @@ class BaiduAPI(BaseEngine):
                 "enable_citation": False
             })
             headers = {'Content-Type': 'application/json'}
+            
             resp = await httpxAsyncClient.post(self.cfg.LLM_URL + self.cfg.MODEL, headers=headers, content=payload, params={'access_token': self.token}, timeout=60)
+            
+            logger.debug(f"[LLM] Engine response: {result.json()}")
             result = resp.json()["result"]
             message = TextMessage(data=result)
             return message

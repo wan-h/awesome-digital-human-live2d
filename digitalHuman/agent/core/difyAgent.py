@@ -67,7 +67,7 @@ class DifyAgent(BaseAgent):
                             # 处理流式返回字符串
                             if "message" in data["event"]:
                                 if 'answer' in data:
-                                    logger.debug(f"[AGENT] Engine response: {data['answer']}")
+                                    logger.debug(f"[AGENT] Engine response: {data}")
                                     yield bytes(data['answer'], encoding='utf-8')
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}")

@@ -37,6 +37,7 @@ class AgentPool():
         for cfg in config.SUPPORT_LIST:
             self._pool[cfg.NAME] = AgentFactory.create(cfg)
             logger.info(f"[AgentPool] AGENT Engine {cfg.NAME} is created.")
+        logger.info(f"[AgentPool] AGENT Engine default is {config.DEFAULT}.")
             
     def get(self, name: str) -> Optional[BaseAgent]:
         if name not in self._pool:

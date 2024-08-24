@@ -75,7 +75,7 @@ class FastgptAgent(BaseAgent):
                                     if data["choices"][0]['finish_reason'] == "stop":
                                         break
                                     else:
-                                        logger.debug(f"[AGENT] Engine response: {data['choices'][0]['delta']['content']}")
+                                        logger.debug(f"[AGENT] Engine response: {data}")
                                         yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
                             except Exception as e:
                                 logger.error(f"[AGENT] Engine run failed: {e}")
