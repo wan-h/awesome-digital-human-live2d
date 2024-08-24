@@ -19,9 +19,6 @@ __all__ = ["FastgptAgent"]
 @AGENTS.register("FastgptAgent")
 class FastgptAgent(BaseAgent):
 
-    def checkKeys(self) -> List[str]:
-        return []
-
     async def run(
         self, 
         input: Union[TextMessage, AudioMessage], 
@@ -78,7 +75,7 @@ class FastgptAgent(BaseAgent):
                                         logger.debug(f"[AGENT] Engine response: {data}")
                                         yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
                             except Exception as e:
-                                logger.error(f"[AGENT] Engine run failed: {e}")
+                                logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
                                 yield bytes("内部错误，请检查fastgpt信息。", encoding='utf-8')
 
             else:
@@ -86,5 +83,5 @@ class FastgptAgent(BaseAgent):
                 data = json.loads(response.text)
                 yield bytes(data['choices'], encoding='utf-8')
         except Exception as e:
-            logger.error(f"[AGENT] Engine run failed: {e}")
+            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
             yield bytes("fastgpt接口请求返回错误。", encoding='utf-8')

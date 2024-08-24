@@ -108,12 +108,35 @@ export async function agent_settings_api(
     return response.json();
 }
 
-export async function agent_infer_streaming_api(
-    data: string,
+export async function agent_conversationid_api(
     engine: string = "default", 
     settings: {[key: string]:string} = {},
 ) {
     const URL = getURL();
+    let response = await fetch(URL + `/adh/agent/${VERSION}/conversation_id`, {
+        method: "POST",
+        body: JSON.stringify(
+            {
+                engine: engine,
+                settings: settings
+            }
+        ),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.json();
+}
+
+export async function agent_infer_streaming_api(
+    data: string,
+    engine: string = "default", 
+    conversationId: string = "",
+    settings: {[key: string]:string} = {},
+) {
+    const URL = getURL();
+    // 将conversationId填充到settings中
+    settings["conversation_id"] = conversationId;
     let response = await fetch(URL + `/adh/agent/${VERSION}/infer`, {
         method: "POST",
         body: JSON.stringify(

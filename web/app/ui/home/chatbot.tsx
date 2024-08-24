@@ -16,12 +16,13 @@ let isRecording: boolean = false;
 
 export default function Chatbot(props: { showChatHistory: boolean }) {
     const { showChatHistory } = props;
-    const { chatRecord, addChatRecord, updateLastRecord } = useChatRecordStore();
+    const { chatRecord, addChatRecord, updateLastRecord, clearChatRecord } = useChatRecordStore();
     const { mute } = useMuteStore();
     const { agentEngine } = useAgentModeStore();
     const { mode } = useInteractionModeStore();
     const { agentSettings } = useAgentEngineSettingsStore();
     const [settings, setSettings] = useState<{[key: string]: string}>({});
+    const [conversationId, setConversationId] = useState("");
     const [micRecording, setMicRecording] = useState(false);
     const [micRecordAlert, setmicRecordAlert] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -29,13 +30,18 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const chatbotRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
+        let newSettings: {[key: string]: string} = {}
         if (agentEngine in agentSettings) {
-            let newSettings: {[key: string]: string} = {}
             for (let setting of agentSettings[agentEngine]){
                 newSettings[setting.NAME] = setting.DEFAULT;
             }
             setSettings(newSettings);
         }
+        Comm.getInstance().getConversionId(agentEngine, newSettings).then((id) => {
+            console.log("conversationId: ", id);
+            setConversationId(id);
+        });
+        clearChatRecord();
     }, [agentEngine, agentSettings]);
 
     const chatWithAI = (message: string) => {
@@ -48,7 +54,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
         
-        Comm.getInstance().streamingChat(message, agentEngine, settings, (index: number, data: string) => {
+        Comm.getInstance().streamingChat(message, agentEngine, conversationId, settings, (index: number, data: string) => {
             responseText += data;
             updateLastRecord({ role: ChatRole.AI, content: responseText });
             if (!mute && mode != InteractionMode.CHATBOT) {

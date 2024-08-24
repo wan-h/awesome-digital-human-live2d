@@ -19,8 +19,32 @@ __all__ = ["DifyAgent"]
 @AGENTS.register("DifyAgent")
 class DifyAgent(BaseAgent):
 
-    def checkKeys(self) -> List[str]:
-        return []
+    async def createConversation(self, **kwargs) -> str:
+        try:
+            # 参数校验
+            for paramter in self.parameters():
+                if paramter['NAME'] not in kwargs:
+                    raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
+            API_URL = kwargs["DIFY_API_URL"]
+            API_KEY = kwargs["DIFY_API_KEY"]
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': f'Bearer {API_KEY}'
+            }
+            responseMode = "blocking"
+            payload = {
+                "inputs": {},
+                "query": "你好",
+                "response_mode": responseMode,
+                "user": "adh",
+                "files":[]
+            }
+            response = await httpxAsyncClient.post(API_URL + "/chat-messages", headers=headers, json=payload)
+            logger.debug(f"[AGENT] Engine create conversation response: {response.json()}")
+            return response.json()["conversation_id"]
+        except Exception as e:
+            logger.error(f"[AGENT] Engine create conversation failed: {e}", exc_info=True)
+            return ""
 
     async def run(
         self, 
@@ -37,6 +61,7 @@ class DifyAgent(BaseAgent):
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
             API_URL = kwargs["DIFY_API_URL"]
             API_KEY = kwargs["DIFY_API_KEY"]
+            conversation_id = kwargs["conversation_id"] if "conversation_id" in kwargs else ""
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'
@@ -47,6 +72,7 @@ class DifyAgent(BaseAgent):
                 "query": input.data,
                 "response_mode": responseMode,
                 "user": "adh",
+                "conversation_id": conversation_id,
                 "files":[]
             }
 
@@ -70,7 +96,7 @@ class DifyAgent(BaseAgent):
                                     logger.debug(f"[AGENT] Engine response: {data}")
                                     yield bytes(data['answer'], encoding='utf-8')
                         except Exception as e:
-                            logger.error(f"[AGENT] Engine run failed: {e}")
+                            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
                             yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
 
             else:
@@ -78,5 +104,5 @@ class DifyAgent(BaseAgent):
                 data = json.loads(response.text)
                 yield bytes(data['answer'], encoding='utf-8')
         except Exception as e:
-            logger.error(f"[AGENT] Engine run failed: {e}")
+            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
             yield bytes("dify接口请求返回错误。", encoding='utf-8')

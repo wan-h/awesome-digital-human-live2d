@@ -83,15 +83,28 @@ export class Comm {
     })
   }
 
+  public async getConversionId(
+    agent: string = "default",
+    settings: { [key: string]: string } = {},
+  ): Promise<string> {
+    return API.agent_conversationid_api(agent, settings).then(response => {
+      return response.data;
+    }).catch(error => {
+      console.error(error);
+      return ""
+    })
+  }
+
   public async streamingChat(
     data: string,
     engine: string = "default",
+    conversationId: string = "",
     settings: { [key: string]: string } = {},
     callbackProcessing: (index: number, data: string) => void,
     callbackEnd: (index: number) => void
   ): Promise<void> {
     try {
-      const reader = await API.agent_infer_streaming_api(data, engine, settings);
+      const reader = await API.agent_infer_streaming_api(data, engine, conversationId, settings);
       const decoder = new TextDecoder("utf-8");
       let index = 0;
       while (true) {

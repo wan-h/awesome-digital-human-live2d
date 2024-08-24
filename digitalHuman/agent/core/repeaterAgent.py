@@ -31,5 +31,5 @@ class RepeaterAgent(BaseAgent):
                 raise RuntimeError("RepeaterAgent does not support AudioMessage input")
             yield bytes(input.data, encoding='utf-8')
         except Exception as e:
-            logger.error(f"[AGENT] Engine run failed: {e}")
+            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
             yield bytes("", encoding='utf-8')

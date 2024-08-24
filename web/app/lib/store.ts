@@ -76,12 +76,14 @@ interface ChatRecordState {
     chatRecord: ChatMessage[]
     addChatRecord: (message: ChatMessage) => void
     updateLastRecord: (message: ChatMessage) => void
+    clearChatRecord: () => void
 }
 export const useChatRecordStore = create<ChatRecordState>()(
     (set) => ({
         chatRecord: [],
         addChatRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord, message] })),
         updateLastRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord.slice(0, -1), message] })),
+        clearChatRecord: () => set((state) => ({ chatRecord: [] })),
     })
 )
 
