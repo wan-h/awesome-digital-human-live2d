@@ -19,7 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js" />
+        {/* <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js" /> */}
+        {/* use local */}
+        <script src="/live2d/live2dcubismcore.min.js" />
       </head>
       <body>
         <NextUIProvider>
