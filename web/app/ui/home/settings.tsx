@@ -3,12 +3,13 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { RadioGroup, Radio, Divider, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore, useHeartbeatStore } from "@/app/lib/store";
+import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore, useHeartbeatStore, useAudioAutoStopStore } from "@/app/lib/store";
 import { Comm } from "@/app/lib/comm";
 
 function SettingBasic() {
     // 设置交互模式
     const { mute, setMute } = useMuteStore();
+    const { audioAutoStop, setAudioAutoStop } = useAudioAutoStopStore();
     const { mode } = useInteractionModeStore();
     const interactionModeRations = (Object.values(InteractionMode) as Array<string>).map((mode) => (
         <Radio key={mode} value={mode}>{mode}</Radio>
@@ -18,6 +19,9 @@ function SettingBasic() {
     };
     const muteRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setMute(e.target.value === "close")
+    }
+    const audioAutoStopRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAudioAutoStop(e.target.value === "yes")
     }
 
     return (
@@ -41,6 +45,18 @@ function SettingBasic() {
                         <Radio value={"open"}>开启</Radio>
                         <Radio value={"close"}>关闭</Radio>
                     </RadioGroup>
+                    {
+                        mute ? null : 
+                        <RadioGroup
+                            label="新对话是否打断未结束对话"
+                            defaultValue={audioAutoStop ? "yes" : "no"}
+                            onChange={audioAutoStopRationChange}
+                            orientation="horizontal"
+                        >
+                            <Radio value={"yes"}>是</Radio>
+                            <Radio value={"no"}>否</Radio>
+                        </RadioGroup>
+                    }
                 </div>
             </CardBody>
         </Card>

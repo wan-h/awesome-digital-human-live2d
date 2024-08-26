@@ -183,6 +183,23 @@ export const useMuteStore = create<MuteState>()(
 
 )
 
+// ==================== 后续语音自动结束设置 ==================
+interface AudioAutoStopState {
+    audioAutoStop: boolean
+    setAudioAutoStop: (audioAutoStop: boolean) => void
+}
+export const useAudioAutoStopStore = create<AudioAutoStopState>()(
+    persist(
+        (set) => ({
+            audioAutoStop: true, // 默认开启
+            setAudioAutoStop: (audioAutoStop: boolean) => set((state) => ({ audioAutoStop: audioAutoStop })),
+        }),
+        {
+            name: 'audioAutoStop-storage', // name of the item in the storage (must be unique)
+        }
+    )
+)
+
 // ==================== 心跳标志 ==================
 interface HeartbeatState {
     heartbeat: boolean

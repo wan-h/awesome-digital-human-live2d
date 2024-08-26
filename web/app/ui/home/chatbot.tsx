@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { debounce } from 'lodash';
 import { useEffect, useRef, useState } from "react";
-import { useChatRecordStore, ChatRole, ChatMessage, useAgentEngineSettingsStore, useAgentModeStore, useMuteStore, useInteractionModeStore, InteractionMode } from "@/app/lib/store";
+import { useChatRecordStore, ChatRole, ChatMessage, useAgentEngineSettingsStore, useAgentModeStore, useMuteStore, useInteractionModeStore, InteractionMode, useAudioAutoStopStore } from "@/app/lib/store";
 import { ConfirmAlert } from "@/app/ui/common/alert";
 import { AUDIO_SUPPORT_ALERT, AI_THINK_MESSAGE } from "@/app/lib/constants";
 import { Comm } from "@/app/lib/comm";
@@ -21,6 +21,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const { agentEngine } = useAgentModeStore();
     const { mode } = useInteractionModeStore();
     const { agentSettings } = useAgentEngineSettingsStore();
+    const { audioAutoStop } = useAudioAutoStopStore();
     const [settings, setSettings] = useState<{[key: string]: string}>({});
     const [conversationId, setConversationId] = useState("");
     const [micRecording, setMicRecording] = useState(false);
@@ -45,6 +46,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     }, [agentEngine, agentSettings]);
 
     const chatWithAI = (message: string) => {
+        console.log("chatWithAI: ", message);
         addChatRecord({ role: ChatRole.HUMAN, content: message });
         // 请求AI
         let responseText = "";
@@ -53,7 +55,9 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderIndex = 0;
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
-        
+        if (audioAutoStop) {    
+            CharacterManager.getInstance().clearAudioQueue();
+        }
         Comm.getInstance().streamingChat(message, agentEngine, conversationId, settings, (index: number, data: string) => {
             responseText += data;
             updateLastRecord({ role: ChatRole.AI, content: responseText });

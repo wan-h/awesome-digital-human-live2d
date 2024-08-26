@@ -47,6 +47,10 @@ export class CharacterManager {
       }
     }
 
+    public clearAudioQueue(): void {
+      this._ttsQueue = [];
+    }
+
     private static _instance: CharacterManager;
     private _ttsQueue: ArrayBuffer[] = [];
   }
