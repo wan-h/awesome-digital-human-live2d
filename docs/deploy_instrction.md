@@ -50,7 +50,19 @@ npm run build
 npm run start
 ```
 
-### 容器部署（推荐）
+### 容器部署（仅体验服务，推荐启动方式）
+无需本地构建, 直接拉取已构建镜像
+> 基础环境
+* 安装[docker-compose](https://docs.docker.com/compose/install/)
+> 运行
+* 启动容器
+```bash
+# 项目根目录下执行
+docker-compose -f docker-compose-quick-start.yaml up -d
+```
+
+### 容器部署（推荐, 容器开发首选）
+每次启动前构建容器
 > 基础环境
 * 安装[docker-compose](https://docs.docker.com/compose/install/)
 > 运行
