@@ -128,6 +128,9 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             });
         }
         if (!isRecording) {
+            if (audioAutoStop) {
+                CharacterManager.getInstance().clearAudioQueue();
+            }
             micRecorder.start().then(
                 () => {
                     isRecording = true;
