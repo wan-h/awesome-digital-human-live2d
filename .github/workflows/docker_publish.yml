@@ -29,7 +29,8 @@ jobs:
               echo "tag=main-latest" >> $GITHUB_ENV
             else
               branch=$(echo "${{ github.ref_name }}" | sed 's/\//-/g')
-              echo "tag=${branch}-${{ github.sha::8 }}" >> $GITHUB_ENV
+              short_sha=$(echo "${{ github.sha }}" | cut -c1-8)
+              echo "tag=${branch}-${short_sha}" >> $GITHUB_ENV
             fi
           fi
 
