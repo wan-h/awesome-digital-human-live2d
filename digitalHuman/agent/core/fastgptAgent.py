@@ -6,26 +6,18 @@
 
 from ..builder import AGENTS
 from ..agentBase import BaseAgent
+import re
 import json
-import httpx
-import requests
 from typing import List, Optional, Union
+from digitalHuman.utils import httpxAsyncClient
 from digitalHuman.utils import logger
 from digitalHuman.utils import AudioMessage, TextMessage
-from digitalHuman.engine.engineBase import BaseEngine
-import re
 
 __all__ = ["FastgptAgent"]
 
 
 @AGENTS.register("FastgptAgent")
 class FastgptAgent(BaseAgent):
-
-    def checkKeys(self) -> List[str]:
-        return []
-    
-    def setup(self):
-        pass
 
     async def run(
         self, 
@@ -35,13 +27,13 @@ class FastgptAgent(BaseAgent):
     ):
         try:
             if isinstance(input, AudioMessage):
-                raise RuntimeError("RepeaterAgent does not support AudioMessage input")
+                raise RuntimeError("FastgptAgent does not support AudioMessage input yet")
             # 参数校验
             for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
-            API_URL = kwargs["API_URL"]
-            API_KEY = kwargs["API_KEY"]
+            API_URL = kwargs["FASTGPT_API_URL"]
+            API_KEY = kwargs["FASTGPT_API_KEY"]
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'
@@ -58,9 +50,8 @@ class FastgptAgent(BaseAgent):
                 ]
             }
             pattern = re.compile(r'data:\s*({.*})')
-            client = httpx.AsyncClient(headers=headers,timeout=20.0)
             if streaming:
-                async with client.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
+                async with httpxAsyncClient.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
                     async for chunk in response.aiter_bytes():
                         
                         chunkStr = chunk.decode('utf-8').strip()
@@ -85,9 +76,9 @@ class FastgptAgent(BaseAgent):
 
 
             else:
-                response = await client.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
+                response = await httpxAsyncClient.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
                 data = json.loads(response.text)
                 yield bytes(data['choices'], encoding='utf-8')
         except Exception as e:
-            logger.error(f"[AGENT] Engine run failed: {e}")
+            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
             yield bytes("fastgpt接口请求返回错误。", encoding='utf-8')

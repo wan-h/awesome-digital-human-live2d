@@ -19,7 +19,7 @@ RUN apt update \
   && rm -rf /var/lib/apt/lists/*
 
 # pip设置修改
-RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+RUN pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 # 添加代码
 ADD . /workspace

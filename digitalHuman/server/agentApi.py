@@ -41,6 +41,26 @@ async def apiAgentInfer(item: AgentInferIn):
         return StreamingResponse(interalError)
 
 
+class ConversatonIdIn(BaseModel):
+    engine: str = "default"
+    settings: dict = {}
+
+class ConversatonIdOut(BaseResponse):
+    data: str
+
+@router.post("/v0/conversation_id", response_model=ConversatonIdOut, summary="Get AI Agent Conversion ID")
+async def apiAgentInfer(item: ConversatonIdIn):
+    if item.engine.lower() == "default":
+        item.engine = config.SERVER.AGENTS.DEFAULT
+    response = Response()
+    try:
+        response.data = await agentPool.get(item.engine).createConversation(**item.settings)
+    except Exception as e:
+        response.data = ""
+        response.error(str(e))
+    return JSONResponse(content=response.validate(ConversatonIdOut), status_code=200)
+
+
 class AgentSettingsIn(BaseModel):
     engine: str
 

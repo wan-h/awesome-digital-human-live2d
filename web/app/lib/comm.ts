@@ -83,15 +83,28 @@ export class Comm {
     })
   }
 
+  public async getConversionId(
+    agent: string = "default",
+    settings: { [key: string]: string } = {},
+  ): Promise<string> {
+    return API.agent_conversationid_api(agent, settings).then(response => {
+      return response.data;
+    }).catch(error => {
+      console.error(error);
+      return ""
+    })
+  }
+
   public async streamingChat(
     data: string,
     engine: string = "default",
+    conversationId: string = "",
     settings: { [key: string]: string } = {},
     callbackProcessing: (index: number, data: string) => void,
     callbackEnd: (index: number) => void
   ): Promise<void> {
     try {
-      const reader = await API.agent_infer_streaming_api(data, engine, settings);
+      const reader = await API.agent_infer_streaming_api(data, engine, conversationId, settings);
       const decoder = new TextDecoder("utf-8");
       let index = 0;
       while (true) {
@@ -112,6 +125,7 @@ export class Comm {
 
   public async asr(
     data: Blob,
+    settings: { [key: string]: string } = {},
     engine: string = "default",
     format: string = "wav",
     sampleRate: Number = 16000,
@@ -121,7 +135,7 @@ export class Comm {
       if (base64str == null) {
         return "";
       }
-      return API.asr_infer_api(base64str, engine, format, sampleRate, sampleWidth).then(response => {
+      return API.asr_infer_api(base64str, engine, format, sampleRate, sampleWidth, settings).then(response => {
         return response.data;
       }).catch(error => {
         console.error(error);
@@ -135,6 +149,7 @@ export class Comm {
 
   public async tts(
     data: string,
+    settings: { [key: string]: string } = {},
     engine: string = "default"
   ): Promise<ArrayBuffer> {
     // 处理tts输入数据
@@ -148,7 +163,7 @@ export class Comm {
     if (data.length == 0) {
       return null;
     }
-    return API.tts_infer_api(data, engine).then(response => {
+    return API.tts_infer_api(data, engine, settings).then(response => {
       return base64ToArrayBuffer(response.data);
     }).catch(error => {
       console.error(error)

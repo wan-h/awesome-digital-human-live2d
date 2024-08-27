@@ -50,14 +50,17 @@ class EnginePool():
         for asrCfg in config.ASR.SUPPORT_LIST:
             self._pool[EngineType.ASR][asrCfg.NAME] = ASRFactory.create(asrCfg)
             logger.info(f"[EnginePool] ASR Engine {asrCfg.NAME} is created.")
+        logger.info(f"[EnginePool] ASR Engine default is {config.ASR.DEFAULT}.")
         # llm
         for llmCfg in config.LLM.SUPPORT_LIST:
             self._pool[EngineType.LLM][llmCfg.NAME] = LLMFactory.create(llmCfg)
             logger.info(f"[EnginePool] LLM Engine {llmCfg.NAME} is created.")
+        logger.info(f"[EnginePool] LLM Engine default is {config.LLM.DEFAULT}.")
         # tts
         for ttsCfg in config.TTS.SUPPORT_LIST:
             self._pool[EngineType.TTS][ttsCfg.NAME] = TTSFactory.create(ttsCfg)
             logger.info(f"[EnginePool] TTS Engine {ttsCfg.NAME} is created.")
+        logger.info(f"[EnginePool] TTS Engine default is {config.TTS.DEFAULT}.")
             
     def getEngine(self, engineType: EngineType, engineName: str) -> Optional[BaseEngine]:
         if engineType not in self._pool:

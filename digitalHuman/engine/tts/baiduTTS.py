@@ -13,10 +13,10 @@ from ..builder import TTSEngines
 from ..engineBase import BaseEngine
 import time
 import json
-import requests
 import httpx
 from typing import List, Optional
 from digitalHuman.utils import logger
+from digitalHuman.utils import httpxAsyncClient
 from digitalHuman.utils import TextMessage, AudioMessage, AudioFormatType
 
 __all__ = ["BaiduAPI"]
@@ -39,13 +39,12 @@ class BaiduAPI(BaseEngine):
             'client_secret': self.cfg.SK
         }
         try:
-            response = requests.post(self.cfg.TOKEN_URL, data=params)
+            response = httpx.post(self.cfg.TOKEN_URL, data=params)
             result = response.json()
             self.token = result.get("access_token")
         except Exception as e:
             self.token = None
             raise RuntimeError(f"[ASR] Engine get token failed: {e}")
-        self.client = httpx.AsyncClient()
     
     async def runShort(self, input: TextMessage) -> Optional[AudioMessage]:
         params = {
@@ -60,8 +59,9 @@ class BaiduAPI(BaseEngine):
             'lan': self.cfg.LAN, 
             'ctp': 1
         }
-        # async with httpx.AsyncClient() as client:
-        resp = await self.client.post(self.cfg.TTS_SHORT_URL, params=params)
+
+        resp = await httpxAsyncClient.post(self.cfg.TTS_SHORT_URL, params=params)
+        
         message = AudioMessage(
             data=resp.content,
             desc=input.data,
@@ -88,33 +88,33 @@ class BaiduAPI(BaseEngine):
             "volume": self.cfg.VOL,
             "enable_subtitle": 0
         })
-        async with httpx.AsyncClient() as client:
-            resp = await client.post(self.cfg.TTS_LONG_CREATE_URL, headers=headers, content=payload, params=params)
-            taskId = resp.json()['task_id']
-            
-            # query task
-            payload = json.dumps({
-                "task_ids": [taskId]
-            })
-            taskStatus = "Running"
-            while taskStatus == "Running":
-                resp = await client.post(self.cfg.TTS_LONG_QUERY_URL, headers=headers, content=payload, params=params)
-                taskStatus = resp.json()['tasks_info'][0]['task_status']
-                time.sleep(0.2)
-            if taskStatus != "Success":
-                raise Exception(f"[TTS] taskStatus: {taskStatus}")
-            
-            # download audio
-            speechUrl = resp.json()['tasks_info'][0]['task_result']['speech_url']
-            resp = await client.get(speechUrl)
-            message = AudioMessage(
-                data=resp.content,
-                desc=input.data,
-                format=FORMATS[self.cfg.AUE],
-                sampleRate=16000,
-                sampleWidth=2,
-            )
-            return message
+
+        resp = await httpxAsyncClient.post(self.cfg.TTS_LONG_CREATE_URL, headers=headers, content=payload, params=params)
+        taskId = resp.json()['task_id']
+        
+        # query task
+        payload = json.dumps({
+            "task_ids": [taskId]
+        })
+        taskStatus = "Running"
+        while taskStatus == "Running":
+            resp = await httpxAsyncClient.post(self.cfg.TTS_LONG_QUERY_URL, headers=headers, content=payload, params=params)
+            taskStatus = resp.json()['tasks_info'][0]['task_status']
+            time.sleep(0.2)
+        if taskStatus != "Success":
+            raise Exception(f"[TTS] taskStatus: {taskStatus}")
+        
+        # download audio
+        speechUrl = resp.json()['tasks_info'][0]['task_result']['speech_url']
+        resp = await httpxAsyncClient.get(speechUrl)
+        message = AudioMessage(
+            data=resp.content,
+            desc=input.data,
+            format=FORMATS[self.cfg.AUE],
+            sampleRate=16000,
+            sampleWidth=2,
+        )
+        return message
 
     
     async def run(self, input: TextMessage, **kwargs) -> Optional[TextMessage]:
@@ -127,5 +127,5 @@ class BaiduAPI(BaseEngine):
                 message = await self.runShort(input)
             return message
         except Exception as e:
-            logger.error(f"[TTS] Engine run failed: {e}")
+            logger.error(f"[TTS] Engine run failed: {e}", exc_info=True)
             return None

@@ -9,7 +9,7 @@ from digitalHuman.utils.env import CONFIG_ROOT_PATH, CONFIG_FILE
 from yacs.config import CfgNode as CN
 
 def parseConfig(configFile: str) -> CN:
-    with open(configFile, 'r') as f:
+    with open(configFile, 'r', encoding='utf-8') as f:
         config = CN.load_cfg(f)
         return config
     

@@ -1,19 +1,19 @@
 COMMON:
   NAME: "Awesome-Digital-Human"
   VERSION: "v0.0.1"
-  LOG_LEVEL: "DEBUG"
+  LOG_LEVEL: "INFO"
 SERVER:
   IP: "0.0.0.0"
   PORT: 8000
   ENGINES:
     ASR: 
-      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml" ]
+      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml", "difyAPI.yaml" ]
       DEFAULT: "googleAPI.yaml"
     LLM: 
       SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]
       DEFAULT: "openaiAPI.yaml"
     TTS: 
-      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml" ]
+      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml", "difyAPI.yaml" ]
       DEFAULT: "edgeAPI.yaml"
   AGENTS: 
     SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml", "fastgptAgent.yaml" ]

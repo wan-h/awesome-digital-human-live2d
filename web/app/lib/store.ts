@@ -76,12 +76,14 @@ interface ChatRecordState {
     chatRecord: ChatMessage[]
     addChatRecord: (message: ChatMessage) => void
     updateLastRecord: (message: ChatMessage) => void
+    clearChatRecord: () => void
 }
 export const useChatRecordStore = create<ChatRecordState>()(
     (set) => ({
         chatRecord: [],
         addChatRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord, message] })),
         updateLastRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord.slice(0, -1), message] })),
+        clearChatRecord: () => set((state) => ({ chatRecord: [] })),
     })
 )
 
@@ -128,7 +130,26 @@ export const useAgentEngineSettingsStore = create<AgentEngineSettings>()(
                     agents.forEach((agent) => {
                         Comm.getInstance().getAgentSettings(agent).then((res) => {
                             if (res) {
-                                set((state) => ({agentSettings: {...state.agentSettings, [agent]: res}}))
+                                set((state) => {
+                                    // 未做持久化存储和后端参数变更的值
+                                    if (!(agent in state.agentSettings) || state.agentSettings[agent].length != res.length) {
+                                        return { agentSettings: { ...state.agentSettings, [agent]: res } }
+                                    }
+                                    // 持久化存储值只对非空字段更新
+                                    let newAgentSetting = state.agentSettings;
+                                    for (let item of res) {
+                                        if (item.DEFAULT != "") {
+                                            // 需要更新的值
+                                            for (let i = 0; i < newAgentSetting[agent].length; i++) {
+                                                if (newAgentSetting[agent][i].NAME == item.NAME) {
+                                                    newAgentSetting[agent][i].DEFAULT = item.DEFAULT;
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return { agentSettings: newAgentSetting }
+                                })
                             }
                         })
                     })
@@ -160,6 +181,23 @@ export const useMuteStore = create<MuteState>()(
         }
     )
 
+)
+
+// ==================== 后续语音自动结束设置 ==================
+interface AudioAutoStopState {
+    audioAutoStop: boolean
+    setAudioAutoStop: (audioAutoStop: boolean) => void
+}
+export const useAudioAutoStopStore = create<AudioAutoStopState>()(
+    persist(
+        (set) => ({
+            audioAutoStop: true, // 默认开启
+            setAudioAutoStop: (audioAutoStop: boolean) => set((state) => ({ audioAutoStop: audioAutoStop })),
+        }),
+        {
+            name: 'audioAutoStop-storage', // name of the item in the storage (must be unique)
+        }
+    )
 )
 
 // ==================== 心跳标志 ==================

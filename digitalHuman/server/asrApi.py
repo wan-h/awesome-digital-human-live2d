@@ -22,7 +22,8 @@ class InferIn(BaseModel):
     data: str
     format: str
     sampleRate: int
-    sampleWidth: int    
+    sampleWidth: int
+    settings: dict = {}
 
 class InferOut(BaseResponse):
     data: Optional[str] = None
@@ -37,7 +38,7 @@ async def apiInfer(item: InferIn):
         if format is None:
             raise RuntimeError("Unsupported audio format")
         input = AudioMessage(data=base64.b64decode(item.data), format=format, sampleRate=item.sampleRate, sampleWidth=item.sampleWidth)
-        output: Optional[TextMessage] = await enginePool.getEngine(EngineType.ASR, item.engine).run(input)
+        output: Optional[TextMessage] = await enginePool.getEngine(EngineType.ASR, item.engine).run(input, **item.settings)
         if output is None:
             raise RuntimeError("ASR engine run failed")
         response.data = output.data

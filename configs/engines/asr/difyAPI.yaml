@@ -1,6 +1,6 @@
-NAME: "DifyAgent"
+NAME: "DifyAPI"
 VERSION: "v0.0.1"
-# 暴露给前端的参数选项以及默认值
+# 需求参数
 PARAMETERS: [
   {
     NAME: "DIFY_API_URL",

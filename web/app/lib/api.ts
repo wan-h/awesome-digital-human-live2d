@@ -23,7 +23,8 @@ export async function asr_infer_api(
     engine: string = "default", 
     format: string = "wav", 
     sampleRate: Number = 16000, 
-    sampleWidth: Number = 2
+    sampleWidth: Number = 2,
+    settings: {[key: string]:string} = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/asr/${VERSION}/infer`, {
@@ -34,7 +35,8 @@ export async function asr_infer_api(
                 data: data, 
                 format: format,
                 sampleRate: sampleRate,
-                sampleWidth: sampleWidth
+                sampleWidth: sampleWidth,
+                settings: settings
             }
         ),
         headers: {
@@ -46,7 +48,8 @@ export async function asr_infer_api(
 
 export async function tts_infer_api(
     data: string, 
-    engine: string = "default"
+    engine: string = "default",
+    settings: {[key: string]:string} = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/tts/${VERSION}/infer`, {
@@ -54,7 +57,8 @@ export async function tts_infer_api(
         body: JSON.stringify(
             {
                 engine: engine,
-                data: data
+                data: data,
+                settings: settings
             }
         ),
         headers: {
@@ -104,12 +108,35 @@ export async function agent_settings_api(
     return response.json();
 }
 
-export async function agent_infer_streaming_api(
-    data: string,
+export async function agent_conversationid_api(
     engine: string = "default", 
     settings: {[key: string]:string} = {},
 ) {
     const URL = getURL();
+    let response = await fetch(URL + `/adh/agent/${VERSION}/conversation_id`, {
+        method: "POST",
+        body: JSON.stringify(
+            {
+                engine: engine,
+                settings: settings
+            }
+        ),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.json();
+}
+
+export async function agent_infer_streaming_api(
+    data: string,
+    engine: string = "default", 
+    conversationId: string = "",
+    settings: {[key: string]:string} = {},
+) {
+    const URL = getURL();
+    // 将conversationId填充到settings中
+    settings["conversation_id"] = conversationId;
     let response = await fetch(URL + `/adh/agent/${VERSION}/infer`, {
         method: "POST",
         body: JSON.stringify(

@@ -39,6 +39,9 @@ class BaseAgent(metaclass=ABCMeta):
 
     def checkKeys(self) -> List[str]:
         return []
+    
+    async def createConversation(self, **kwargs) -> str:
+        return ""
 
     @abstractmethod
     async def run(

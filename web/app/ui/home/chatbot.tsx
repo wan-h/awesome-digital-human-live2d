@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { debounce } from 'lodash';
 import { useEffect, useRef, useState } from "react";
-import { useChatRecordStore, ChatRole, ChatMessage, useAgentEngineSettingsStore, useAgentModeStore, useMuteStore, useInteractionModeStore, InteractionMode } from "@/app/lib/store";
+import { useChatRecordStore, ChatRole, ChatMessage, useAgentEngineSettingsStore, useAgentModeStore, useMuteStore, useInteractionModeStore, InteractionMode, useAudioAutoStopStore } from "@/app/lib/store";
 import { ConfirmAlert } from "@/app/ui/common/alert";
 import { AUDIO_SUPPORT_ALERT, AI_THINK_MESSAGE } from "@/app/lib/constants";
 import { Comm } from "@/app/lib/comm";
@@ -16,18 +16,37 @@ let isRecording: boolean = false;
 
 export default function Chatbot(props: { showChatHistory: boolean }) {
     const { showChatHistory } = props;
-    const { chatRecord, addChatRecord, updateLastRecord } = useChatRecordStore();
+    const { chatRecord, addChatRecord, updateLastRecord, clearChatRecord } = useChatRecordStore();
     const { mute } = useMuteStore();
     const { agentEngine } = useAgentModeStore();
     const { mode } = useInteractionModeStore();
     const { agentSettings } = useAgentEngineSettingsStore();
+    const { audioAutoStop } = useAudioAutoStopStore();
+    const [settings, setSettings] = useState<{[key: string]: string}>({});
+    const [conversationId, setConversationId] = useState("");
     const [micRecording, setMicRecording] = useState(false);
     const [micRecordAlert, setmicRecordAlert] = useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const chatbotRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        let newSettings: {[key: string]: string} = {}
+        if (agentEngine in agentSettings) {
+            for (let setting of agentSettings[agentEngine]){
+                newSettings[setting.NAME] = setting.DEFAULT;
+            }
+            setSettings(newSettings);
+        }
+        Comm.getInstance().getConversionId(agentEngine, newSettings).then((id) => {
+            console.log("conversationId: ", id);
+            setConversationId(id);
+        });
+        clearChatRecord();
+    }, [agentEngine, agentSettings]);
 
     const chatWithAI = (message: string) => {
+        console.log("chatWithAI: ", message);
         addChatRecord({ role: ChatRole.HUMAN, content: message });
         // 请求AI
         let responseText = "";
@@ -36,11 +55,10 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderIndex = 0;
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
-        let settings: {[key: string]: string} = {}
-        for (let setting of agentSettings[agentEngine]){
-            settings[setting.NAME] = setting.DEFAULT;
+        if (audioAutoStop) {    
+            CharacterManager.getInstance().clearAudioQueue();
         }
-        Comm.getInstance().streamingChat(message, agentEngine, settings, (index: number, data: string) => {
+        Comm.getInstance().streamingChat(message, agentEngine, conversationId, settings, (index: number, data: string) => {
             responseText += data;
             updateLastRecord({ role: ChatRole.AI, content: responseText });
             if (!mute && mode != InteractionMode.CHATBOT) {
@@ -61,7 +79,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                     let firstPart = audioText.slice(0, lastPuncIndex + 1);
                     let secondPart = audioText.slice(lastPuncIndex + 1);
                     console.log("tts:", firstPart);
-                    Comm.getInstance().tts(firstPart).then(
+                    Comm.getInstance().tts(firstPart, settings).then(
                         (data: ArrayBuffer) => {
                             if (data) {
                                 audioRecorderDict.set(index, data);
@@ -82,7 +100,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             // 处理剩余tts
             if (!mute && audioText) {
                 console.log("tts:", audioText);
-                Comm.getInstance().tts(audioText).then(
+                Comm.getInstance().tts(audioText, settings).then(
                     (data: ArrayBuffer) => {
                         if (data) {
                             audioRecorderDict.set(index, data);
@@ -110,6 +128,9 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             });
         }
         if (!isRecording) {
+            if (audioAutoStop) {
+                CharacterManager.getInstance().clearAudioQueue();
+            }
             micRecorder.start().then(
                 () => {
                     isRecording = true;
@@ -125,7 +146,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             isRecording = false;
             setMicRecording(false);
             setIsProcessing(true);
-            Comm.getInstance().asr(micRecorder.getWAVBlob()).then(
+            Comm.getInstance().asr(micRecorder.getWAVBlob(), settings).then(
                 (res) => {
                     console.log("asr: ", res);
                     if (res) {

@@ -71,4 +71,6 @@ SERVER:                                                      # 服务配置项
 * 模块入口函数引用(动态注册的方式，需要被import一下)  
 ![](../assets/llm-extend-4.png)
 ##### agent
-对于agent的扩展实现在`digitalHuman/agent/core`目录下，扩展方式和常规引擎相同，这里的agent可以使用上面的常规引擎自己构建，也可以接入像dify这样的编排框架平台
+对于agent的扩展实现在`digitalHuman/agent/core`目录下，扩展方式和常规引擎相同，这里的agent可以使用上面的常规引擎自己构建，也可以接入像dify这样的编排框架平台  
+唯一不同点在于agent需要向前端暴露参数，可以通过在配置文件中暴露参数，前端根据暴露的参数渲染，同时会使用这设置的默认值  
+![](../assets/agent-extend-1.png)
