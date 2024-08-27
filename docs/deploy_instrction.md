@@ -50,19 +50,8 @@ npm run build
 npm run start
 ```
 
-### 容器部署（仅体验服务，推荐启动方式）
+### 容器部署（推荐启动方式）
 无需本地构建, 直接拉取已构建镜像
-> 基础环境
-* 安装[docker-compose](https://docs.docker.com/compose/install/)
-> 运行
-* 启动容器
-```bash
-# 项目根目录下执行
-docker-compose -f docker-compose-quick-start.yaml up -d
-```
-
-### 容器部署（推荐, 容器开发首选）
-每次启动前构建容器
 > 基础环境
 * 安装[docker-compose](https://docs.docker.com/compose/install/)
 > 运行
@@ -72,23 +61,34 @@ docker-compose -f docker-compose-quick-start.yaml up -d
 docker-compose up -d
 ```
 
+### 容器部署（容器开发首选）
+每次启动前构建容器
+> 基础环境
+* 安装[docker-compose](https://docs.docker.com/compose/install/)
+> 运行
+* 启动容器
+```bash
+# 项目根目录下执行
+docker-compose -f docker-compose-dev.yaml up -d
+```
+
 ### 访问页面
 本地浏览器访问路径: http://localhost:3000  
 非本地浏览器访问路径: http://{部署服务器IP}:3000
 
 ### 接入Dify
-#### 部署dify
+#### 1. 部署dify
 有两种方式可以接入dify服务，一种是使用dify的云服务，一种是自己私有化部署dify：  
 * [dify云服务地址](https://cloud.dify.ai/)  
 * 私有化部署推荐参考[Docker Compose部署指南](https://docs.dify.ai/v/zh-hans/getting-started/install-self-hosted/docker-compose)(0.6.16已测试)  
-#### 构建属于自己的dify应用
+#### 2. 构建属于自己的dify应用
 关于dify的使用说明参考[dify官方文档](https://docs.dify.ai/v/zh-hans)
-#### 获取dify API & 密钥
+#### 3. 获取dify API & 密钥
 构建完成自己的应用后，点击 **发布**、**运行**，然后点击 **访问API** 获取API地址和密钥  
 ![](../assets/difyAPI.png)  
 在 **访问API** 页面，右上角分别可以获取API地址和创建API密钥
 ![](../assets/difyKey.png)
-#### 配置dify API & 密钥
+#### 4. 配置dify API & 密钥
 数字人页面上点击 **Settings、服务、DifyAgent**，将获取到的API地址和密钥分别填入 **dify_url、dify_key** 即可
 ![](../assets/difySetting.png)  
 如果想修改默认值，直接修改`awesome-digital-human-live2d/configs/agents/difyAgent.yaml`中的`DEFAULT`字段，前端会按照默认值自动填充

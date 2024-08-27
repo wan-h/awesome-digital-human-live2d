@@ -2,11 +2,9 @@ version: '3'
 services:
   # awesome digital human web
   adh_web:
-    build:
-      context: .
-      dockerfile: docker/adhWeb.Dockerfile
-    image: "adh-web:v2.0.0"
+    image: "registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/adh-web:main-latest"
     restart: always
+    pull_policy: always
     network_mode: host
     # ports:
     #   - "3000:3000"
@@ -14,11 +12,9 @@ services:
       - ./web/.env:/workspace/.env
   # awesome digital human server
   adh_server:
-    build:
-      context: .
-      dockerfile: docker/adhServer.Dockerfile
-    image: "adh-server:v2.0.0"
+    image: "registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/adh-api:main-latest"
     restart: always
+    pull_policy: always
     network_mode: host
     volumes:
       - ./configs:/workspace/configs
