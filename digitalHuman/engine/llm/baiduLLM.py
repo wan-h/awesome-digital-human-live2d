@@ -35,9 +35,11 @@ class BaiduAPI(BaseEngine):
             response = httpx.post(self.cfg.TOKEN_URL, data=params)
             result = response.json()
             self.token = result.get("access_token")
+            if not self.token:
+                logger.warning(f"[LLM] Engine get token failed: {result}")
         except Exception as e:
             self.token = None
-            raise RuntimeError(f"[ASR] Engine get token failed: {e}") 
+            raise RuntimeError(f"[LLM] Engine get token failed: {e}") 
     
     async def run(self, input: Union[TextMessage, List[TextMessage]], **kwargs) -> Optional[TextMessage]:
         try: 
