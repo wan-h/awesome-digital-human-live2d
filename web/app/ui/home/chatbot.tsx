@@ -79,7 +79,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                     let firstPart = audioText.slice(0, lastPuncIndex + 1);
                     let secondPart = audioText.slice(lastPuncIndex + 1);
                     console.log("tts:", firstPart);
-                    Comm.getInstance().tts(firstPart, settings).then(
+                    Comm.getInstance().tts(firstPart, settings, settings.AGENT_TTS).then(
                         (data: ArrayBuffer) => {
                             if (data) {
                                 audioRecorderDict.set(index, data);
@@ -100,7 +100,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             // 处理剩余tts
             if (!mute && audioText) {
                 console.log("tts:", audioText);
-                Comm.getInstance().tts(audioText, settings).then(
+                Comm.getInstance().tts(audioText, settings, settings.AGENT_TTS).then(
                     (data: ArrayBuffer) => {
                         if (data) {
                             audioRecorderDict.set(index, data);
