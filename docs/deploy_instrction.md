@@ -62,7 +62,7 @@ docker-compose up -d
 ```
 
 ### 容器部署（容器开发首选）
-每次启动前构建容器
+每次启动前构建容器(删除之前构建好的镜像)
 > 基础环境
 * 安装[docker-compose](https://docs.docker.com/compose/install/)
 > 运行
