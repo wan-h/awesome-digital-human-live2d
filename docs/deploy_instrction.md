@@ -80,7 +80,7 @@ docker-compose -f docker-compose-dev.yaml up -d
 #### 1. 部署dify
 有两种方式可以接入dify服务，一种是使用dify的云服务，一种是自己私有化部署dify：  
 * [dify云服务地址](https://cloud.dify.ai/)  
-* 私有化部署推荐参考[Docker Compose部署指南](https://docs.dify.ai/v/zh-hans/getting-started/install-self-hosted/docker-compose)(0.6.16已测试)  
+* 私有化部署推荐参考[Docker Compose部署指南](https://docs.dify.ai/v/zh-hans/getting-started/install-self-hosted/docker-compose)
 #### 2. 构建属于自己的dify应用
 关于dify的使用说明参考[dify官方文档](https://docs.dify.ai/v/zh-hans)
 #### 3. 获取dify API & 密钥
@@ -98,7 +98,7 @@ docker-compose -f docker-compose-dev.yaml up -d
 `web/.env`中有四个字段可配置为前端服务（修改后删除镜像重新构建前端容器生效）：
 * `NEXT_PUBLIC_ADH_SERVER_IP`：后端服务地址，默认为浏览器的hostname
 * `NEXT_PUBLIC_ADH_SERVER_PORT`：后端服务端口，默认为8000
-* `NEXT_PUBLIC_ADH_SERVER_VERSION`：API访问地址，默认为`v0`
+* `NEXT_PUBLIC_ADH_SERVER_VERSION`：API版本，默认为`v0`
 
 #### 暴露端口
 * 前端端口：`awesome-digital-human-live2d/web/package.json`中的启动脚本中`"start": "next start -p 3000"`，其中`-p`指定了启动端口
