@@ -50,8 +50,19 @@ npm run build
 npm run start
 ```
 
-### 容器部署（推荐启动方式）
-无需本地构建, 直接拉取已构建镜像
+### 容器部署（体验首选，推荐）
+无需本地构建, 直接拉取阿里云已构建镜像
+> 基础环境
+* 安装[docker-compose](https://docs.docker.com/compose/install/)
+> 运行
+* 启动容器
+```bash
+# 项目根目录下执行
+docker-compose -f docker-compose-quickStart.yaml up -d
+```
+
+### 容器部署（容器开发首选）
+重新本地构建容器(删除之前构建好的镜像，如果没有镜像代理可能拉不下来基础镜像)
 > 基础环境
 * 安装[docker-compose](https://docs.docker.com/compose/install/)
 > 运行
@@ -59,17 +70,6 @@ npm run start
 ```bash
 # 项目根目录下执行
 docker-compose up -d
-```
-
-### 容器部署（容器开发首选）
-每次启动前构建容器(删除之前构建好的镜像)
-> 基础环境
-* 安装[docker-compose](https://docs.docker.com/compose/install/)
-> 运行
-* 启动容器
-```bash
-# 项目根目录下执行
-docker-compose -f docker-compose-dev.yaml up -d
 ```
 
 ### 访问页面
