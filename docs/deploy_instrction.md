@@ -102,7 +102,7 @@ docker-compose up -d
 
 #### 暴露端口
 * 前端端口：`awesome-digital-human-live2d/web/package.json`中的启动脚本中`"start": "next start -p 3000"`，其中`-p`指定了启动端口
-* 后端端口：配置文件`awesome-digital-human-live2d/configs/config.yaml`中`PORT`字段指定了启动端口
+* 后端端口：配置文件`awesome-digital-human-live2d/configs/config.yaml`(这里修改你具体使用的配置文件)中`PORT`字段指定了启动端口
 
 #### 快捷按键
 * `Ctr + M`：开启关闭语音（ASR默认使用google的遗弃免费接口，不好使的话就换成其他的）

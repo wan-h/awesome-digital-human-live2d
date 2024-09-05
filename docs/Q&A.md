@@ -13,7 +13,7 @@
 支持，具体参考[开发说明](./docs/developer_instrction.md)中的定制化开发部分。
 
 ### 3. windows系统docker启动无法访问页面
-windows不支持docker的host模式，修改`awesome-digital-human-live2d/docker-compose.yaml`：  
+windows不支持docker的host模式，修改`docker-compose.yaml`或`docker-compose-quickStart.yaml`(看你用的哪个)：  
 * 删除network字段
 * 打开ports的注释  
 ![](../assets/Q&A_2_1.png)
