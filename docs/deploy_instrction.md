@@ -50,8 +50,19 @@ npm run build
 npm run start
 ```
 
-### 容器部署（推荐启动方式）
-无需本地构建, 直接拉取已构建镜像
+### 容器部署（体验首选，推荐）
+无需本地构建, 直接拉取阿里云已构建镜像
+> 基础环境
+* 安装[docker-compose](https://docs.docker.com/compose/install/)
+> 运行
+* 启动容器
+```bash
+# 项目根目录下执行
+docker-compose -f docker-compose-quickStart.yaml up -d
+```
+
+### 容器部署（容器开发首选）
+重新本地构建容器(删除之前构建好的镜像，如果没有镜像代理可能拉不下来基础镜像)
 > 基础环境
 * 安装[docker-compose](https://docs.docker.com/compose/install/)
 > 运行
@@ -59,17 +70,6 @@ npm run start
 ```bash
 # 项目根目录下执行
 docker-compose up -d
-```
-
-### 容器部署（容器开发首选）
-每次启动前构建容器
-> 基础环境
-* 安装[docker-compose](https://docs.docker.com/compose/install/)
-> 运行
-* 启动容器
-```bash
-# 项目根目录下执行
-docker-compose -f docker-compose-dev.yaml up -d
 ```
 
 ### 访问页面
@@ -80,7 +80,7 @@ docker-compose -f docker-compose-dev.yaml up -d
 #### 1. 部署dify
 有两种方式可以接入dify服务，一种是使用dify的云服务，一种是自己私有化部署dify：  
 * [dify云服务地址](https://cloud.dify.ai/)  
-* 私有化部署推荐参考[Docker Compose部署指南](https://docs.dify.ai/v/zh-hans/getting-started/install-self-hosted/docker-compose)(0.6.16已测试)  
+* 私有化部署推荐参考[Docker Compose部署指南](https://docs.dify.ai/v/zh-hans/getting-started/install-self-hosted/docker-compose)
 #### 2. 构建属于自己的dify应用
 关于dify的使用说明参考[dify官方文档](https://docs.dify.ai/v/zh-hans)
 #### 3. 获取dify API & 密钥
@@ -98,11 +98,11 @@ docker-compose -f docker-compose-dev.yaml up -d
 `web/.env`中有四个字段可配置为前端服务（修改后删除镜像重新构建前端容器生效）：
 * `NEXT_PUBLIC_ADH_SERVER_IP`：后端服务地址，默认为浏览器的hostname
 * `NEXT_PUBLIC_ADH_SERVER_PORT`：后端服务端口，默认为8000
-* `NEXT_PUBLIC_ADH_SERVER_VERSION`：API访问地址，默认为`v0`
+* `NEXT_PUBLIC_ADH_SERVER_VERSION`：API版本，默认为`v0`
 
 #### 暴露端口
 * 前端端口：`awesome-digital-human-live2d/web/package.json`中的启动脚本中`"start": "next start -p 3000"`，其中`-p`指定了启动端口
-* 后端端口：配置文件`awesome-digital-human-live2d/configs/config.yaml`中`PORT`字段指定了启动端口
+* 后端端口：配置文件`awesome-digital-human-live2d/configs/config.yaml`(这里修改你具体使用的配置文件)中`PORT`字段指定了启动端口
 
 #### 快捷按键
 * `Ctr + M`：开启关闭语音（ASR默认使用google的遗弃免费接口，不好使的话就换成其他的）

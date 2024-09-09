@@ -65,7 +65,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                 // 按照标点符号断句处理
                 audioText += data;
                 // 断句判断符号
-                let punc = ["。", ".", "！", "!", "？", "?", "；", ";", "，", ","];
+                let punc = ["。", ".", "！", "!", "？", "?", "；", ";", "，", ",", "(", ")", "（", "）"];
                 // 找到最后一个包含这些符号的位置
                 let lastPuncIndex = -1;
                 for (let i = 0; i < punc.length; i++) {

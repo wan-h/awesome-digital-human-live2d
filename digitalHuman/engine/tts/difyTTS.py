@@ -38,6 +38,8 @@ class DifyAPI(BaseEngine):
                 "user": 'adh',
             }
 
+            logger.debug(f"[TTS] Engine input: {input.data}")
+            # resp = await httpxAsyncClient.post(API_URL + "/text-to-audio", json=payload, headers=headers)
             resp = httpx.post(API_URL + "/text-to-audio", json=payload, headers=headers)
 
             message = AudioMessage(
