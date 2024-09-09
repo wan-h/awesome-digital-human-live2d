@@ -24,3 +24,4 @@ package-lock.json
 data
 volumes
 config.yaml
+.DS_Store
