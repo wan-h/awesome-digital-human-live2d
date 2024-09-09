@@ -35,6 +35,7 @@
     "react": "^18",
     "react-dom": "^18",
     "react-use-websocket": "^4.8.1",
+    "websocket": "^1.0.35",
     "whatwg-fetch": "^3.6.20",
     "zustand": "^4.5.2"
   },
