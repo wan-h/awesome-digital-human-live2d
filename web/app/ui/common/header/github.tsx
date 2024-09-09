@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Github() {
     return (
-        <a href="https://github.com/wan-h/awesome-digital-human-live2d">
+        <a href="https://github.com/wan-h/awesome-digital-human-live2d" target="_blank">
             <Image
                 src="/icons/github.svg"
                 alt="Github Logo"
