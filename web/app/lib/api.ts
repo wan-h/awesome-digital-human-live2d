@@ -5,7 +5,7 @@ const SERVER_PORT = process.env.NEXT_PUBLIC_ADH_SERVER_PORT || "8000";
 const VERSION = process.env.NEXT_PUBLIC_ADH_SERVER_VERSION || "v0";
 
 function getURL(): string {
-    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location.hostname
+    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location?.hostname
     const URL = SERVER_IP + ":" + SERVER_PORT;
     return URL;
 }
@@ -18,13 +18,19 @@ export async function common_heatbeat_api() {
     return response.json();
 }
 
+export function get_heatbeat_wss() {
+    const URL = getURL();
+    console.log(URL);
+    return URL.replace("http", "ws") + `/adh/common/${VERSION}/heartbeat`;
+}
+
 export async function asr_infer_api(
-    data: string, 
-    engine: string = "default", 
-    format: string = "wav", 
-    sampleRate: Number = 16000, 
+    data: string,
+    engine: string = "default",
+    format: string = "wav",
+    sampleRate: Number = 16000,
     sampleWidth: Number = 2,
-    settings: {[key: string]:string} = {},
+    settings: { [key: string]: string } = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/asr/${VERSION}/infer`, {
@@ -32,7 +38,7 @@ export async function asr_infer_api(
         body: JSON.stringify(
             {
                 engine: engine,
-                data: data, 
+                data: data,
                 format: format,
                 sampleRate: sampleRate,
                 sampleWidth: sampleWidth,
@@ -47,9 +53,9 @@ export async function asr_infer_api(
 }
 
 export async function tts_infer_api(
-    data: string, 
+    data: string,
     engine: string = "default",
-    settings: {[key: string]:string} = {},
+    settings: { [key: string]: string } = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/tts/${VERSION}/infer`, {
@@ -109,8 +115,8 @@ export async function agent_settings_api(
 }
 
 export async function agent_conversationid_api(
-    engine: string = "default", 
-    settings: {[key: string]:string} = {},
+    engine: string = "default",
+    settings: { [key: string]: string } = {},
 ) {
     const URL = getURL();
     let response = await fetch(URL + `/adh/agent/${VERSION}/conversation_id`, {
@@ -130,9 +136,9 @@ export async function agent_conversationid_api(
 
 export async function agent_infer_streaming_api(
     data: string,
-    engine: string = "default", 
+    engine: string = "default",
     conversationId: string = "",
-    settings: {[key: string]:string} = {},
+    settings: { [key: string]: string } = {},
 ) {
     const URL = getURL();
     // 将conversationId填充到settings中
