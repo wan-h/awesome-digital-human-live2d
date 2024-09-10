@@ -1,4 +1,5 @@
 import 'whatwg-fetch';
+import { ENVS } from './constants';
 
 
 const SERVER_PORT = process.env.NEXT_PUBLIC_ADH_SERVER_PORT || "8000";
@@ -20,8 +21,9 @@ export async function common_heatbeat_api() {
 
 export function get_heatbeat_wss() {
     const URL = getURL();
-    console.log(URL);
-    return URL.replace("http", "ws") + `/adh/common/${VERSION}/heartbeat`;
+
+    const wsURL = URL.replace(/^http:/, 'ws:').replace(/^https:/, 'wss:');
+    return `${wsURL}/adh/common/${VERSION}/heartbeat`;
 }
 
 export async function asr_infer_api(

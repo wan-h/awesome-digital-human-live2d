@@ -3,9 +3,8 @@
 import { useEffect } from "react";
 import { useHeartbeatStore } from "@/app/lib/store";
 import { HeadAlert } from "@/app/ui/common/alert";
-import { Comm } from "@/app/lib/comm";
-import { PROJ_NAME, PROJ_DESC, HEART_BEAT_ALERT, HEART_BEAT_CHECK_1S, ENVS } from "@/app/lib/constants";
-import { PhoneMenu, WindowMenu } from "./menu";
+import { PROJ_NAME, HEART_BEAT_ALERT, HEART_BEAT_CHECK_1S } from "@/app/lib/constants";
+import { WindowMenu } from "./menu";
 import Github from "./github";
 import Link from "next/link";
 import useWebSocket, { ReadyState } from 'react-use-websocket';
@@ -15,48 +14,25 @@ import * as API from '@/app/lib/api';
 
 export default function Header() {
     const { heartbeat, setHeartbeat } = useHeartbeatStore();
-    const { sendMessage, lastMessage, readyState } = useWebSocket(
-        ENVS.ADH_WSS_URL,
+    const { readyState } = useWebSocket(
+        API.get_heatbeat_wss(),
         {
             heartbeat: {
                 message: 'ping',
                 returnMessage: 'pong',
-                timeout: 60000, // 1 minute, if no response is received, the connection will be closed
-                interval: HEART_BEAT_CHECK_1S, // every 25 seconds, a ping message will be sent
+                timeout: 60000,
+                interval: HEART_BEAT_CHECK_1S,
             },
         }
     );
 
-    const connectionStatus = {
-        [ReadyState.CONNECTING]: 'Connecting',
-        [ReadyState.OPEN]: 'Open',
-        [ReadyState.CLOSING]: 'Closing',
-        [ReadyState.CLOSED]: 'Closed',
-        [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-    }[readyState];
-
-    console.log(lastMessage, connectionStatus);
-
-    // useEffect(() => {
-    //     // 设置心跳包
-    //     let intervalID = setInterval(() => {
-    //         // 心跳请求
-    //         Comm.getInstance().getHeartbeat().then((resp) => {
-    //             if (heartbeat == resp) {
-    //                 return;
-    //             }
-    //             if (resp) {
-    //                 setHeartbeat(true);
-    //             } else {
-    //                 setHeartbeat(false);
-    //             }
-    //         });
-    //     }, HEART_BEAT_CHECK_1S);
-
-    //     return () => {
-    //         clearInterval(intervalID);
-    //     }
-    // })
+    useEffect(() => {
+        if (readyState === ReadyState.OPEN) {
+            setHeartbeat(true);
+        } else {
+            setHeartbeat(false);
+        }
+    }, [readyState]);
 
 
     return (
