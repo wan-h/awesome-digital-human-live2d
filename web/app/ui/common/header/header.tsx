@@ -17,6 +17,7 @@ export default function Header() {
     const { readyState } = useWebSocket(
         API.get_heatbeat_wss(),
         {
+            shouldReconnect: () => true,
             heartbeat: {
                 message: 'ping',
                 returnMessage: 'pong',
