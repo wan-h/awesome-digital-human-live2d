@@ -1,23 +1,22 @@
 import 'whatwg-fetch';
-import { ENVS } from './constants';
 
-
+const SERVER_PROTOCOL = process.env.NEXT_PUBLIC_ADH_SERVER_PROTOCOL || "http"
 const SERVER_PORT = process.env.NEXT_PUBLIC_ADH_SERVER_PORT || "8000";
 const VERSION = process.env.NEXT_PUBLIC_ADH_SERVER_VERSION || "v0";
 
 function getURL(): string {
-    const SERVER_IP = process.env.NEXT_PUBLIC_ADH_SERVER_IP || "http://" + globalThis.location?.hostname
-    const URL = SERVER_IP + ":" + SERVER_PORT;
+    const SERVER_IP =  process.env.NEXT_PUBLIC_ADH_SERVER_IP || globalThis.location?.hostname
+    const URL = SERVER_PROTOCOL + "://" + SERVER_IP + ":" + SERVER_PORT;
     return URL;
 }
 
-export async function common_heatbeat_api() {
-    const URL = getURL();
-    let response = await fetch(URL + `/adh/common/${VERSION}/heartbeat`, {
-        method: "GET"
-    });
-    return response.json();
-}
+// export async function common_heatbeat_api() {
+//     const URL = getURL();
+//     let response = await fetch(URL + `/adh/common/${VERSION}/heartbeat`, {
+//         method: "GET"
+//     });
+//     return response.json();
+// }
 
 export function get_heatbeat_wss() {
     const URL = getURL();

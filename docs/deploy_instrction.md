@@ -42,6 +42,8 @@ python main.py
 * 运行web
 ```bash
 cd web
+# 使用高性能的npm
+npm install -g pnpm
 # 安装依赖
 npm install
 # 编译发布版本
@@ -69,7 +71,7 @@ docker-compose -f docker-compose-quickStart.yaml up -d
 * 启动容器
 ```bash
 # 项目根目录下执行
-docker-compose up -d
+docker-compose up --build -d
 ```
 
 ### 访问页面

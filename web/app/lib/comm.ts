@@ -43,18 +43,18 @@ export class Comm {
     return this._instance;
   }
 
-  public async getHeartbeat(): Promise<boolean> {
-    return API.common_heatbeat_api().then(response => {
-      if (response.data == 1) {
-        return true;
-      } else {
-        return false;
-      }
-    }).catch(error => {
-      console.error(error);
-      return false;
-    })
-  }
+  // public async getHeartbeat(): Promise<boolean> {
+  //   return API.common_heatbeat_api().then(response => {
+  //     if (response.data == 1) {
+  //       return true;
+  //     } else {
+  //       return false;
+  //     }
+  //   }).catch(error => {
+  //     console.error(error);
+  //     return false;
+  //   })
+  // }
 
   public async getAgentsList(): Promise<string[]> {
     return API.agents_list_api().then(response => {

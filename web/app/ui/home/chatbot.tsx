@@ -55,7 +55,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         let audioRecorderIndex = 0;
         let audioRecorderDict = new Map<number, ArrayBuffer>();
         addChatRecord({ role: ChatRole.AI, content: AI_THINK_MESSAGE });
-        if (audioAutoStop) {    
+        if (audioAutoStop) {
             CharacterManager.getInstance().clearAudioQueue();
         }
         Comm.getInstance().streamingChat(message, agentEngine, conversationId, settings, (index: number, data: string) => {

@@ -8,7 +8,8 @@ WORKDIR /workspace
 RUN npm config set registry https://registry.npmmirror.com
 
 # 安装npm依赖库
-RUN npm install \
+RUN npm install -g pnpm \
+    && npm install \
     && npm run build
 
 ENTRYPOINT ["npm", "run", "start"]
