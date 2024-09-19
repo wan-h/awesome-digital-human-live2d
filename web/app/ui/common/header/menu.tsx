@@ -4,6 +4,7 @@ import React from "react";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
 import Gallery from "@/app/ui/home/gallery";
 import Settings from "@/app/ui/home/settings";
+import Github from "./github";
 
 export function PhoneMenu() {
   return (
@@ -19,6 +20,9 @@ export function PhoneMenu() {
         </DropdownItem>
         <DropdownItem isReadOnly textValue="settings">
           <Settings/>
+        </DropdownItem>
+        <DropdownItem isReadOnly textValue="github">
+          <Github/>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
