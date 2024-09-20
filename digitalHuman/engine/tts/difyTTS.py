@@ -6,6 +6,7 @@
 
 from ..builder import TTSEngines
 from ..engineBase import BaseEngine
+import asyncio
 import httpx
 from typing import Optional
 from digitalHuman.utils import httpxAsyncClient
@@ -39,8 +40,12 @@ class DifyAPI(BaseEngine):
             }
 
             logger.debug(f"[TTS] Engine input: {input.data}")
-            # resp = await httpxAsyncClient.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+            # resp = await httpxAsyncClient.post(API_URL + "/text-to-audio", json=payload, headers=headers, timeout=20)
+
+            # TODO：这里Dify只能使用同步接口，主动释放异步事件
+            await asyncio.sleep(0)
             resp = httpx.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+            await asyncio.sleep(0)
 
             message = AudioMessage(
                 data=mp3ToWav(resp.content),

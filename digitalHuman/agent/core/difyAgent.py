@@ -27,6 +27,9 @@ class DifyAgent(BaseAgent):
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
             API_URL = kwargs["DIFY_API_URL"]
             API_KEY = kwargs["DIFY_API_KEY"]
+            if not API_URL or not API_KEY:
+                logger.warning("[AGENT] Dify API URL or API KEY is empty")
+                return ""
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'

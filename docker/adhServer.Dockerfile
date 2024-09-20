@@ -1,4 +1,6 @@
-FROM ubuntu:20.04
+# FROM ubuntu:20.04
+# 使用阿里云镜像
+FROM registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/adh-api:main-latest
 
 # 中文问题
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
