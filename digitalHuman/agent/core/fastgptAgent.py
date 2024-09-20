@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 '''
-@File    :   dialogueAgnet.py
+@File    :   fastgptAgnet.py
 @Author  :   一力辉 
 '''
 

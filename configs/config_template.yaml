@@ -16,5 +16,5 @@ SERVER:
       SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml", "difyAPI.yaml" ]
       DEFAULT: "edgeAPI.yaml"
   AGENTS: 
-    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml", "fastgptAgent.yaml" ]
+    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml", "fastgptAgent.yaml", "openaiAgent.yaml" ]
     DEFAULT: "repeaterAgent.yaml"

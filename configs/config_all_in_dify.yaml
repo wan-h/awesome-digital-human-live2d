@@ -7,14 +7,14 @@ SERVER:
   PORT: 8000
   ENGINES:
     ASR: 
-      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml", "difyAPI.yaml" ]
+      SUPPORT_LIST: [ "difyAPI.yaml" ]
       DEFAULT: "difyAPI.yaml"
     LLM: 
-      SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]
-      DEFAULT: "openaiAPI.yaml"
+      SUPPORT_LIST: [ ]
+      DEFAULT: ""
     TTS: 
-      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml", "difyAPI.yaml" ]
+      SUPPORT_LIST: [ "difyAPI.yaml" ]
       DEFAULT: "difyAPI.yaml"
   AGENTS: 
-    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml", "fastgptAgent.yaml" ]
+    SUPPORT_LIST: [ "difyAgent.yaml" ]
     DEFAULT: "difyAgent.yaml"
