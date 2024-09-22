@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, ReactNode } from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { RadioGroup, Radio, Divider, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
 import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore, useHeartbeatStore, useAudioAutoStopStore } from "@/app/lib/store";
@@ -155,11 +155,11 @@ function SettingsTabs() {
 
 
 
-export default function Settings() {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function Settings({isOpen: open, trigger, onClose}: {isOpen?: boolean; trigger?:ReactNode; onClose?: () => void}) {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure({isOpen: open, onClose});
     return (
         <>
-            <div onClick={onOpen}>Settings</div>
+            {trigger ? <div onClick={onOpen}>{trigger}</div> : null}
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
