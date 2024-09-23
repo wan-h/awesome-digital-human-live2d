@@ -82,8 +82,9 @@ class DifyAgent(BaseAgent):
             pattern = re.compile(r'data:\s*({.*})')
             if streaming:
                 async with httpxAsyncClient.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
-                    async for chunk in response.aiter_bytes():
-                        chunkStr = chunk.decode('utf-8').strip()
+                    async for chunk in response.aiter_lines():
+                        chunkStr = chunk.strip()
+                        if not chunkStr: continue
                         chunkData = pattern.search(chunkStr)
                         # 部分dify返回不完整，该模板匹配会失效
                         if not chunkStr.endswith('}') or not chunkData: 

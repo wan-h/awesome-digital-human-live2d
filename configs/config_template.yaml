@@ -1,7 +1,7 @@
 COMMON:
   NAME: "Awesome-Digital-Human"
   VERSION: "v0.0.1"
-  LOG_LEVEL: "INFO"
+  LOG_LEVEL: "DEBUG"
 SERVER:
   IP: "0.0.0.0"
   PORT: 8000

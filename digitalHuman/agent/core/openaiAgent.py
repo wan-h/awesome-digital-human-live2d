@@ -55,27 +55,25 @@ class OpenaiAgent(BaseAgent):
             pattern = re.compile(r'data:\s*({.*})')
             if streaming:
                 async with httpxAsyncClient.stream('POST', API_URL + CHAT_ROUTE, headers=headers, json=payload) as response:
-                    async for chunks in response.aiter_bytes():
-                        chunksStr = chunks.decode('utf-8').strip()
-                        chunksStrList = chunksStr.split('\n')
-                        for chunkStr in chunksStrList:
-                            if not chunkStr: continue
-                            chunkData = pattern.search(chunkStr)
-                            if not chunkStr.endswith('}') or not chunkData: 
-                                logger.warning(f"[AGENT] Engine return mismatch pattern data: {chunkStr}")
-                                continue
-                            chunkData = chunkData.group(1)
+                    async for chunk in response.aiter_lines():
+                        chunkStr = chunk.strip()
+                        if not chunkStr: continue
+                        chunkData = pattern.search(chunkStr)
+                        if not chunkStr.endswith('}') or not chunkData:
+                            logger.warning(f"[AGENT] Engine return mismatch pattern data: {chunkStr}")
+                            continue
+                        chunkData = chunkData.group(1)
 
-                            try:
-                                data = json.loads(chunkData)
-                                # 处理流式返回字符串
-                                if "choices" in data and len(data["choices"]) > 0:
-                                    if 'delta' in data["choices"][0] and 'content' in data["choices"][0]['delta']:
-                                        logger.debug(f"[AGENT] Engine response: {data}")
-                                        yield bytes(data["choices"][0]['delta']['content'], encoding='utf-8')
-                            except Exception as e:
-                                logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-                                yield bytes("内部错误，请检查openai信息。", encoding='utf-8')
+                        try:
+                            data = json.loads(chunkData)
+                            # 处理流式返回字符串
+                            if "choices" in data and len(data["choices"]) > 0:
+                                if 'delta' in data["choices"][0] and 'content' in data["choices"][0]['delta']:
+                                    logger.debug(f"[AGENT] Engine response: {data}")
+                                    yield bytes(data["choices"][0]['delta']['content'], encoding='utf-8')
+                        except Exception as e:
+                            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
+                            yield bytes("内部错误，请检查openai信息。", encoding='utf-8')
 
             else:
                 response = await httpxAsyncClient.post(API_URL + CHAT_ROUTE, headers=headers, json=payload)
