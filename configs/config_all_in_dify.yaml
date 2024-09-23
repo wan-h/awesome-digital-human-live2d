@@ -16,5 +16,5 @@ SERVER:
       SUPPORT_LIST: [ "difyAPI.yaml" ]
       DEFAULT: "difyAPI.yaml"
   AGENTS: 
-    SUPPORT_LIST: [ "difyAgent.yaml" ]
+    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml" ]
     DEFAULT: "difyAgent.yaml"
