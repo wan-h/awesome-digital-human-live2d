@@ -7,6 +7,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDi
 import { CharacterManager } from "@/app/lib/character"
 import { InteractionMode, useInteractionModeStore, useCharacterStore, useBackgroundStore } from "@/app/lib/store";
 import clsx from "clsx";
+import { ReactNode } from "react";
 
 function CharacterGallery() {
     const { character, setCharacter } = useCharacterStore();
@@ -132,11 +133,15 @@ function GalleryTabs() {
     )
 }
 
-export default function Gallery() {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+export default function Gallery({isOpen: open, trigger, onClose}: {isOpen?: boolean; trigger?:ReactNode; onClose?: () => void}) {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure({isOpen: open, onClose});
     return (
         <>
-            <div onClick={onOpen}>Gallery</div>
+            {
+                trigger ? <div onClick={() => {
+                    onOpen();
+                }}>{trigger}</div> : null
+            }
             <Modal
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
