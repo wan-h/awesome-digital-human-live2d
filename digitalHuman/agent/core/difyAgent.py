@@ -19,32 +19,62 @@ __all__ = ["DifyAgent"]
 @AGENTS.register("DifyAgent")
 class DifyAgent(BaseAgent):
 
-    async def createConversation(self, **kwargs) -> str:
+    async def createConversation(self, streaming: bool, **kwargs) -> str:
+        logger.debug(f"[AGENT] Engine create conversation streaming mode: {streaming}")
         try:
+            if isinstance(input, AudioMessage):
+                raise RuntimeError("DifyAgent does not support AudioMessage input yet")
             # 参数校验
             for paramter in self.parameters():
                 if paramter['NAME'] not in kwargs:
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
             API_URL = kwargs["DIFY_API_URL"]
             API_KEY = kwargs["DIFY_API_KEY"]
-            if not API_URL or not API_KEY:
-                logger.warning("[AGENT] Dify API URL or API KEY is empty")
-                return ""
+            API_USER = kwargs["DIFY_API_USER"]
+            conversation_id = kwargs["conversation_id"] if "conversation_id" in kwargs else ""
             headers = {
                 'Content-Type': 'application/json',
                 'Authorization': f'Bearer {API_KEY}'
             }
-            responseMode = "blocking"
+            responseMode = "streaming" if streaming else "blocking"
             payload = {
                 "inputs": {},
                 "query": "你好",
                 "response_mode": responseMode,
-                "user": "adh",
+                "user": API_USER,
+                "conversation_id": conversation_id,
                 "files":[]
             }
-            response = await httpxAsyncClient.post(API_URL + "/chat-messages", headers=headers, json=payload)
-            logger.debug(f"[AGENT] Engine create conversation response: {response.json()}")
-            return response.json()["conversation_id"]
+
+            pattern = re.compile(r'data:\s*({.*})')
+            if streaming:
+                async with httpxAsyncClient.stream('POST', API_URL + "/chat-messages", headers=headers, json=payload) as response:
+                    async for chunk in response.aiter_lines():
+                        chunkStr = chunk.strip()
+                        if not chunkStr: continue
+                        chunkData = pattern.search(chunkStr)
+                        # 部分dify返回不完整，该模板匹配会失效
+                        if not chunkStr.endswith('}') or not chunkData: 
+                            logger.warning(f"[AGENT] Engine return truncated data: {chunkStr}")
+                            continue
+                        chunkData = chunkData.group(1)
+
+                        data = json.loads(chunkData)
+                        # 处理流式返回字符串
+                        if 'conversation_id' not in data:
+                            logger.error(f"[AGENT] Engine create conversation failed: {data}")
+                            return ""
+                        else:
+                            logger.debug(f"[AGENT] Engine create conversation response: {data['conversation_id']}")
+                            return data['conversation_id']
+
+            else:
+                response = await httpxAsyncClient.post(API_URL + "/chat-messages", headers=headers, json=payload)
+                data = json.loads(response.text)
+                if 'conversation_id' not in data:
+                    logger.error(f"[AGENT] Engine create conversation failed: {data}")
+                    return ""
+                return data['conversation_id']
         except Exception as e:
             logger.error(f"[AGENT] Engine create conversation failed: {e}", exc_info=True)
             return ""
@@ -55,6 +85,7 @@ class DifyAgent(BaseAgent):
         streaming: bool,
         **kwargs
     ):
+        logger.debug(f"[AGENT] Engine run streaming mode: {streaming}")
         try:
             if isinstance(input, AudioMessage):
                 raise RuntimeError("DifyAgent does not support AudioMessage input yet")
@@ -64,6 +95,7 @@ class DifyAgent(BaseAgent):
                     raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
             API_URL = kwargs["DIFY_API_URL"]
             API_KEY = kwargs["DIFY_API_KEY"]
+            API_USER = kwargs["DIFY_API_USER"]
             conversation_id = kwargs["conversation_id"] if "conversation_id" in kwargs else ""
             headers = {
                 'Content-Type': 'application/json',
@@ -74,7 +106,7 @@ class DifyAgent(BaseAgent):
                 "inputs": {},
                 "query": input.data,
                 "response_mode": responseMode,
-                "user": "adh",
+                "user": API_USER,
                 "conversation_id": conversation_id,
                 "files":[]
             }

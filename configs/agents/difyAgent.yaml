@@ -9,5 +9,9 @@ PARAMETERS: [
   {
     NAME: "DIFY_API_KEY",
     DEFAULT: ""
+  },
+  {
+    NAME: "DIFY_API_USER",
+    DEFAULT: "adh"
   }
 ]

@@ -118,6 +118,7 @@ export async function agent_conversationid_api(
     body: JSON.stringify({
       engine: engine,
       settings: settings,
+      streaming: true,
     }),
     headers: {
       "Content-Type": "application/json",

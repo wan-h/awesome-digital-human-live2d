@@ -44,6 +44,7 @@ async def apiAgentInfer(item: AgentInferIn):
 class ConversatonIdIn(BaseModel):
     engine: str = "default"
     settings: dict = {}
+    streaming: bool = False
 
 class ConversatonIdOut(BaseResponse):
     data: str
@@ -54,7 +55,7 @@ async def apiAgentInfer(item: ConversatonIdIn):
         item.engine = config.SERVER.AGENTS.DEFAULT
     response = Response()
     try:
-        response.data = await agentPool.get(item.engine).createConversation(**item.settings)
+        response.data = await agentPool.get(item.engine).createConversation(item.streaming, **item.settings)
     except Exception as e:
         response.data = ""
         response.error(str(e))

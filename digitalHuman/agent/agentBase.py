@@ -40,7 +40,7 @@ class BaseAgent(metaclass=ABCMeta):
     def checkKeys(self) -> List[str]:
         return []
     
-    async def createConversation(self, **kwargs) -> str:
+    async def createConversation(self, streaming: bool, **kwargs) -> str:
         return ""
 
     @abstractmethod
