@@ -9,6 +9,7 @@ import { AUDIO_SUPPORT_ALERT, AI_THINK_MESSAGE } from "@/app/lib/constants";
 import { Comm } from "@/app/lib/comm";
 import { CharacterManager } from "@/app/lib/character";
 import Recorder from 'js-audio-recorder';
+import Markdown from 'react-markdown';
 
 let micRecorder: Recorder | null = null;
 let isRecording: boolean = false;
@@ -215,15 +216,15 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                             <div className="chat-message" key={index}>
                                 <div className={clsx(
                                     "flex items-end",
-                                    chat.role == ChatRole.HUMAN ? "" : "justify-end"
+                                    chat.role == ChatRole.AI ? "" : "justify-end"
                                 )}>
                                     <div className={clsx(
                                         "flex flex-col space-y-2 text-xs max-w-xs mx-2",
-                                        chat.role == ChatRole.HUMAN ? "order-2 items-start" : "order-1 items-end"
+                                        chat.role == ChatRole.AI ? "order-2 items-start" : "order-1 items-end"
                                     )}>
-                                        <div><span className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">{chat.content}</span></div>
+                                        <div><Markdown className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600">{chat.content}</Markdown></div>
                                     </div>
-                                    <img src={chat.role == ChatRole.HUMAN ? "/icons/human_icon.svg" : "/icons/ai_icon.svg"} className="w-6 h-6 rounded-full order-1" />
+                                    <img src={chat.role == ChatRole.HUMAN ? "/icons/human_icon.svg" : "/icons/ai_icon.svg"} className="w-6 h-6 rounded-full order-1 self-start" />
                                 </div>
                             </div>
                         ))
