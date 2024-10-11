@@ -68,22 +68,139 @@
 			],
 			"TapBody": [
 				{
+					"File": "motions/俏皮-微微摇头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/否定-微微摇头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/否定-摆双手摇头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-向前浅鞠躬.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-向前深鞠躬.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-抬手往右指引.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-抬手往左指引.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-正常.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-点头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/微笑-背手点头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/惊吓-往后一仰.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/惊吓-闭眼张开双手后瞪眼.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/惊讶-叉手张嘴点头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/惊讶-双手放开.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/惊讶-张开双手点头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/无奈-叉手点头.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/生气-被惊后埋头看地.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/疑惑-张开双手定睛狠狠往前一看.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/疑惑-张开双手定睛轻微往前一看.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/疑虑-手放嘴角.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
 					"File": "motions/脸红-眯眼埋头.motion3.json",
 					"FadeInTime": 0.5,
-					"FadeOutTime": 0.5,
-					"Sound": "sounds/haru_talk_13.wav"
+					"FadeOutTime": 0.5
 				},
 				{
 					"File": "motions/脸红-眯眼笑.motion3.json",
 					"FadeInTime": 0.5,
-					"FadeOutTime": 0.5,
-					"Sound": "sounds/haru_Info_14.wav"
+					"FadeOutTime": 0.5
 				},
 				{
 					"File": "motions/脸红-身体往前倾.motion3.json",
 					"FadeInTime": 0.5,
-					"FadeOutTime": 0.5,
-					"Sound": "sounds/haru_normal_6.wav"
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/难过-双手放胸前.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/难过-睁眼瘪嘴.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/高兴-左右摇摆.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
+				},
+				{
+					"File": "motions/高兴-身体前倾眯眼.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.5
 				}
 			]
 		},
