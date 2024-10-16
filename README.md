@@ -48,7 +48,7 @@ PC端页面预览：
   * Agent支持：repeater(复读机)、dialogue(对话)
   * 人物类型支持：女友（1）、心理师（1）、素人（11）
 > ### v2.0.0
-**拥抱Dify生态，打造自己的数字人灵魂（已测试最新dify版本：0.7.1）**
+**拥抱Dify生态，打造自己的数字人灵魂**
 * [v2.0.0 - 2024-08-08](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
   * 前端页面全面升级：nextjs + nextui + tailwind
   * 前端页面兼容移动端访问

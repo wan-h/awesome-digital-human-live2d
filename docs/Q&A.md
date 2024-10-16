@@ -17,3 +17,10 @@ windows不支持docker的host模式，修改`docker-compose.yaml`或`docker-comp
 * 删除network字段
 * 打开ports的注释  
 ![](../assets/Q&A_2_1.png)
+
+### 4. 浏览器获取麦克风失败
+浏览器在http协议下认为打开摄像头是不安全的，所以需要手动修改下浏览器的设置，这里以chrome为例（其他浏览器应该也有相应的策略）：  
+* 浏览器地址栏输入：`chrome://flags/#unsafely-treat-insecure-origin-as-secure`  
+* `Insecure origins treated as secure`栏目中填写数字人前端的地址，例如：`http://192.168.1.100:3000`  
+* 填写域名后选择启用该功能并重新启动即可，再次使用麦克风时会提示是否允许，选择允许即可。
+![](../assets/Q&A_4_1.png)
