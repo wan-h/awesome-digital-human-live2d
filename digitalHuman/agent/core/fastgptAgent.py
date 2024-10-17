@@ -69,16 +69,16 @@ class FastgptAgent(BaseAgent):
                                             break
                                         else:
                                             logger.debug(f"[AGENT] Engine response: {data['choices'][0]['delta']['content']}")
-                                            yield bytes(data["choices"][0]["delta"]["content"], encoding='utf-8')
+                                            yield data["choices"][0]["delta"]["content"]
                             except Exception as e:
                                 logger.error(f"[AGENT] Engine run failed: {e}")
-                                yield bytes("内部错误，请检查fastgpt信息。", encoding='utf-8')
+                                yield "内部错误，请检查fastgpt信息。"
 
 
             else:
                 response = await httpxAsyncClient.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
                 data = json.loads(response.text)
-                yield bytes(data['choices'], encoding='utf-8')
+                yield data['choices']
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-            yield bytes("fastgpt接口请求返回错误。", encoding='utf-8')
+            yield "fastgpt接口请求返回错误。"

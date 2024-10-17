@@ -35,7 +35,7 @@ async def apiAgentInfer(item: AgentInferIn):
     response = Response()
     try:
         input = TextMessage(data=item.data)
-        return StreamingResponse(agentPool.get(item.engine).run(input, item.streaming, **item.settings))
+        return StreamingResponse(agentPool.get(item.engine).run(input, item.streaming, **item.settings), media_type="text/event-stream")
     except Exception as e:
         response.error(str(e))
         return StreamingResponse(interalError)
