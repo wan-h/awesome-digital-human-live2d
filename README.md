@@ -54,7 +54,7 @@ PC端页面预览：
   * 前端页面兼容移动端访问
   * 前端支持三种交互模式：聊天模式、数字人模式、沉浸模式
   * 前端支持人物模型和背景切换以及个人定制扩展
-  * Agent支持：difyAgent（ASR、TTS均可接入Dify）
+  * Agent支持：difyAgent（ASR、TTS均可接入Dify）、FastGPTAgent、OpenaiAgent
 
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
@@ -65,9 +65,9 @@ PC端页面预览：
 [B站视频教程-All-in-Dify部署](https://www.bilibili.com/video/BV1kZWvesE25/)
 
 ## Thanks
-[Dify](https://github.com/langgenius/dify)  
-[Live2D](https://github.com/Live2D)  
-源码中涉及到的所有库作者
+* [Dify](https://github.com/langgenius/dify)  
+* [Live2D](https://github.com/Live2D)  
+* 源码中涉及到的所有库作者
 
 ## Love & Share
 **知乎板块**  
