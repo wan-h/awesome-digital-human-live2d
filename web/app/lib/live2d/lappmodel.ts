@@ -531,10 +531,9 @@ export class LAppModel extends CubismUserModel {
       }
 
       let value = 0.0; // 当实时进行唇部同步时，从系统获取音量，并在0到1的范围内输入值
-      value = this._wavFileHandler.getRms();
-
+      value = this._wavFileHandler.getRms() * LAppDefine.LipSyncWeight;
       for (let i = 0; i < this._lipSyncIds.getSize(); ++i) {
-        this._model.addParameterValueById(this._lipSyncIds.at(i), value, LAppDefine.LipSyncWeight);
+        this._model.addParameterValueById(this._lipSyncIds.at(i), value, 1.0);
       }
     }
 

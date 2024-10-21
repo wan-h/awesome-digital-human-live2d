@@ -11,7 +11,7 @@ RUN npm config set registry https://registry.npmmirror.com
 
 # 安装npm依赖库
 RUN npm install -g pnpm \
-    && npm install \
-    && npm run build
+    && pnpm install \
+    && pnpm run build
 
-ENTRYPOINT ["npm", "run", "start"]
+ENTRYPOINT ["pnpm", "run", "start"]

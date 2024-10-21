@@ -70,15 +70,15 @@ class OpenaiAgent(BaseAgent):
                             if "choices" in data and len(data["choices"]) > 0:
                                 if 'delta' in data["choices"][0] and 'content' in data["choices"][0]['delta']:
                                     logger.debug(f"[AGENT] Engine response: {data}")
-                                    yield bytes(data["choices"][0]['delta']['content'], encoding='utf-8')
+                                    yield data["choices"][0]['delta']['content']
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-                            yield bytes("内部错误，请检查openai信息。", encoding='utf-8')
+                            yield "内部错误，请检查openai信息。"
 
             else:
                 response = await httpxAsyncClient.post(API_URL + CHAT_ROUTE, headers=headers, json=payload)
                 data = response.json()["choices"][0]["message"]["content"]
-                yield bytes(data, encoding='utf-8')
+                yield data
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-            yield bytes("openai接口请求返回错误。", encoding='utf-8')
+            yield "openai接口请求返回错误。"

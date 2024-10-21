@@ -130,15 +130,15 @@ class DifyAgent(BaseAgent):
                             if "message" in data["event"]:
                                 if 'answer' in data:
                                     logger.debug(f"[AGENT] Engine response: {data}")
-                                    yield bytes(data['answer'], encoding='utf-8')
+                                    yield data['answer']
                         except Exception as e:
                             logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-                            yield bytes("内部错误，请检查dify信息。", encoding='utf-8')
+                            yield "内部错误，请检查dify信息。"
 
             else:
                 response = await httpxAsyncClient.post(API_URL + "/chat-messages", headers=headers, json=payload)
                 data = json.loads(response.text)
-                yield bytes(data['answer'], encoding='utf-8')
+                yield data['answer']
         except Exception as e:
             logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-            yield bytes("dify接口请求返回错误。", encoding='utf-8')
+            yield "dify接口请求返回错误。"
