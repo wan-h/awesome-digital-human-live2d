@@ -40,11 +40,11 @@ PC端页面预览：
 > ### v1.0.0
 **界面简约，注重模块扩展性**
 * [v1.0.0 - 2024-06-25](https://github.com/wan-h/awesome-digital-human-live2d/tree/v1.0.0)
-  * 前端架构：react + antd
+  * 前端架构：react + antD
   * 后端架构：fastapi
-  * ASR已接入：bauduAPI、googleAPI
-  * LLM已接入：bauduAPI、openaiAPI
-  * TTS已接入：bauduAPI、edgeAPI
+  * ASR已接入：baiduAPI、googleAPI
+  * LLM已接入：baiduAPI、openaiAPI
+  * TTS已接入：baiduAPI、edgeAPI
   * Agent支持：repeater(复读机)、dialogue(对话)
   * 人物类型支持：女友（1）、心理师（1）、素人（11）
 > ### v2.0.0
@@ -64,11 +64,6 @@ PC端页面预览：
 [B站视频教程-部署](https://www.bilibili.com/video/BV1szePeaEak/)  
 [B站视频教程-All-in-Dify部署](https://www.bilibili.com/video/BV1kZWvesE25/)
 
-## Thanks
-* [Dify](https://github.com/langgenius/dify)  
-* [Live2D](https://github.com/Live2D)  
-* 源码中涉及到的所有库作者
-
 ## Love & Share
 **知乎板块**  
 [数字人-定义数字世界中的你](https://zhuanlan.zhihu.com/p/676746017)  
@@ -86,9 +81,16 @@ PC端页面预览：
 [Dify打造专属数字人灵魂](https://mp.weixin.qq.com/s/3B4YgYjDY42DNTgE76XOtw)  
 [数字人的All in Dify](https://mp.weixin.qq.com/s/Uf17jWpjVzAfzX42TP09gw)
 
+**Dify 官方板块**  
+[使用 Dify 打造数字人灵魂](https://mp.weixin.qq.com/s?__biz=Mzg5MDkyOTY3NA==&mid=2247486070&idx=3&sn=0911ba8723278a83c1554afd2de861ab&chksm=cefc58effe2456e39a9f0f0afac4ec5447bb1aafff42a68d05b2a3f523baae299b93d7ae6ff9&mpshare=1&scene=1&srcid=1021NXKMC2W697dCXEwqsCkN&sharer_shareinfo=93041ce9bdefcde0aa121d27a3f3f6dd&sharer_shareinfo_first=8c8f03435bc9af5236a4505b831d1388&exportkey=n_ChQIAhIQQaNAHzm7bGdYinsq2L2zbRKfAgIE97dBBAEAAAAAANTKKNX7j3cAAAAOpnltbLcz9gKNyK89dVj0%2F3Ojxo5%2FA9C00dmnAyJraAwSYIfMr4csl8xZvE%2FSwCi3nKbPJZ4mnLdQdVm2EQP2SNJQIMUqV1PGB%2BGpSSdjOs6L7ejtFS9GCpkr6LMmAKVW904Tu4tGhZwjaU14QjLRGXZ7rQEKMOQjdQTyDf%2BluwFEDAXlLMozezq6ypTwXIu0HoLjs4Q6x4gtHS%2BpH6vhOfGgR7LtVbZcXAFFWokyvREiMuHayOSrjtpDD9CQK5KYELY7Ejd%2B48JRj7dRJZiAGebg2KRYtB7%2BpJqgyKaNO4mCcT%2BT9KjHq4WIssWaF0Vq5G4D2el%2FhIgfuEpreoR1hUKOMkcBiAXZ&acctmode=0&pass_ticket=Tg8MLw6UPqgdcjRxs7YP26i09LNlJcKEH%2Bw9YwPdaE4OzNwhW7RbDzgVM3X5rkY1&wx_header=0#rd)
+
 **产研板块**  
 [数字人调研问卷](https://ec5cjmeodk.feishu.cn/share/base/dashboard/shrcnu1DNMUCTU18f5tF2q9qoQh)（感谢 [@plumixius](https://github.com/plumixius) 同学）
 
+## Thanks
+* [Dify](https://github.com/langgenius/dify)  
+* [Live2D](https://github.com/Live2D)  
+* 源码中涉及到的所有库作者
 
 ## 兴趣小组 
 **扫码加群**  
