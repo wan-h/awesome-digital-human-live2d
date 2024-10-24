@@ -10,7 +10,7 @@ from typing import Optional
 from pydantic import BaseModel
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from digitalHuman.utils import config
+from digitalHuman.utils import config, filterUnreadble
 from digitalHuman.utils import TextMessage, AudioMessage, AudioFormatType
 from digitalHuman.engine import EnginePool, EngineType
 
@@ -35,8 +35,7 @@ async def apiInfer(item: InferIn):
         item.engine = config.SERVER.ENGINES.TTS.DEFAULT
     response = Response()
     try:
-        input = TextMessage(data=item.data)
-
+        input = TextMessage(data=filterUnreadble(item.data))
         output: Optional[AudioMessage] = await enginePool.getEngine(EngineType.TTS, item.engine).run(input, **item.settings)
         if output is None:
             raise RuntimeError("TTS engine run failed")
