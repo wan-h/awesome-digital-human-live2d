@@ -164,6 +164,9 @@ export class Comm {
       return null;
     }
     return API.tts_infer_api(data, engine, settings).then(response => {
+      if (response.data == null) {
+        return null;
+      }
       return base64ToArrayBuffer(response.data);
     }).catch(error => {
       console.error(error)
