@@ -20,7 +20,7 @@ services:
     image: "adh-server:v2.0.0"
     restart: always
     network_mode: host
-    volumes:
-      - ./configs:/workspace/configs
     # ports:
     #   - "8000:8000"
+    volumes:
+      - ./configs:/workspace/configs

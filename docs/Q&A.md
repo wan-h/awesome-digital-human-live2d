@@ -16,7 +16,7 @@
 windows不支持docker的host模式，修改`docker-compose.yaml`或`docker-compose-quickStart.yaml`(看你用的哪个)：  
 * 删除network字段
 * 打开ports的注释  
-![](../assets/Q&A_2_1.png)
+![](../assets/Q&A_3_1.png)
 
 ### 4. 浏览器获取麦克风失败
 浏览器在http协议下认为打开摄像头是不安全的，所以需要手动修改下浏览器的设置，这里以chrome为例（其他浏览器应该也有相应的策略）：  
@@ -24,3 +24,9 @@ windows不支持docker的host模式，修改`docker-compose.yaml`或`docker-comp
 * `Insecure origins treated as secure`栏目中填写数字人前端的地址，例如：`http://192.168.1.100:3000`  
 * 填写域名后选择启用该功能并重新启动即可，再次使用麦克风时会提示是否允许，选择允许即可。
 ![](../assets/Q&A_4_1.png)
+
+### 5. windows系统本地部署dify接口请求返回错误。
+windows本地部署dify,配置服务后数字人一直返回“dify接口请求错误”
+![](../assets/Q&A_5_1.png)  
+原因：服务地址填写的 http://localhost/v1  
+修改方式：将localhost修改为你本机的ip地址
