@@ -46,15 +46,11 @@ jobs:
       - name: Build and push adhweb docker image
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ github.sha }} -f docker/adhWeb.Dockerfile .
-          docker tag ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ github.sha }} ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }}
-          docker push ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }}
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }} -f docker/adhWeb.Dockerfile . --push
       - name: Build and push adhserver docker image
         run: |
           docker buildx create --use
-          docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ github.sha }} -f docker/adhServer.Dockerfile .
-          docker tag ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ github.sha }} ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }}
-          docker push ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }}
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }} -f docker/adhServer.Dockerfile . --push
 
 
           
