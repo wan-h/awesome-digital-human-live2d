@@ -39,11 +39,13 @@ jobs:
 
       - name: Build adhWeb docker image
         run: |
+          docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ github.sha }} -f docker/adhWeb.Dockerfile .
           docker tag ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ github.sha }} ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }}
 
       - name: Build adhServer docker image
         run: |
+          docker buildx create --use
           docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ github.sha }} -f docker/adhServer.Dockerfile .
           docker tag ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ github.sha }} ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }}
 
