@@ -16,7 +16,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      - name: Set up QEMU for ARM emulation
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: linux/amd64,linux/arm64
+      - name: Login to ALIYUN Docker Hub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.ALIYUN_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.ALIYUN_DOCKER_HUB_ACCESS_TOKEN }}
+          registry: registry.cn-hangzhou.aliyuncs.com
       - name: Set Docker tag
         id: docker_tag
         run: |
@@ -34,27 +43,15 @@ jobs:
             fi
           fi
 
-      - name: Build adhWeb docker image
+      - name: Build and push adhweb docker image
         run: |
-          docker build -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ github.sha }} -f docker/adhWeb.Dockerfile .
-          docker tag ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ github.sha }} ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }}
-
-      - name: Build adhServer docker image
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }} -f docker/adhWeb.Dockerfile . --push
+      - name: Build and push adhserver docker image
         run: |
-          docker build -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ github.sha }} -f docker/adhServer.Dockerfile .
-          docker tag ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ github.sha }} ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }}
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 -t ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }} -f docker/adhServer.Dockerfile . --push
 
-      - name: Login to ALIYUN Docker Hub
-        uses: docker/login-action@v1 
-        with:
-          username: ${{ secrets.ALIYUN_DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.ALIYUN_DOCKER_HUB_ACCESS_TOKEN }}
-          registry: registry.cn-hangzhou.aliyuncs.com
-
-      - name: Push Docker image to Docker Hub
-        run: |
-          docker push ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-web:${{ env.tag }}
-          docker push ${{secrets.ALIYUN_DOCKER_HUB_NAMESPACE}}/adh-api:${{ env.tag }}
 
           
 
