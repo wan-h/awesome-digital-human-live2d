@@ -5,9 +5,9 @@ services:
     image: "registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/adh-web:main-latest"
     restart: always
     pull_policy: always
-    network_mode: host
-    # ports:
-    #   - "3000:3000"
+    # network_mode: host
+    ports:
+      - "3000:3000"
     volumes:
       - ./web/.env:/workspace/.env
   # awesome digital human server
@@ -15,8 +15,8 @@ services:
     image: "registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/adh-api:main-latest"
     restart: always
     pull_policy: always
-    network_mode: host
-    # ports:
-    #   - "8000:8000"
+    # network_mode: host
+    ports:
+      - "8000:8000"
     volumes:
       - ./configs:/workspace/configs

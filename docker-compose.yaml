@@ -7,9 +7,9 @@ services:
       dockerfile: docker/adhWeb.Dockerfile
     image: "adh-web:v2.0.0"
     restart: always
-    network_mode: host
-    # ports:
-    #   - "3000:3000"
+    # network_mode: host
+    ports:
+      - "3000:3000"
     volumes:
       - ./web/.env:/workspace/.env
   # awesome digital human server
@@ -20,7 +20,7 @@ services:
     image: "adh-server:v2.0.0"
     restart: always
     network_mode: host
-    # ports:
-    #   - "8000:8000"
+    ports:
+      - "8000:8000"
     volumes:
       - ./configs:/workspace/configs

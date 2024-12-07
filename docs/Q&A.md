@@ -12,7 +12,7 @@
 ### 2. 是否支持人物定制
 支持，具体参考[开发说明](./docs/developer_instrction.md)中的定制化开发部分。
 
-### 3. windows系统docker启动无法访问页面
+### 3. windows系统docker启动无法访问页面（最新代码不在使用 host network_mode）
 windows不支持docker的host模式，修改`docker-compose.yaml`或`docker-compose-quickStart.yaml`(看你用的哪个)：  
 * 删除network字段
 * 打开ports的注释  
@@ -25,8 +25,8 @@ windows不支持docker的host模式，修改`docker-compose.yaml`或`docker-comp
 * 填写域名后选择启用该功能并重新启动即可，再次使用麦克风时会提示是否允许，选择允许即可。
 ![](../assets/Q&A_4_1.png)
 
-### 5. windows系统本地部署dify接口请求返回错误。
-windows本地部署dify,配置服务后数字人一直返回“dify接口请求错误”
+### 5. 系统本地部署dify接口请求返回错误。
+本地部署dify,配置服务后数字人一直返回“dify接口请求错误”
 ![](../assets/Q&A_5_1.png)  
 原因：服务地址填写的 http://localhost/v1  
 修改方式：将localhost修改为你本机的ip地址
