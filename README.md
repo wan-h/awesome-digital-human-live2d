@@ -88,10 +88,15 @@ PC端页面预览：
 [数字人调研问卷](https://ec5cjmeodk.feishu.cn/share/base/dashboard/shrcnu1DNMUCTU18f5tF2q9qoQh)（感谢 [@plumixius](https://github.com/plumixius) 同学）
 
 ## Thanks
+### 开源项目
 * [Dify](https://github.com/langgenius/dify)  
 * [Live2D](https://github.com/Live2D)  
 * 源码中涉及到的所有库作者
+### 捐赠名单
+| 名字 | 主体（公司/个人） | 应用（产品/项目） |
+| ----------- | ----------- | ----------- |
+| 镧启科技 | 公司 | 敬请期待 |
 
 ## 兴趣小组 
-**扫码加群**  
+**扫码加群（备注 ADH）**  
 ![](assets/wechat.png)

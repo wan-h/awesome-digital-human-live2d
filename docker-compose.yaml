@@ -19,7 +19,7 @@ services:
       dockerfile: docker/adhServer.Dockerfile
     image: "adh-server:v2.0.0"
     restart: always
-    network_mode: host
+    # network_mode: host
     ports:
       - "8000:8000"
     volumes:
