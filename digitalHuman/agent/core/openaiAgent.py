@@ -55,6 +55,8 @@ class OpenaiAgent(BaseAgent):
             pattern = re.compile(r'data:\s*({.*})')
             if streaming:
                 async with httpxAsyncClient.stream('POST', API_URL + CHAT_ROUTE, headers=headers, json=payload) as response:
+                    if response.status_code != 200:
+                        raise RuntimeError(f"status_code: {response.status_code}")
                     async for chunk in response.aiter_lines():
                         chunkStr = chunk.strip()
                         if not chunkStr: continue

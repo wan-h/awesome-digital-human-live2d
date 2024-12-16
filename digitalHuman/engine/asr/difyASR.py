@@ -40,6 +40,8 @@ class DifyAPI(BaseEngine):
 
             files = {'file': ('userAudio', io.BytesIO(wavToMp3(input.data)), 'audio/mp3')}
             resp = await httpxAsyncClient.post(API_URL + "/audio-to-text", headers=headers, files=files)
+            if resp.status_code != 200:
+                raise RuntimeError(f"status_code: {resp.status_code}")
             
             logger.debug(f"[ASR] Engine response: {resp.json()}")
             result = resp.json()["text"]

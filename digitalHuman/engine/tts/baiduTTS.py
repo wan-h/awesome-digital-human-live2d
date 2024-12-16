@@ -61,6 +61,8 @@ class BaiduAPI(BaseEngine):
         }
 
         resp = await httpxAsyncClient.post(self.cfg.TTS_SHORT_URL, params=params)
+        if resp.status_code != 200:
+                raise RuntimeError(f"status_code: {resp.status_code}")
         
         message = AudioMessage(
             data=resp.content,
@@ -90,6 +92,8 @@ class BaiduAPI(BaseEngine):
         })
 
         resp = await httpxAsyncClient.post(self.cfg.TTS_LONG_CREATE_URL, headers=headers, content=payload, params=params)
+        if resp.status_code != 200:
+                raise RuntimeError(f"status_code: {resp.status_code}")
         taskId = resp.json()['task_id']
         
         # query task
@@ -99,6 +103,8 @@ class BaiduAPI(BaseEngine):
         taskStatus = "Running"
         while taskStatus == "Running":
             resp = await httpxAsyncClient.post(self.cfg.TTS_LONG_QUERY_URL, headers=headers, content=payload, params=params)
+            if resp.status_code != 200:
+                raise RuntimeError(f"status_code: {resp.status_code}")
             taskStatus = resp.json()['tasks_info'][0]['task_status']
             time.sleep(0.2)
         if taskStatus != "Success":
