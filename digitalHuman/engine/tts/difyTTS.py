@@ -6,8 +6,8 @@
 
 from ..builder import TTSEngines
 from ..engineBase import BaseEngine
-import asyncio
 # import httpx
+import asyncio
 from typing import Optional
 from digitalHuman.utils import httpxAsyncClient
 from digitalHuman.utils import logger
@@ -16,12 +16,11 @@ from digitalHuman.utils.audio import mp3ToWav
 
 __all__ = ["DifyAPI"]
 
-
 @TTSEngines.register("DifyAPI")
 class DifyAPI(BaseEngine):
     def setup(self):
         super().setup()
-        self.asyncLock = asyncio.Lock()
+        self.asyncLock = True
 
     async def run(self, input: TextMessage, **kwargs) -> Optional[TextMessage]:
         try: 
@@ -44,8 +43,12 @@ class DifyAPI(BaseEngine):
             }
 
             logger.debug(f"[TTS] Engine input: {input.data}")
-            async with self.asyncLock:
-                resp = await httpxAsyncClient.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+            # 并发阻塞, 防止dify接口因为并发请求而报错
+            while not self.asyncLock:
+                await asyncio.sleep(0.1)
+            self.asyncLock = False
+            resp = await httpxAsyncClient.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+            self.asyncLock = True
             if resp.status_code != 200:
                 raise RuntimeError(f"status_code: {resp.status_code}")
             # TODO：这里Dify只能使用同步接口，主动释放异步事件
@@ -62,5 +65,6 @@ class DifyAPI(BaseEngine):
             return message
             
         except Exception as e:
+            self.asyncLock = True
             logger.error(f"[TTS] Engine run failed: {e}", exc_info=True)
             return None
