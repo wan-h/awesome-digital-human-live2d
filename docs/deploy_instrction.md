@@ -47,7 +47,7 @@ cd web
 # 使用高性能的npm
 npm install -g pnpm
 # 安装依赖
-npm install
+pnpm install
 # 编译发布版本
 npm run build
 # 启动
