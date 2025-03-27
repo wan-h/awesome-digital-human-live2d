@@ -30,7 +30,7 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
     const [isProcessing, setIsProcessing] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
     const chatbotRef = useRef<HTMLDivElement>(null);
-    
+
     useEffect(() => {
         let newSettings: {[key: string]: string} = {}
         if (agentEngine in agentSettings) {
@@ -59,12 +59,35 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         if (audioAutoStop) {
             CharacterManager.getInstance().clearAudioQueue();
         }
+
+        let isThink = false;
+        let isFirst = true;
         Comm.getInstance().streamingChat(message, agentEngine, conversationId, settings, (index: number, data: string) => {
             responseText += data;
+            // 流式输出时，如果开头存在 <think> 则一直到 </think> 结束，在 <think> </think> 之间，则不输出
+
             updateLastRecord({ role: ChatRole.AI, content: responseText });
             if (!mute && mode != InteractionMode.CHATBOT) {
                 // 按照标点符号断句处理
-                audioText += data;
+                // audioText += data;
+                if (responseText.includes("<think>")){
+                    isThink = true;
+                    if (responseText.includes("</think>")){
+                        isThink = false;
+                        // audioText 为 </think> 后面的内容
+                        if (isFirst){
+                            audioText = responseText.slice(responseText.indexOf("</think>") + 8);
+                            isFirst = false;
+                        } else {
+                            audioText += data;
+                            audioText = audioText.trim()
+
+                        }
+                    }
+                } else {
+                    audioText += data;
+                }
+
                 // 断句判断符号
                 // let punc = ["。", ".", "！", "!", "？", "?", "；", ";", "，", ",", "(", ")", "（", "）"];
                 let punc = ["。", ".", "？", "?", "；", ";", "，", ","];
@@ -100,7 +123,9 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
                                 }
                             }
                         }
-                    )
+                    ).catch(err => {
+                        console.error("tts error", err);
+                    })
                     audioText = secondPart;
                 } else {
                     audioRecorderDict.set(index, null)
@@ -190,16 +215,16 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
         }
     }
 
-    // 定义一个防抖函数，用于处理 Ctrl + M 的按键组合  
+    // 定义一个防抖函数，用于处理 Ctrl + M 的按键组合
     const handleCtrlM = debounce(() => {
         console.log('Ctrl + M was pressed!');
         micClick();
-    }, 500); // 1000 毫秒内多次触发只执行一次   
+    }, 500); // 1000 毫秒内多次触发只执行一次
 
     useEffect(() => {
         // 聊天滚动条到底部
         chatbotRef.current.scrollTop = chatbotRef.current.scrollHeight + 100;
-        // 添加事件监听器  
+        // 添加事件监听器
         const handleKeyDown = (event: KeyboardEvent) => {
             // 检查是否按下了 Ctrl + M
             if (event.ctrlKey && event.key === 'm') {
@@ -207,9 +232,9 @@ export default function Chatbot(props: { showChatHistory: boolean }) {
             }
         };
 
-        // 绑定事件监听器到 document 或其他适当的 DOM 元素  
+        // 绑定事件监听器到 document 或其他适当的 DOM 元素
         document.addEventListener('keydown', handleKeyDown);
-        // 清理函数，用于移除事件监听器  
+        // 清理函数，用于移除事件监听器
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
