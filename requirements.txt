@@ -14,3 +14,4 @@ SpeechRecognition==3.10.1
 requests==2.31.0
 uvicorn==0.26.0
 yacs==0.1.8
+git+https://github.com/aliyun/alibabacloud-nls-python-sdk.git@main#egg=alibabacloud-nls-python-sdk
