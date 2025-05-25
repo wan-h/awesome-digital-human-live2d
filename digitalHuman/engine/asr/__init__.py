@@ -7,6 +7,7 @@
 from .baiduASR import BaiduAPI
 from .googleASR import GoogleAPI
 from .difyASR import DifyAPI
+from .funasrStreamingASR import FunasrStreamingASR
 from .asrFactory import ASRFactory
 
 __all__ = ['ASRFactory']

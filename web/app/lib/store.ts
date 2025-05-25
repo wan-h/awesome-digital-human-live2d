@@ -211,3 +211,20 @@ export const useHeartbeatStore = create<HeartbeatState>()(
         setHeartbeat: (heartbeat: boolean) => set((state) => ({ heartbeat: heartbeat })),
     })
 )
+
+// ==================== 流式ASR设置 ==================
+interface StreamingASRState {
+    useStreamingASR: boolean
+    setUseStreamingASR: (useStreamingASR: boolean) => void
+}
+export const useStreamingASRStore = create<StreamingASRState>()(
+    persist(
+        (set) => ({
+            useStreamingASR: false, // 默认使用传统录音模式
+            setUseStreamingASR: (useStreamingASR: boolean) => set((state) => ({ useStreamingASR: useStreamingASR })),
+        }),
+        {
+            name: 'streamingASR-storage', // name of the item in the storage (must be unique)
+        }
+    )
+)

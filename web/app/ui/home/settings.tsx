@@ -3,13 +3,14 @@
 import React, { useEffect, useState, useRef, ReactNode } from "react";
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { RadioGroup, Radio, Divider, Input, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from "@nextui-org/react";
-import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore, useHeartbeatStore, useAudioAutoStopStore } from "@/app/lib/store";
+import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore, useMuteStore, useHeartbeatStore, useAudioAutoStopStore, useStreamingASRStore } from "@/app/lib/store";
 import { Comm } from "@/app/lib/comm";
 
 function SettingBasic() {
     // 设置交互模式
     const { mute, setMute } = useMuteStore();
     const { audioAutoStop, setAudioAutoStop } = useAudioAutoStopStore();
+    const { useStreamingASR, setUseStreamingASR } = useStreamingASRStore();
     const { mode } = useInteractionModeStore();
     const interactionModeRations = (Object.values(InteractionMode) as Array<string>).map((mode) => (
         <Radio key={mode} value={mode}>{mode}</Radio>
@@ -22,6 +23,9 @@ function SettingBasic() {
     }
     const audioAutoStopRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setAudioAutoStop(e.target.value === "yes")
+    }
+    const streamingASRRationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setUseStreamingASR(e.target.value === "streaming")
     }
 
     return (
@@ -57,6 +61,15 @@ function SettingBasic() {
                             <Radio value={"no"}>否</Radio>
                         </RadioGroup>
                     }
+                    <RadioGroup
+                        label="语音识别模式"
+                        defaultValue={useStreamingASR ? "streaming" : "traditional"}
+                        onChange={streamingASRRationChange}
+                        orientation="horizontal"
+                    >
+                        <Radio value={"traditional"}>传统录音</Radio>
+                        <Radio value={"streaming"}>流式ASR（请注意配置使用 Stream ASR Agent）</Radio>
+                    </RadioGroup>
                 </div>
             </CardBody>
         </Card>

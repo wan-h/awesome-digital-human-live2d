@@ -4,9 +4,9 @@
 @Author  :   一力辉 
 '''
 
-from typing import List, Optional, Union
+from typing import List, Optional, Union, AsyncGenerator
 from yacs.config import CfgNode as CN
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod, ABC
 from digitalHuman.utils import BaseMessage
 from digitalHuman.utils import TextMessage, AudioMessage
 from digitalHuman.engine.engineBase import BaseEngine
