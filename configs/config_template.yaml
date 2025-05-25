@@ -9,14 +9,14 @@ SERVER:
   WORKSPACE_PATH: "./outputs"
   ENGINES:
     ASR: 
-      SUPPORT_LIST: [ "difyAPI.yaml", "tencentAPI.yaml" ]
+      SUPPORT_LIST: [ "difyAPI.yaml", "tencentAPI.yaml", "funasrStreamingAPI.yaml"]
       DEFAULT: "difyAPI.yaml"
     TTS: 
       SUPPORT_LIST: [ "edgeAPI.yaml", "tencentAPI.yaml", "difyAPI.yaml" ]
       DEFAULT: "edgeAPI.yaml"
-    LLM: 
+    LLM:
       SUPPORT_LIST: []
       DEFAULT: ""
-  AGENTS: 
+  AGENTS:
     SUPPORT_LIST: [ "repeaterAgent.yaml", "openaiAPI.yaml", "difyAgent.yaml", "fastgptAgent.yaml" ]
     DEFAULT: "repeaterAgent.yaml"
