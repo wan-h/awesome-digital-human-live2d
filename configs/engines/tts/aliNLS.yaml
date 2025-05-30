@@ -1,0 +1,10 @@
+NAME: "AliNLSTTS" # Name of the engine, will be used for registration
+URL: "wss://nls-gateway-cn-shanghai.aliyuncs.com/ws/v1" # Default NLS Gateway URL, can change to other region
+TOKEN: "YOUR_TOKEN"   # Replace with your actual Token (consider security implications and if it needs dynamic fetching), get token from https://help.aliyun.com/zh/isi/getting-started/obtain-an-access-token-1/
+APPKEY: "YOUR_APPKEY"  # get app key: https://nls-portal.console.aliyun.com/applist
+VOICE: "zhimi_emo"        # Default voice, many others are available e.g. siqi, xiaoyao for emotions
+FORMAT: "wav"         # Output audio format (mp3, wav). NLS SDK default is pcm, we change to `wav`.
+SAMPLE_RATE: 16000    # Audio sample rate. NLS SDK default is 16000 for pcm.
+# Add other parameters as needed, e.g. speech_rate, pitch_rate, volume
+# For emotions, the SSML will carry the tags, but specific voices might be better.
+# Example SSML: <speak><emotion category="happy" intensity="1.0">今天天气真好</emotion></speak>
