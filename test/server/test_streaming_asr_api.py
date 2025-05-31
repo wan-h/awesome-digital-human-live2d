@@ -1,6 +1,7 @@
 import asyncio
-import pytest
 import struct
+
+import pytest
 from httpx_ws import aconnect_ws
 
 STREAM_API_PREFIX = "/adh/streaming_asr"
@@ -9,62 +10,82 @@ STREAM_API_PREFIX = "/adh/streaming_asr"
 ACTION_HEADER_SIZE = 18
 DEFAULT_AUDIO_CHUNK_SIZE = 15360
 MAX_PAYLOAD_SIZE = DEFAULT_AUDIO_CHUNK_SIZE * 2
-PROTOCOL_HEADER_FORMAT = '>18sI'  # 大端序: 18字节action + 4字节无符号整数payload_size
+PROTOCOL_HEADER_FORMAT = ">18sI"  # 大端序: 18字节action + 4字节无符号整数payload_size
 PROTOCOL_HEADER_SIZE = struct.calcsize(PROTOCOL_HEADER_FORMAT)  # 22字节
+
 
 def _format_action(action_name: str) -> bytes:
     """格式化action名称为18字节，右侧用空格填充"""
     if len(action_name) > ACTION_HEADER_SIZE:
-        raise ValueError(f"Action name '{action_name}' exceeds {ACTION_HEADER_SIZE} bytes")
-    return action_name.ljust(ACTION_HEADER_SIZE).encode('utf-8')
+        raise ValueError(
+            f"Action name '{action_name}' exceeds {ACTION_HEADER_SIZE} bytes"
+        )
+    return action_name.ljust(ACTION_HEADER_SIZE).encode("utf-8")
+
 
 class ActionType:
     # 客户端请求类型
-    START_STREAM = _format_action('START_STREAM')
-    AUDIO_CHUNK = _format_action('AUDIO_CHUNK')
-    FINAL_CHUNK = _format_action('FINAL_CHUNK')
-    END_STREAM = _format_action('END_STREAM')
-    PING = _format_action('PING')
-    
+    START_STREAM = _format_action("START_STREAM")
+    AUDIO_CHUNK = _format_action("AUDIO_CHUNK")
+    FINAL_CHUNK = _format_action("FINAL_CHUNK")
+    END_STREAM = _format_action("END_STREAM")
+    PING = _format_action("PING")
+
     # 服务端响应类型
-    CONNECTION_ACK = _format_action('CONNECTION_ACK')
-    ENGINE_READY = _format_action('ENGINE_READY')
-    STREAM_STARTED = _format_action('STREAM_STARTED')
-    PARTIAL_TRANSCRIPT = _format_action('PARTIAL_TRANSCRIPT')
-    FINAL_TRANSCRIPT = _format_action('FINAL_TRANSCRIPT')
-    STREAM_ENDED = _format_action('STREAM_ENDED')
-    ERROR = _format_action('ERROR')
-    PONG = _format_action('PONG')
+    CONNECTION_ACK = _format_action("CONNECTION_ACK")
+    ENGINE_READY = _format_action("ENGINE_READY")
+    STREAM_STARTED = _format_action("STREAM_STARTED")
+    PARTIAL_TRANSCRIPT = _format_action("PARTIAL_TRANSCRIPT")
+    FINAL_TRANSCRIPT = _format_action("FINAL_TRANSCRIPT")
+    STREAM_ENDED = _format_action("STREAM_ENDED")
+    ERROR = _format_action("ERROR")
+    PONG = _format_action("PONG")
+
 
 def parse_binary_message(data: bytes) -> tuple[bytes, bytes]:
     """解析二进制消息，返回(action, payload)"""
     if len(data) < PROTOCOL_HEADER_SIZE:
-        raise ValueError(f"Message too short: {len(data)} bytes, expected at least {PROTOCOL_HEADER_SIZE}")
-    
-    action, payload_size = struct.unpack(PROTOCOL_HEADER_FORMAT, data[:PROTOCOL_HEADER_SIZE])
+        raise ValueError(
+            f"Message too short: {len(data)} bytes, expected at least {PROTOCOL_HEADER_SIZE}"
+        )
+
+    action, payload_size = struct.unpack(
+        PROTOCOL_HEADER_FORMAT, data[:PROTOCOL_HEADER_SIZE]
+    )
     expected_total_size = PROTOCOL_HEADER_SIZE + payload_size
     if len(data) != expected_total_size:
-        raise ValueError(f"Message size mismatch: got {len(data)} bytes, expected {expected_total_size}")
-    
-    payload = data[PROTOCOL_HEADER_SIZE:PROTOCOL_HEADER_SIZE + payload_size] if payload_size > 0 else b''
+        raise ValueError(
+            f"Message size mismatch: got {len(data)} bytes, expected {expected_total_size}"
+        )
+
+    payload = (
+        data[PROTOCOL_HEADER_SIZE : PROTOCOL_HEADER_SIZE + payload_size]
+        if payload_size > 0
+        else b""
+    )
     return action, payload
 
-def create_binary_message(action: bytes, payload: bytes = b'') -> bytes:
+
+def create_binary_message(action: bytes, payload: bytes = b"") -> bytes:
     """创建二进制消息"""
     if len(action) != ACTION_HEADER_SIZE:
-        raise ValueError(f"Action must be exactly {ACTION_HEADER_SIZE} bytes, got {len(action)}")
-    
+        raise ValueError(
+            f"Action must be exactly {ACTION_HEADER_SIZE} bytes, got {len(action)}"
+        )
+
     payload_size = len(payload)
     header = struct.pack(PROTOCOL_HEADER_FORMAT, action, payload_size)
     return header + payload
 
+
 def encode_text_payload(text: str) -> bytes:
     """将文本编码为UTF-8字节"""
-    return text.encode('utf-8')
+    return text.encode("utf-8")
+
 
 def decode_text_payload(payload: bytes) -> str:
     """将字节解码为UTF-8文本"""
-    return payload.decode('utf-8') if payload else ''
+    return payload.decode("utf-8") if payload else ""
 
 
 @pytest.mark.asyncio
@@ -78,7 +99,9 @@ async def test_websocket_normal_flow(client, wavAudioZh):
     - 结束语音流并接收最终识别结果
     """
 
-    async with aconnect_ws(f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/ws/asr/v0/stream") as websocket:
+    async with aconnect_ws(
+        f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/ws/asr/v0/stream"
+    ) as websocket:
         # Step 1: 接收 CONNECTION_ACK
         data = await websocket.receive_bytes()
         action, payload = parse_binary_message(data)
@@ -100,7 +123,7 @@ async def test_websocket_normal_flow(client, wavAudioZh):
         action, payload = parse_binary_message(data)
         assert action == ActionType.STREAM_STARTED
         print("Stream started:", decode_text_payload(payload))
-        
+
         # 读取音频文件
         with open(wavAudioZh, "rb") as f:
             # 跳过WAV文件头（通常是44字节）
@@ -113,17 +136,17 @@ async def test_websocket_normal_flow(client, wavAudioZh):
         # 分块处理音频
         for i in range(0, len(audio_data), chunk_size_bytes):
             # Step 5: 发送音频数据块
-            chunk = audio_data[i:i + chunk_size_bytes]
+            chunk = audio_data[i : i + chunk_size_bytes]
             if not chunk:
                 break
 
             # 判断是否为最后一个块
-            is_final = (i + chunk_size_bytes >= len(audio_data))
+            is_final = i + chunk_size_bytes >= len(audio_data)
 
             # 发送普通音频块
             audio_message = create_binary_message(ActionType.AUDIO_CHUNK, chunk)
             await websocket.send_bytes(audio_message)
-            
+
             # 尝试接收部分转录结果
             try:
                 response = await asyncio.wait_for(websocket.receive_bytes(), 2)
@@ -134,7 +157,7 @@ async def test_websocket_normal_flow(client, wavAudioZh):
                 elif action == ActionType.ERROR:
                     error_msg = decode_text_payload(payload)
                     print(f"Error received: {error_msg}")
-            except Exception as e:
+            except Exception:
                 print(f"No response for chunk {i} (this is acceptable)")
             if is_final:
                 final_message = create_binary_message(ActionType.FINAL_CHUNK, chunk)
@@ -157,17 +180,20 @@ async def test_websocket_normal_flow(client, wavAudioZh):
         assert action == ActionType.STREAM_ENDED
         print("Stream ended:", decode_text_payload(payload))
 
+
 @pytest.mark.asyncio
 async def test_websocket_ping_pong(client):
     """
     测试 PING/PONG 心跳机制（使用新的二进制协议）
     """
-    async with aconnect_ws(f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/ws/asr/v0/stream") as websocket:
+    async with aconnect_ws(
+        f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/ws/asr/v0/stream"
+    ) as websocket:
         # 接收 CONNECTION_ACK 和 ENGINE_READY
         data = await websocket.receive_bytes()
         action, payload = parse_binary_message(data)
         assert action == ActionType.CONNECTION_ACK
-        
+
         data = await websocket.receive_bytes()
         action, payload = parse_binary_message(data)
         assert action == ActionType.ENGINE_READY

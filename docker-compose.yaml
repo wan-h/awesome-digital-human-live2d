@@ -24,5 +24,3 @@ services:
       - "8000:8000"
     volumes:
       - ./configs:/workspace/configs
-#      - .:/workspace
-#      - ~/.cache/modelscope:/root/.cache/modelscope
