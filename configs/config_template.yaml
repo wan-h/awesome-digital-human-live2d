@@ -13,7 +13,7 @@ SERVER:
       SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]
       DEFAULT: "openaiAPI.yaml"
     TTS: 
-      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml", "difyAPI.yaml", "aliNLS.yaml" ]
+      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml", "difyAPI.yaml" ]
       DEFAULT: "edgeAPI.yaml"
   AGENTS: 
     SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml", "fastgptAgent.yaml", "openaiAgent.yaml" ]

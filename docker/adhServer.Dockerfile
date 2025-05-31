@@ -17,7 +17,7 @@ RUN rm /var/lib/apt/lists/* -vf
 
 # apt安装依赖库
 RUN apt update \
-  && apt-get install -y git g++ vim python3-pip ffmpeg flac\
+  && apt-get install -y git g++ vim python3-pip ffmpeg\
   && rm -rf /var/lib/apt/lists/*
 
 # pip设置修改

@@ -7,7 +7,6 @@
 from .baiduTTS import BaiduAPI
 from .edgeTTS import EdgeAPI
 from .difyTTS import DifyAPI
-from .aliNLSTTS import AliNLSTTS
 from .ttsFactory import TTSFactory
 
 __all__ = ['TTSFactory']
