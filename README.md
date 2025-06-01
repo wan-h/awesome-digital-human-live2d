@@ -13,6 +13,7 @@ https://github.com/user-attachments/assets/0650c443-d19b-4d5e-a409-5eed9a9ea9f7
 * 超轻量级，配置要求低于2核2G
 * 支持 Dify/FastGPT 等编排框架服务接入
 * 支持 ASR、LLM、TTS、Agent 模块化扩展
+* **🆕 支持流式ASR实时语音识别**
 * 支持 Live2d 人物模型扩展和控制方式
 * 支持PC端和移动端web访问  
 PC端页面预览：  
@@ -24,6 +25,9 @@ PC端页面预览：
 大模型的厂商众多、各种工具繁多、要打造自己的数字人需要一定的代码能力和时间投入。
 基于Dify等框架健全的应用模版和编排框架，让一切变得更加简单。  
 ![](./assets/arch.png)
+
+### 流式ASR架构
+新增的流式ASR功能采用WebSocket协议实现实时语音识别，支持音频流的实时传输和处理。详细的架构图和时序图请参考[流式ASR协议文档](./docs/streaming_asr_protocol.md)。
 
 ## 模式支持
 > **交互模式**  
@@ -55,10 +59,24 @@ PC端页面预览：
   * 前端支持三种交互模式：聊天模式、数字人模式、沉浸模式
   * 前端支持人物模型和背景切换以及个人定制扩展
   * Agent支持：difyAgent（ASR、TTS均可接入Dify）、FastGPTAgent、OpenaiAgent
+> ### v2.1.0 (当前开发版本)
+**流式ASR架构升级，实现实时语音交互**
+* **🆕 流式ASR功能**
+  * 基于FunASR的实时语音识别引擎
+  * WebSocket协议支持音频流传输
+  * 支持部分识别结果和最终识别结果
+  * 自定义二进制协议，优化传输效率
+  * 完整的连接状态管理和错误处理
+* **技术架构优化**
+  * 异步流式处理架构
+  * 模块化ASR引擎设计
+  * 完善的测试工具和文档
 
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
 [开发说明](./docs/developer_instrction.md)  
+[流式ASR使用指南](./docs/streaming_asr_usage.md)  
+[流式ASR协议文档](./docs/streaming_asr_protocol.md)  
 [常见问题](./docs/Q&A.md)  
 
 [B站视频教程-部署](https://www.bilibili.com/video/BV1szePeaEak/)  

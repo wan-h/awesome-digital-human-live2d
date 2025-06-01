@@ -4,7 +4,7 @@ const SERVER_PROTOCOL = process.env.NEXT_PUBLIC_ADH_SERVER_PROTOCOL || "http";
 const SERVER_PORT = process.env.NEXT_PUBLIC_ADH_SERVER_PORT || "8000";
 const VERSION = process.env.NEXT_PUBLIC_ADH_SERVER_VERSION || "v0";
 
-function getURL(): string {
+export function getURL(): string {
   const SERVER_IP =
     process.env.NEXT_PUBLIC_ADH_SERVER_IP || globalThis.location?.hostname;
   const URL = SERVER_PROTOCOL + "://" + SERVER_IP + ":" + SERVER_PORT;

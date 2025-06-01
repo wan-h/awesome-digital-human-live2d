@@ -16,7 +16,7 @@ services:
   adh_server:
     build:
       context: .
-      dockerfile: docker/adhServer.Dockerfile
+      dockerfile: docker/adhServer.311.Dockerfile
     image: "adh-server:v2.0.0"
     restart: always
     # network_mode: host
