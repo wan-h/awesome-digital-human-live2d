@@ -12,7 +12,7 @@
 ---  
 
 ## 演示
-https://github.com/user-attachments/assets/0650c443-d19b-4d5e-a409-5eed9a9ea9f7
+https://github.com/user-attachments/assets/6596fdb6-d9a1-4936-8c3d-312c683690b6
 
 ## 主要特性
 * 支持 Docker 快速部署
