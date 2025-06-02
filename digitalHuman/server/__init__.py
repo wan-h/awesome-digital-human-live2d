@@ -4,4 +4,4 @@
 @Author  :   一力辉 
 '''
 
-from .api import app
+from .router import app

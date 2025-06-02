@@ -1,0 +1,91 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "Mao.moc3",
+		"Textures": [
+			"Mao.2048/texture_00.png"
+		],
+		"Physics": "Mao.physics3.json",
+		"Pose": "Mao.pose3.json",
+		"DisplayInfo": "Mao.cdi3.json",
+		"Expressions": [
+			{
+				"Name": "sad",
+				"File": "expressions/伤心.exp3.json"
+			},
+			{
+				"Name": "embarrass",
+				"File": "expressions/尴尬.exp3.json"
+			},
+			{
+				"Name": "happy",
+				"File": "expressions/开心.exp3.json"
+			},
+			{
+				"Name": "smile",
+				"File": "expressions/微笑.exp3.json"
+			},
+			{
+				"Name": "scare",
+				"File": "expressions/惊吓.exp3.json"
+			},
+			{
+				"Name": "surprised",
+				"File": "expressions/惊喜.exp3.json"
+			},
+			{
+				"Name": "angry",
+				"File": "expressions/生气.exp3.json"
+			},
+			{
+				"Name": "blushing",
+				"File": "expressions/脸红.exp3.json"
+			}
+		],
+		"Motions": {
+			"Idle": [
+				{
+					"File": "motions/微笑-看着你.motion3.json"
+				}
+			],
+			"TapBody": [
+				{
+					"File": "motions/画画成功-爱心.motion3.json"
+				},
+				{
+					"File": "motions/画画失败-爱心.motion3.json"
+				},
+				{
+					"File": "motions/微笑-挥动双手.motion3.json"
+				}
+			]
+		}
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": [
+				"ParamEyeLOpen",
+				"ParamEyeROpen"
+			]
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": [
+				"ParamMouthOpenY"
+			]
+		}
+	],
+	"HitAreas": [
+		{
+			"Id": "HitAreaHead",
+			"Name": "Head"
+		},
+		{
+			"Id": "HitAreaBody",
+			"Name": "Body"
+		}
+	]
+}

@@ -1,26 +1,15 @@
-"use client"
+'use client'
 
-import { useEffect } from "react";
-import Live2d from "./ui/home/live2d";
-import Chatbot from "./ui/home/chatbot";
-import { InteractionMode, useInteractionModeStore, useAgentModeStore, useAgentEngineSettingsStore } from "./lib/store";
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
-export default function Home() {
-  const interactionMode = useInteractionModeStore((state) => state.mode)
-  const { fetchDefaultAgent } = useAgentModeStore();
-  const { fetchAgentSettings } = useAgentEngineSettingsStore();
-  const showCharacter = interactionMode != InteractionMode.CHATBOT;
-  const showChatbot = interactionMode != InteractionMode.IMMERSIVE;
-
+// 直接跳转页面
+export default function Page()
+{
+  const router = useRouter();
   useEffect(() => {
-    fetchDefaultAgent();
-    fetchAgentSettings();
-  }, [fetchDefaultAgent, fetchAgentSettings])
+    router.push('/sentio');    
+  })
 
-  return (
-      <div className="flex-1 overflow-auto">
-        { showCharacter ? <Live2d/> : <></>}
-        { showChatbot ? <Chatbot showChatHistory={true}/> : <></>}
-      </div>
-  );
+  return;
 }

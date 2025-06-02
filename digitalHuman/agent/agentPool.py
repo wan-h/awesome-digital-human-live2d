@@ -5,7 +5,7 @@
 '''
 
 from threading import RLock
-from typing import Optional, List
+from typing import List
 from yacs.config import CfgNode as CN
 from digitalHuman.utils import logger
 from .agentBase import BaseAgent
@@ -39,10 +39,9 @@ class AgentPool():
             logger.info(f"[AgentPool] AGENT Engine {cfg.NAME} is created.")
         logger.info(f"[AgentPool] AGENT Engine default is {config.DEFAULT}.")
             
-    def get(self, name: str) -> Optional[BaseAgent]:
+    def get(self, name: str) -> BaseAgent:
         if name not in self._pool:
-            logger.error(f"[AgentPool] No such agent: {name}")
-            return None
+            raise KeyError(f"[AgentPool] No such engine: {name}") 
         return self._pool[name]
 
     def list(self) -> List[str]:

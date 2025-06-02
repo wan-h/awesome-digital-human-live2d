@@ -1,2 +1,9 @@
-NAME: "RepeaterAgent"
+NAME: "Repeater"
 VERSION: "v0.0.1"
+DESC: "复读机"
+META: {
+  official: "",
+  configuration: "",
+  tips: "测试使用",
+  fee: ""
+}

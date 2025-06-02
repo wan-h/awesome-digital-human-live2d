@@ -4,4 +4,5 @@
 @Author  :   一力辉 
 '''
 
-from .enginePool import EnginePool, EngineType
+from .enginePool import EnginePool
+from .engineBase import BaseEngine, BaseTTSEngine

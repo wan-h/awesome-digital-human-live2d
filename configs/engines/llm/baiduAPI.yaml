@@ -1,7 +1,0 @@
-NAME: "BaiduAPI"
-VERSION: "v0.0.1"
-TOKEN_URL: "https://aip.baidubce.com/oauth/2.0/token"
-LLM_URL: "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/"
-MODEL: "ernie_speed"
-AK: "xxx"
-SK: "xxx"

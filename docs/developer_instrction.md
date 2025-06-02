@@ -7,57 +7,45 @@
 .
 ├── config.yaml                  # 全局配置文件
 ├── agents                       # agent 配置文件目录
-│   ├── difyAgent.yaml           # dify模式配置
-│   └── repeaterAgent.yaml       # 复读机模式配置
 └── engines                      # 引擎配置文件目录
     ├── asr                      # 语音识别引擎配置文件目录
-    │   ├── baiduAPI.yaml        # baidu 语音识别配置
-    │   └── googleAPI.yaml       # google 语音识别配置
     ├── llm                      # 大模型引擎配置文件目录
-    │   ├── baiduAPI.yaml        # baidu 大模型配置
-    │   └── openaiAPI.yaml       # openai 大模型配置
     └── tts                      # 文字转语音引擎配置目录
-        ├── baiduAPI.yaml        # baidu 文字转语音配置
-        └── edgeAPI.yaml         # edge 文字转语音配置
 ```
 [全局配置](configs/config.yaml)文件中的内容如下:  
 ```yaml
-COMMON:                                                      # 通用配置项
-  NAME: "Awesome-Digital-Human"                              # 名字
-  VERSION: "v0.0.1"                                          # 版本
-  LOG_LEVEL: "DEBUG"                                         # 日志等级
-SERVER:                                                      # 服务配置项
-  IP: "0.0.0.0"                                              # 服务启动IP
-  PORT: 8000                                                 # 服务启动端口
-  ENGINES:                                                   # 引擎配置项
-    ASR:                                                     # 语音识别配置项
-      SUPPORT_LIST: [ "baiduAPI.yaml", "googleAPI.yaml" ]    # 支持的语音识别列表(这些配置文件应当在configs/engines/asr目录下)
-      DEFAULT: "googleAPI.yaml"                              # 默认使用的语音识别配置
-    LLM:                                                     # 大模型配置项
-      SUPPORT_LIST: [ "openaiAPI.yaml", "baiduAPI.yaml" ]    # 支持的大模型列表(这些配置文件应当在configs/engines/llm目录下)
-      DEFAULT: "baiduAPI.yaml"                               # 默认使用的大模型配置
-    TTS:                                                     # 文字转语音配置项
-      SUPPORT_LIST: [ "edgeAPI.yaml", "baiduAPI.yaml" ]      # 支持的文字转语音列表(这些配置文件应当在configs/engines/tts目录下)
-      DEFAULT: "edgeAPI.yaml"                                # 默认使用的文字转语音配置
-  AGENTS:                                                    # Agent 配置项目
-    SUPPORT_LIST: [ "repeaterAgent.yaml", "difyAgent.yaml" ] # 支持的Agent列表(这些配置文件应当在configs/agents目录下)
-    DEFAULT: "repeaterAgent.yaml"                            # 默认使用的Agent配置
+COMMON:                                 # 通用配置项
+  NAME: "Awesome-Digital-Human"         # 名字
+  VERSION: "v3.0.0"                     # 版本
+  LOG_LEVEL: "DEBUG"                    # 日志等级
+SERVER:                                 # 服务配置项
+  IP: "0.0.0.0"                         # 服务启动IP
+  PORT: 8000                            # 服务启动端口
+  ENGINES:                              # 引擎配置项
+    ASR:                                # 语音识别配置项
+      SUPPORT_LIST: [ "xxx.yaml" ]      # 支持的语音识别列表(这些配置文件应当在configs/engines/asr目录下)
+      DEFAULT: "xxx.yaml"               # 默认使用的语音识别配置
+    LLM:                                # 大模型配置项(不需要配置, 预留模块)
+      SUPPORT_LIST: [ "" ]              # 支持的大模型列表(这些配置文件应当在configs/engines/llm目录下)
+      DEFAULT: ""                       # 默认使用的大模型配置
+    TTS:                                # 文字转语音配置项
+      SUPPORT_LIST: [ "xxx.yaml" ]      # 支持的文字转语音列表(这些配置文件应当在configs/engines/tts目录下)
+      DEFAULT: "xxx.yaml"               # 默认使用的文字转语音配置
+  AGENTS:                               # Agent 配置项目
+    SUPPORT_LIST: [ "xxx.yaml" ]        # 支持的Agent列表(这些配置文件应当在configs/agents目录下)
+    DEFAULT: "xxx.yaml"                 # 默认使用的Agent配置
 ```
 
 ### 定制化开发
 #### 人物模型
-（需要live2d支持的模型）  
+* 需要live2d支持的模型👉[社区设计师定制](https://light4ai.feishu.cn/share/base/form/shrcnb0d1Au4dvMaswHNGDbUNTR)  
 * 人物模型控制使用 [live2d web SDK](https://www.live2d.com/en/sdk/about/)  
-* 人物模型均来自 [live2d官方免费素材](https://www.live2d.com/zh-CHS/learn/sample/)  
-* 人物模型添加流程  
-（已经上传的人物模型中已经支持了很多的表情和动作，有能力的同学可以自己探索玩儿一下）
-![](../assets/character-extend-v2.0.0-1.png)
-![](../assets/character-extend-v2.0.0-2.png)
-* 唇形同步  
-如果想增加或则减小嘴唇根据语音的闭合程度，修改 LipSyncWeight 权重值
-![](../assets/character-lip-ctr.png)
+* 项目开源人物模型均来自 [live2d官方免费素材](https://www.live2d.com/zh-CHS/learn/sample/)   
+
+添加人物模型到`awesome-digital-human-live2d/web/public/sentio/characters`目录下并在`awesome-digital-human-live2d/web/lib/constants.ts`中修改字段`SENTIO_CHARACTER_IP_MODELS`或`SENTIO_CHARACTER_FREE_MODELS`添加人物模型名称即可  
+人物模型规则参考[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)中的画廊自定义人物部分
 #### 背景图片
-添加图片到`awesome-digital-human-live2d/web/public/backgrounds`目录下并在`awesome-digital-human-live2d/web/app/lib/live2d/lappdefine.ts`中修改字段`BackImages`添加图片名称即可
+添加图片到`awesome-digital-human-live2d/web/public/sentio/backgrounds`目录下并在`awesome-digital-human-live2d/web/lib/constants.ts`中修改字段`SENTIO_BACKGROUND_STATIC_IMAGES`或`SENTIO_BACKGROUND_DYNAMIC_IMAGES`添加图片名称即可
 #### 后端模块扩展
 （后端引擎均通过注册的方式，asr、llm、tts、agent方式相同）
 ##### 常规引擎  

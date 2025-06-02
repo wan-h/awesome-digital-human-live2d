@@ -1,13 +1,36 @@
-NAME: "FastgptAgent"
+NAME: "FastGPT"
 VERSION: "v0.0.1"
+DESC: "接入FastGPT应用"
+META: {
+  official: "https://fastgpt.cn",
+  configuration: "FastGPT云服务: https://cloud.fastgpt.cn",
+  tips: "",
+  fee: ""
+}
 # 暴露给前端的参数选项以及默认值
 PARAMETERS: [
   {
-    NAME: "FASTGPT_API_URL",
-    DEFAULT: ""
+    name: "base_url",
+    description: "FastGPT base url.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
   },
   {
-    NAME: "FASTGPT_API_KEY",
-    DEFAULT: ""
+    name: "api_key",
+    description: "FastGPT API Key.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "uid",
+    description: "FastGPT customUid.",
+    type: "string",
+    required: false,
+    choices: [],
+    default: "adh"
   }
 ]

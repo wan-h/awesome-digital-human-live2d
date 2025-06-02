@@ -9,9 +9,10 @@ import logging
 import warnings
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
-from digitalHuman.utils.env import LOG_PATH
-from digitalHuman.utils import config
+from .env import LOG_PATH
+from .configParser import config
 
+__all__ = ["logger"]
 
 LOGGER_FOLDER = os.path.join(LOG_PATH, datetime.now().strftime("%Y%m%d%H%M%S"))
 LOGGER_MAX_BYTES = 1024 * 1024 * 100
@@ -59,7 +60,7 @@ def getLogger(loggerName: str):
         fileHandler.setLevel(logging.ERROR)
         streamHander.setLevel(logging.ERROR)
     else:
-        warnings.warn(f"Unknown logging level: {config.LOGGER.LOG_LEVEL}, set logging level to DEBUG!")
+        warnings.warn(f"Unknown logging level: {config.COMMON.LOG_LEVEL}, set logging level to DEBUG!")
         fileHandler.setLevel(logging.DEBUG)
         streamHander.setLevel(logging.DEBUG)
 

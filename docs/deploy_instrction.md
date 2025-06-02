@@ -2,25 +2,10 @@
 
 推荐使用容器部署，本地开发使用裸机开发部署  
 
-Tips: windows容器部署请参考[常见问题](./Q&A.md)中的问题3先做配置文件修改！！！  
-
 ### 系统要求
 请确保您的机器满足以下最低系统要求：  
 * CPU >= 2 Core
 * RAM >= 2GB
-
-### 如何 All in Dify
-All in Dify 将数字人的三大基础组件（asr、tts、agent）均接入 Dify，要求 Dify构建的应用需要开启**文字转语音**以及**语音转文字**功能  
-启动是唯一不同的区别就是使用 Dify 的配置文件启动服务，`config_all_in_dify.yaml`配置文件默认使用 DifyASR、DifyTTS、DifyAgent，不需要 All in Dify 的可以忽略以下内容  
-```bash
-# 下载源码
-git clone https://github.com/wan-h/awesome-digital-human-live2d.git
-# 使用 all in dify 配置文件，默认使用 config_template.yaml 配置文件
-cd configs
-cp config_all_in_dify.yaml config.yaml
-```  
-详细部署教程可以参考[B站视频教程-All-in-Dify部署](https://www.bilibili.com/video/BV1kZWvesE25/)  
-后续部署按照下面的流程即可
 
 ### 裸机开发部署 - Ubuntu示例
 > 基础环境
@@ -47,11 +32,11 @@ cd web
 # 使用高性能的npm
 npm install -g pnpm
 # 安装依赖
-npm install
+pnpm install
 # 编译发布版本
-npm run build
+pnpm run build
 # 启动
-npm run start
+pnpm run start
 ```
 
 ### 容器部署（体验首选，推荐）
@@ -66,7 +51,6 @@ docker-compose -f docker-compose-quickStart.yaml up -d
 ```
 
 ### 容器部署（容器开发首选）
-重新本地构建容器(删除之前构建好的镜像，如果没有镜像代理可能拉不下来基础镜像)
 > 基础环境
 * 安装[docker-compose](https://docs.docker.com/compose/install/)
 > 运行
@@ -77,36 +61,13 @@ docker-compose up --build -d
 ```
 
 ### 访问页面
-本地浏览器访问路径: http://localhost:3000  
-非本地浏览器访问路径: http://{部署服务器IP}:3000
+本地浏览器访问路径:   
+* http://localhost:8880 
+非本地浏览器访问路径:   
+* http://{部署服务器IP}:8880
 
-### 接入Dify
-#### 1. 部署dify
-有两种方式可以接入dify服务，一种是使用dify的云服务，一种是自己私有化部署dify：  
-* [dify云服务地址](https://cloud.dify.ai/)  
-* 私有化部署推荐参考[Docker Compose部署指南](https://docs.dify.ai/v/zh-hans/getting-started/install-self-hosted/docker-compose)
-#### 2. 构建属于自己的dify应用
-关于dify的使用说明参考[dify官方文档](https://docs.dify.ai/v/zh-hans)
-#### 3. 获取dify API & 密钥
-构建完成自己的应用后，点击 **发布**、**运行**，然后点击 **访问API** 获取API地址和密钥  
-![](../assets/difyAPI.png)  
-在 **访问API** 页面，右上角分别可以获取API地址和创建API密钥
-![](../assets/difyKey.png)
-#### 4. 配置dify API & 密钥
-数字人页面上点击 **Settings、服务、DifyAgent**，将获取到的API地址和密钥分别填入 **dify_url、dify_key** 即可
-![](../assets/difySetting.png)  
-如果想修改默认值，直接修改`awesome-digital-human-live2d/configs/agents/difyAgent.yaml`中的`DEFAULT`字段，前端会按照默认值自动填充
+### 设置
+参考[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)中的设置部分
 
 ### 其他说明
-#### 前端环境变量
-`web/.env`中有四个字段可配置为前端服务（修改后删除镜像重新构建前端容器生效）：
-* `NEXT_PUBLIC_ADH_SERVER_IP`：后端服务地址，默认为浏览器的hostname
-* `NEXT_PUBLIC_ADH_SERVER_PORT`：后端服务端口，默认为8000
-* `NEXT_PUBLIC_ADH_SERVER_VERSION`：API版本，默认为`v0`
-
-#### 暴露端口
-* 前端端口：`awesome-digital-human-live2d/web/package.json`中的启动脚本中`"start": "next start -p 3000"`，其中`-p`指定了启动端口
-* 后端端口：配置文件`awesome-digital-human-live2d/configs/config.yaml`(这里修改你具体使用的配置文件)中`PORT`字段指定了启动端口
-
-#### 快捷按键
-* `Ctr + M`：开启关闭语音（ASR默认使用google的遗弃免费接口，不好使的话就换成其他的）
+* 若需要修改端口则需要修改docker-compose文件中nginx的映射端口以及web中[.env](../web/.env)的启动端口`NEXT_PUBLIC_SERVER_PORT` 

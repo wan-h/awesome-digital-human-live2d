@@ -1,0 +1,51 @@
+NAME: "Tencent-API"
+VERSION: "v0.0.1"
+DESC: "接入腾讯服务"
+META: {
+  official: "",
+  configuration: "https://console.cloud.tencent.com/tts",
+  tips: "",
+  fee: ""
+}
+PARAMETERS: [
+  {
+    name: "secret_id",
+    description: "tencent secret_id.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "secret_key",
+    description: "tencent secret_key.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "voice",
+    description: "Voice for TTS.",
+    type: "string",
+    required: false,
+    choices: [],
+    default: "爱小璟"
+  },
+  {
+    name: "volume",
+    description: "Set volume, default +0%.",
+    type: "float",
+    required: false,
+    range: [-10, 10],
+    default: 0.0
+  },
+  {
+    name: "speed",
+    description: "Set speed, default +0%.",
+    type: "float",
+    required: false,
+    range: [-2, 6],
+    default: 0.0
+  }
+]

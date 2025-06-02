@@ -4,40 +4,32 @@
 @Author  :   一力辉 
 '''
 
-from typing import List, Optional, Union
-from yacs.config import CfgNode as CN
-from abc import ABCMeta, abstractmethod
-from digitalHuman.utils import BaseMessage
+from typing import List
+from abc import abstractmethod
+from digitalHuman.core import BaseRunner
+from digitalHuman.protocol import BaseMessage, TextMessage, AudioMessage, VoiceDesc
 
 __all__ = ["BaseEngine"]
 
-class BaseEngine(metaclass=ABCMeta):
-    def __init__(self, config: CN):
-        self.cfg = config
-        for key in self.checkKeys():
-            if key not in self.cfg:
-                raise KeyError(f"[{self.__class__.__name__}] {key} is not in config")
-        self.setup()
-    
-    def __del__(self):
-        self.release()
-    
-    @property
-    def name(self) -> str:
-        return self.cfg.NAME
-    
-    def parameters(self) -> List[str]:
-        return self.cfg.PARAMETERS if "PARAMETERS" in self.cfg else []
-    
-    def setup(self):
-        pass
+class BaseEngine(BaseRunner):
+    @abstractmethod
+    async def run(self, input: BaseMessage, **kwargs) -> BaseMessage:
+        raise NotImplementedError
 
-    def release(self):
-        pass
+class BaseLLMEngine(BaseEngine):
+    @abstractmethod
+    async def run(self, input, streaming: bool = True, **kwargs):
+        raise NotImplementedError
 
-    def checkKeys(self) -> List[str]:
+class BaseASREngine(BaseEngine):
+    @abstractmethod
+    async def run(self, input: AudioMessage, **kwargs) -> TextMessage:
+        raise NotImplementedError
+
+class BaseTTSEngine(BaseEngine):
+    async def voices(self) -> List[VoiceDesc]:
         return []
 
     @abstractmethod
-    async def run(self, input: Union[BaseMessage, List[BaseMessage]], **kwargs) -> Optional[BaseMessage]:
-        pass
+    async def run(self, input: TextMessage, **kwargs) -> AudioMessage:
+        raise NotImplementedError

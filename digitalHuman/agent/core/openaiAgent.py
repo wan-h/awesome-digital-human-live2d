@@ -6,81 +6,62 @@
 
 from ..builder import AGENTS
 from ..agentBase import BaseAgent
-import re
-import json
-from typing import List, Union
-from digitalHuman.utils import httpxAsyncClient
-from digitalHuman.utils import logger
-from digitalHuman.utils import AudioMessage, TextMessage
+from digitalHuman.protocol import *
+from digitalHuman.utils import logger, resonableStreamingParser
+from digitalHuman.core import OpenaiLLM
 
-__all__ = ["OpenaiAgent"]
+__all__ = ["OpenaiApiAgent"]
 
-CHAT_ROUTE = "/chat/completions"
-
-@AGENTS.register("OpenaiAgent")
-class OpenaiAgent(BaseAgent):
+@AGENTS.register("OpenAI")
+class OpenaiApiAgent(BaseAgent):
     async def run(
         self, 
-        input: Union[TextMessage, AudioMessage], 
-        streaming: bool,
+        user: UserDesc,
+        input: TextMessage, 
+        streaming: bool = True,
+        conversation_id: str = "",
         **kwargs
     ):
         try:
-            if isinstance(input, AudioMessage):
-                raise RuntimeError("DifyAgent does not support AudioMessage input yet")
+            if not isinstance(input, TextMessage):
+                raise RuntimeError("OpenAI Agent only support TextMessage")
             # 参数校验
-            for paramter in self.parameters():
-                if paramter['NAME'] not in kwargs:
-                    raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
-            API_URL = kwargs["OPENAI_BASE_URL"]
-            API_KEY = kwargs["OPENAI_API_KEY"]
-            API_MODEL = kwargs["OPENAI_API_MODEL"]
+            paramters = self.checkParameter(**kwargs)
+            API_URL = paramters["base_url"]
+            API_KEY = paramters["api_key"]
+            API_MODEL = paramters["model"]
 
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {API_KEY}'
-            }
+            coversaiotnIdRequire = False if conversation_id else True
+            if coversaiotnIdRequire:
+                conversation_id = await self.createConversation()
+                yield eventStreamConversationId(conversation_id)
 
-            payload = {
-                "model": API_MODEL,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": input.data
-                    }
-                ],
-                "stream": streaming
-            }
-
-            pattern = re.compile(r'data:\s*({.*})')
-            if streaming:
-                async with httpxAsyncClient.stream('POST', API_URL + CHAT_ROUTE, headers=headers, json=payload) as response:
-                    if response.status_code != 200:
-                        raise RuntimeError(f"status_code: {response.status_code}")
-                    async for chunk in response.aiter_lines():
-                        chunkStr = chunk.strip()
-                        if not chunkStr: continue
-                        chunkData = pattern.search(chunkStr)
-                        if not chunkStr.endswith('}') or not chunkData:
-                            logger.warning(f"[AGENT] Engine return mismatch pattern data: {chunkStr}")
-                            continue
-                        chunkData = chunkData.group(1)
-
-                        try:
-                            data = json.loads(chunkData)
-                            # 处理流式返回字符串
-                            if "choices" in data and len(data["choices"]) > 0:
-                                if 'delta' in data["choices"][0] and 'content' in data["choices"][0]['delta']:
-                                    logger.debug(f"[AGENT] Engine response: {data}")
-                                    yield data["choices"][0]['delta']['content']
-                        except Exception as e:
-                            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-                            yield "内部错误，请检查openai信息。"
-
-            else:
-                response = await httpxAsyncClient.post(API_URL + CHAT_ROUTE, headers=headers, json=payload)
-                data = response.json()["choices"][0]["message"]["content"]
-                yield data
+            async def generator(user_id: str, conversation_id: str, query: str):
+                thinkResponses = ""
+                responses = ""
+                currentMessage = [RoleMessage(role=ROLE_TYPE.USER, content=query)]
+                messages = currentMessage
+                async for chunk in OpenaiLLM.chat(
+                    base_url=API_URL,
+                    api_key=API_KEY,
+                    model=API_MODEL,
+                    messages=messages
+                ):
+                    if not chunk: continue
+                    if len(chunk.choices) == 0: continue
+                    delta = chunk.choices[0].delta.model_dump()
+                    if 'reasoning_content' in delta and delta['reasoning_content']:
+                        reasoning_content = delta['reasoning_content']
+                        thinkResponses += reasoning_content
+                        yield (EVENT_TYPE.THINK, reasoning_content)
+                    elif 'content' in delta and delta['content']:
+                        content = delta['content']
+                        responses += content
+                        yield (EVENT_TYPE.TEXT, content)
+                currentMessage.append(RoleMessage(role=ROLE_TYPE.ASSISTANT, content=responses))
+            async for parseResult in resonableStreamingParser(generator(user.user_id, conversation_id, input.data)):
+                yield parseResult
+            yield eventStreamDone()
         except Exception as e:
-            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-            yield "openai接口请求返回错误。"
+            logger.error(f"[OpenaiApiAgent] Exception: {e}", exc_info=True)
+            yield eventStreamError(str(e))

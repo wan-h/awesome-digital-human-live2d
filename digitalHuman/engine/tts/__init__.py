@@ -4,9 +4,10 @@
 @Author  :   一力辉 
 '''
 
-from .baiduTTS import BaiduAPI
-from .edgeTTS import EdgeAPI
-from .difyTTS import DifyAPI
+from .tencentTTS import TencentApiTts
+from .edgeTTS import *
+from .difyTTS import *
 from .ttsFactory import TTSFactory
+# from .aliNLSTTS import AliNLSTTS
 
 __all__ = ['TTSFactory']

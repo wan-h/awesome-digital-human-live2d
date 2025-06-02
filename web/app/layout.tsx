@@ -1,36 +1,41 @@
-import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
-import { PROJ_NAME, PROJ_DESC } from "@/app/lib/constants";
-import { NextUIProvider } from "@nextui-org/react";
-import Header from "@/app/ui/common/header/header";
-import "./globals.css";
-// const inter = Inter({ subsets: ["latin"] });
+import clsx from 'clsx';
+import {Inter} from 'next/font/google';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages } from 'next-intl/server';
+import {Providers} from "./providers";
+import { getSrcPath } from '@/lib/path';
+import type { Metadata } from 'next';
+import "@/styles/globals.css";
+// export const dynamic = 'error'
+const inter = Inter({subsets: ['latin']});
 
 export const metadata: Metadata = {
-  title: PROJ_NAME,
-  description: PROJ_DESC,
+  title: '沐光而行',
+  icons: 'favicon.icon',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
-    <html lang="en">
+    <html lang={locale} className='dark'>
       <head>
-        {/* <script src="https://cubism.live2d.com/sdk-web/cubismcore/live2dcubismcore.min.js" /> */}
-        {/* use local */}
-        <script src="/live2d/live2dcubismcore.min.js" />
+        <script src={getSrcPath('sentio/core/live2dcubismcore.min.js')} />
       </head>
-      <body>
-        <NextUIProvider>
-          {/* <div className={`${inter.className} flex flex-col h-screen`}> */}
-          <div className="flex flex-col h-screen">
-            <Header />
-            {children}
-          </div>
-        </NextUIProvider>
+      <body className={clsx(inter.className)}>
+        <NextIntlClientProvider messages={messages}>
+          <Providers>
+            <main>
+              {children}
+            </main>
+          </Providers>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

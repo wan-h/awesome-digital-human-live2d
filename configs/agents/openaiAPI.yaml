@@ -1,0 +1,36 @@
+NAME: "OpenAI"
+VERSION: "v0.0.1"
+DESC: "接入Openai协议的服务"
+META: {
+  official: "",
+  configuration: "",
+  tips: "兼容所有符合Openai协议的API",
+  fee: ""
+}
+# 暴露给前端的参数选项以及默认值
+PARAMETERS: [
+  {
+    name: "model",
+    description: "ID of the model to use.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "base_url",
+    description: "The base url for request.",
+    type: "string",
+    required: false,
+    choices: [],
+    default: "https://api.openai.com/v1"
+  },
+  {
+    name: "api_key",
+    description: "The api key for request.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  }
+]

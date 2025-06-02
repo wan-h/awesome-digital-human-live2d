@@ -1,70 +1,49 @@
 # -*- coding: utf-8 -*-
 '''
-@File    :   edgeTTS.py
-@Author  :   一力辉 
+@File    :   difyTTS.py
+@Author  :   一力辉
 '''
 
+
 from ..builder import TTSEngines
-from ..engineBase import BaseEngine
-# import httpx
-import asyncio
-from typing import Optional
-from digitalHuman.utils import httpxAsyncClient
-from digitalHuman.utils import logger
-from digitalHuman.utils import TextMessage, AudioMessage, AudioFormatType
-from digitalHuman.utils.audio import mp3ToWav
+from ..engineBase import BaseTTSEngine
+import base64
+from digitalHuman.protocol import *
+from digitalHuman.utils import logger, httpxAsyncClient, mp3ToWav
 
-__all__ = ["DifyAPI"]
+__all__ = ["DifyApiTts"]
 
-@TTSEngines.register("DifyAPI")
-class DifyAPI(BaseEngine):
-    def setup(self):
-        super().setup()
-        self.asyncLock = True
 
-    async def run(self, input: TextMessage, **kwargs) -> Optional[TextMessage]:
-        try: 
-            API_URL = ""
-            API_KEY = ""
-            # 参数填充
-            for paramter in self.parameters():
-                if paramter['NAME'] == "DIFY_API_URL":
-                    API_URL = paramter['DEFAULT'] if paramter['NAME'] not in kwargs else kwargs[paramter['NAME']]
-                if paramter['NAME'] == "DIFY_API_KEY":
-                    API_KEY = paramter['DEFAULT'] if paramter['NAME'] not in kwargs else kwargs[paramter['NAME']]
+@TTSEngines.register("Dify")
+class DifyApiTts(BaseTTSEngine):
+    async def run(self, input: TextMessage, **kwargs) -> AudioMessage:
+        # 参数校验
+        paramters = self.checkParameter(**kwargs)
+        API_SERVER = paramters["api_server"]
+        API_KEY = paramters["api_key"]
+        API_USERNAME = paramters["username"]
 
-            headers = {
-                'Content-Type': 'application/json',
-                'Authorization': f'Bearer {API_KEY}'
-            }
-            payload = {
-                "text": input.data,
-                "user": 'adh',
-            }
 
-            logger.debug(f"[TTS] Engine input: {input.data}")
-            # 并发阻塞, 防止dify接口因为并发请求而报错
-            while not self.asyncLock:
-                await asyncio.sleep(0.1)
-            self.asyncLock = False
-            resp = await httpxAsyncClient.post(API_URL + "/text-to-audio", json=payload, headers=headers)
-            self.asyncLock = True
-            if resp.status_code != 200:
-                raise RuntimeError(f"status_code: {resp.status_code}")
-            # TODO：这里Dify只能使用同步接口，主动释放异步事件
-            # await asyncio.sleep(0)
-            # resp = httpx.post(API_URL + "/text-to-audio", json=payload, headers=headers)
-            # await asyncio.sleep(0)
-            message = AudioMessage(
-                data=mp3ToWav(resp.content),
-                desc=input.data,
-                format=AudioFormatType.WAV,
-                sampleRate=16000,
-                sampleWidth=2,
-            )
-            return message
-            
-        except Exception as e:
-            self.asyncLock = True
-            logger.error(f"[TTS] Engine run failed: {e}", exc_info=True)
-            return None
+        headers = {
+            'Authorization': f'Bearer {API_KEY}'
+        }
+        payload = {
+            "text": input.data,
+            "user": API_USERNAME,
+        }
+
+        logger.debug(f"[TTS] Engine input: {input.data}")
+        response = await httpxAsyncClient.post(API_SERVER + "/text-to-audio", json=payload, headers=headers)
+        if response.status_code != 200:
+            raise RuntimeError(f"DifyAPI tts api error: {response.status_code}")
+
+        # TODO：这里Dify只能使用同步接口，主动释放异步事件
+        # await asyncio.sleep(0)
+        # resp = httpx.post(API_URL + "/text-to-audio", json=payload, headers=headers)
+        # await asyncio.sleep(0)
+        message = AudioMessage(
+            data=base64.b64encode(mp3ToWav(response.content)).decode('utf-8'),
+            sampleRate=16000,
+            sampleWidth=2,
+        )
+        return message

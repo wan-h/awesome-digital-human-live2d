@@ -5,25 +5,17 @@
 '''
 
 from threading import RLock
-from enum import Enum
-from typing import Optional
+from typing import List
 from collections import defaultdict
 from yacs.config import CfgNode as CN
 from digitalHuman.utils import logger
+from digitalHuman.protocol import ENGINE_TYPE
 from .engineBase import BaseEngine
 from .asr import ASRFactory
-from .llm import LLMFactory
 from .tts import TTSFactory
+from .llm import LLMFactory
 
-__all__ = ["EnginePool", "EngineType"]
-
-class EngineType(Enum):
-    """
-    Engine Type
-    """
-    ASR   = "ENGINE_TYPE_ASR"
-    TTS   = "ENGINE_TYPE_TTS"
-    LLM   = "ENGINE_TYPE_LLM"
+__all__ = ["EnginePool"]
 
 class EnginePool():
     singleLock = RLock()
@@ -48,25 +40,27 @@ class EnginePool():
     def setup(self, config: CN):
         # asr
         for asrCfg in config.ASR.SUPPORT_LIST:
-            self._pool[EngineType.ASR][asrCfg.NAME] = ASRFactory.create(asrCfg)
+            self._pool[ENGINE_TYPE.ASR][asrCfg.NAME] = ASRFactory.create(asrCfg)
             logger.info(f"[EnginePool] ASR Engine {asrCfg.NAME} is created.")
         logger.info(f"[EnginePool] ASR Engine default is {config.ASR.DEFAULT}.")
-        # llm
-        for llmCfg in config.LLM.SUPPORT_LIST:
-            self._pool[EngineType.LLM][llmCfg.NAME] = LLMFactory.create(llmCfg)
-            logger.info(f"[EnginePool] LLM Engine {llmCfg.NAME} is created.")
-        logger.info(f"[EnginePool] LLM Engine default is {config.LLM.DEFAULT}.")
         # tts
         for ttsCfg in config.TTS.SUPPORT_LIST:
-            self._pool[EngineType.TTS][ttsCfg.NAME] = TTSFactory.create(ttsCfg)
+            self._pool[ENGINE_TYPE.TTS][ttsCfg.NAME] = TTSFactory.create(ttsCfg)
             logger.info(f"[EnginePool] TTS Engine {ttsCfg.NAME} is created.")
         logger.info(f"[EnginePool] TTS Engine default is {config.TTS.DEFAULT}.")
+        # llm
+        for llmCfg in config.LLM.SUPPORT_LIST:
+            self._pool[ENGINE_TYPE.LLM][llmCfg.NAME] = LLMFactory.create(llmCfg)
+            logger.info(f"[EnginePool] LLM Engine {llmCfg.NAME} is created.")
+        logger.info(f"[EnginePool] LLM Engine default is {config.LLM.DEFAULT}.")
+    
+    def listEngine(self, engineType: ENGINE_TYPE) -> List[str]:
+        if engineType not in self._pool: return []
+        return self._pool[engineType].keys()
             
-    def getEngine(self, engineType: EngineType, engineName: str) -> Optional[BaseEngine]:
+    def getEngine(self, engineType: ENGINE_TYPE, engineName: str) -> BaseEngine:
         if engineType not in self._pool:
-            logger.error(f"[EnginePool] No such engine type: {engineType}")
-            return None
+            raise KeyError(f"[EnginePool] No such engine type: {engineType}")
         if engineName not in self._pool[engineType]:
-            logger.error(f"[EnginePool] No such engine: {engineName}")
-            return None
+            raise KeyError(f"[EnginePool] No such engine: {engineName}")
         return self._pool[engineType][engineName]

@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,12 +24,25 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "@live2dFramework/*": ["./app/lib/live2d/Framework/src/*"],
-      "@live2dCore/*": ["./app/lib/live2d/Core/*"]
-
+      "@/*": [
+        "./*"
+      ],
+      "@framework/*": [
+        "./lib/live2d/Framework/src/*"
+      ],
+      "@live2dCore/*": [
+        "./lib/live2d/Core/*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "./dist/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

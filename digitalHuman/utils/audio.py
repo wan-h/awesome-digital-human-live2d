@@ -1,5 +1,14 @@
+# -*- coding: utf-8 -*-
+'''
+@File    :   audio.py
+@Author  :   一力辉
+'''
+
+
 from io import BytesIO
 from pydub import AudioSegment
+
+__all__ = ["mp3ToWav", "wavToMp3"]
 
 def mp3ToWav(mp3Bytes: bytes) -> bytes:
     mp3Data = BytesIO(mp3Bytes)

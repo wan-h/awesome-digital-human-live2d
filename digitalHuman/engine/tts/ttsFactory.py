@@ -8,6 +8,7 @@ from ..builder import TTSEngines
 from ..engineBase import BaseEngine
 from typing import List
 from yacs.config import CfgNode as CN
+from digitalHuman.protocol import ENGINE_TYPE
 from digitalHuman.utils import logger
 
 __all__ = ["TTSFactory"]
@@ -20,9 +21,9 @@ class TTSFactory():
     def create(config: CN) -> BaseEngine:
         if config.NAME in TTSEngines.list():
             logger.info(f"[TTSFactory] Create engine: {config.NAME}")
-            return TTSEngines.get(config.NAME)(config)
+            return TTSEngines.get(config.NAME)(config, ENGINE_TYPE.TTS)
         else:
-            raise RuntimeError(f"[TTSFactory] Please check config, support TTS: {TTSEngines.list()}")
+            raise RuntimeError(f"[TTSFactory] Please check config, support TTS: {TTSEngines.list()}, but get {config.NAME}")
     @staticmethod
     def list() -> List:
         return TTSEngines.list()

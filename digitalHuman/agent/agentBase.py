@@ -4,50 +4,17 @@
 @Author  :   一力辉 
 '''
 
-from typing import List, Optional, Union
-from yacs.config import CfgNode as CN
-from abc import ABCMeta, abstractmethod
-from digitalHuman.utils import BaseMessage
-from digitalHuman.utils import TextMessage, AudioMessage
-from digitalHuman.engine.engineBase import BaseEngine
+from uuid import uuid4
+from abc import abstractmethod
+from digitalHuman.protocol import BaseMessage
+from digitalHuman.core import BaseRunner
 
 __all__ = ["BaseAgent"]
 
-class BaseAgent(metaclass=ABCMeta):
-    def __init__(self, config: CN):
-        self.cfg = config
-        for key in self.checkKeys():
-            if key not in self.cfg:
-                raise KeyError(f"[{self.__class__.__name__}] {key} is not in config")
-        self.setup()
-    
-    def __del__(self):
-        self.release()
-    
-    @property
-    def name(self) -> str:
-        return self.cfg.NAME
-    
-    def parameters(self) -> List[str]:
-        return self.cfg.PARAMETERS if "PARAMETERS" in self.cfg else []
-    
-    def setup(self):
-        pass
-
-    def release(self):
-        pass
-
-    def checkKeys(self) -> List[str]:
-        return []
-    
-    async def createConversation(self, streaming: bool, **kwargs) -> str:
-        return ""
+class BaseAgent(BaseRunner):
+    async def createConversation(self, **kwargs) -> str:
+        return str(uuid4())
 
     @abstractmethod
-    async def run(
-        self, 
-        input: Union[TextMessage, AudioMessage], 
-        streaming: bool,
-        **kwargs
-    ):
-        pass
+    async def run(self, input: BaseMessage, **kwargs):
+        raise NotImplementedError  

@@ -1,0 +1,217 @@
+{
+  "Metadata": {
+    "title": "沐光而行",
+    "description": "沐光而行"
+  },
+  "Common": {
+    "close": "关闭",
+    "ok": "确认",
+    "tips": "提示",
+    "deleteTips": "确认删除吗?",
+    "uploadFile": "上传文件",
+    "uploadImage": "上传图片",
+    "uploadImageOrVideo": "上传图片或视频",
+    "fileSizeTip": "文件大小不能超过",
+    "point": "积分",
+    "noData": "暂无数据",
+    "chargeSuccess": "购买成功!",
+    "balanceInsufficient": "余额不足，请前往个人中心充值"
+  },
+  "HomePage": {
+    "about": {
+      "title": "关于",
+      "headline": "我们思考的全部",
+      "vision": "科技让人们更加热爱这个世界",
+      "content": "每天我们都在探索AI如何改变世界，然而这个世界的不同取决于看待世界的内心不同，我们身处在一个信息爆炸的时代，最后我们都要回到感性的世界里, AI或许能在这感性的世界里表达出一份独特的浪漫。"
+    },
+    "products": "产品",
+    "store": "商城",
+    "go": "前往探索",
+    "feedback": "反馈",
+    "contact": {
+      "title": "联系我们",
+      "guide": "选择你想要的方式联系我们",
+      "aboutUs": "关于我们",
+      "joinUs": "加入我们",
+      "businessCooperation": "商务合作"
+    }
+  },
+  "Login": {
+    "login": "登录",
+    "logout": "登出",
+    "username": "用户名",
+    "newUsername": "新用户名",
+    "editUsername": "编辑用户名",
+    "password": "密码",
+    "register": "注册",
+    "forgot": "忘记密码？",
+    "loginWelcome": "嘿，好久不见！",
+    "loginTip": "登录您的账户以继续",
+    "notLoginTip": "未登录",
+    "noAccount": "没有账户？",
+    "signup": "注册",
+    "signupGuide": "免费注册",
+    "signupTip": "创建一个账户以继续",
+    "mobileNumber": "手机号",
+    "sencCode": "发送验证码",
+    "confirmPassword": "确认密码",
+    "verifyCode": "验证码",
+    "verifyCodeTip": "验证码已发送，请注意查收",
+    "agree": "我已阅读并同意",
+    "privacyPolicy": "隐私政策",  
+    "termsOfService": "服务协议",
+    "alreadyAccount": "已有账户？",
+    "reset": "重置密码",
+    "errors": {
+      "terms": "请同意条款和隐私政策",
+      "passwd": "请检查密码一致性",
+      "sendCode": "验证码发送失败",
+      "checkCode": "验证码校验失败",
+      "register": "注册失败"
+    },
+    "registerSuccess": "注册成功！",
+    "resetSuccess": "重置成功！"
+  },
+  "Products": {
+    "sentio": {
+      "enTitle": "Sentio",
+      "zhTitle": "遥以心照",
+      "create": {
+        "title": "创建",
+        "name": "应用名字",
+        "desc": "应用描述(可选)",
+        "createPermissionTip": "超过创建数量限制"
+      },
+      "description": "一个创新的 AI 数字人交互解决方案，打造有温度的数字人，为你的数字人注入灵魂，愿数字世界的人与你心灵相通。",
+      "micOpenError": "打开麦克风失败",
+      "recordingTime": "录音时间",
+      "speech2text": "语音识别中...",
+      "asrEnableTip": "请先打开语音识别开关",
+      "thinking": "深度思考中",
+      "loading": "加载中",
+      "items": {
+        "setting": "设置",
+        "gallery": "画廊",
+        "publish": "发布/更新",
+        "shareDifyTip": "本地部署的Dify无法分享!",
+        "theme": "限定主题",
+        "workspace": "我的空间",
+        "open": "开源项目",
+        "guide": "用户指南",
+        "about": "关于我们"
+      },
+      "settings": {
+        "title": "设置",
+        "switch": "开关",
+        "selectEngine": "选择引擎",
+        "engineConfig": "引擎配置",
+        "difyLocalDeplay": "本地部署",
+        "difyLocalTip": "支持本地部署的Dify引擎，但无法支持分享。请确保浏览器支持跨域请求，配置可参考操作指南文档",
+        "basic": {
+          "title": "基础设置",
+          "soundSwitch": "声音开关",
+          "showThink": "展示思考内容",
+          "lipFactor": "唇形系数"
+        },
+        "asr": {
+          "title": "语音识别"
+        },
+        "tts": {
+          "title": "语音合成"
+        },
+        "agent": {
+          "title": "AI智能体"
+        }
+      },
+      "gallery": {
+        "title": "画廊",
+        "backgrounds": {
+          "title": "背景",
+          "enable": "启用",
+          "static": "静态",
+          "dynamic": "动态",
+          "custom": "自定义",
+          "all": "全部",
+          "select": "选择类型"
+        },
+        "characters": {
+          "title": "角色",
+          "ip": "官方",
+          "free": "免费",
+          "custom": "自定义",
+          "all": "全部",
+          "select": "选择类型",
+          "customLink": "自定人物模型",
+          "checkWaitTip": "人物模型正在校验中，请耐心等待"
+        }
+      },
+      "share": {
+        "title": "分享",
+        "link": "分享链接",
+        "website": "嵌入到网页",
+        "embeddedIframe": "将以下 iframe 嵌入到你的网站中的目标位置",
+        "embeddedScript": "将以下代码嵌入到你的网站中",
+        "shareDifyTip": "本地部署的Dify无法支持分享",
+        "sharePermissionTip": "未开通本主题分享权限",
+        "publishTip": "应用已更新"
+      },
+      "theme": {
+        "title": "限定主题",
+        "changeTip": "切换主题, 请在设置中进行配置",
+        "freedom": {
+          "title": "自由创造",
+          "desc": "自由编辑你的数字人"
+        },
+        "all-in-dify": {
+          "title": "Dify引擎",
+          "desc": "Dify驱动你的数字人"
+        }
+      },
+      "workspace": {
+        "title": "我的空间"
+      }
+    },
+    "transitor": {
+      "enTitle": "Transitor",
+      "zhTitle": "路过人间",
+      "description": "一个创新的 AI 旅游攻略，打造极致的体验，人生不过一趟匆匆的旅程，愿世间的月落星沉皆为你的过客。"
+    }
+  },
+  "User": {
+    "accountInfo": "账户信息",
+    "username": "姓名",
+    "phone": "手机号",
+    "edit": "编辑",
+    "charge": "充值",
+    "feeInfo": "费用信息",
+    "points": "账户积分",
+    "coupons": "代金券",
+    "pointsUsed": "积分使用情况",
+    "axisPoints": "积分",
+    "axisDate": "日期",
+    "pointBanlance": "积分余额",
+    "otherAmount": "其他金额",
+    "weChatPay": "微信扫描支付",
+    "amountToPay": "应付金额：",
+    "payTime": "剩余支付时间：",
+    "timeoutOrder": "，超时订单将自动失效",
+    "paymentTimeout": "支付超时，",
+    "recharge": "重新支付",
+    "onlinePayment": "在线支付",
+    "paySuccess": "支付完成",
+    "regeneration": "重新生成",
+    "consumptionRecord": "消费记录",
+    "chargeRecord": "充值记录",
+    "orderId": "订单号",
+    "spendPoints": "消费积分",
+    "endTime": "结束时间",
+    "createdTime": "创建时间",
+    "paymentCompletionTime": "支付完成时间",
+    "orderStatus": "订单状态",
+    "chargeAmount": "充值金额",
+    "waitingFor": "等待处理",
+    "processing": "处理中",
+    "rechargeSuccessful": "充值成功",
+    "rechargeFailed": "充值失败"
+  }
+}

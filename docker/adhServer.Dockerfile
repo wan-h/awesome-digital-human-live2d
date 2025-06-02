@@ -1,6 +1,7 @@
-# FROM ubuntu:20.04
+# FROM python:3.10.15-bookworm
 # 使用阿里云镜像
-FROM registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/ubuntu:20.04
+FROM registry.cn-hangzhou.aliyuncs.com/awesome-digital-human/python:3.10.15-bookworm
+
 
 # 中文问题
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
@@ -9,9 +10,8 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# apt修改阿里源
-RUN sed -i 's/security.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list \
-    && sed -i 's/archive.ubuntu.com/mirrors.aliyun.com/g' /etc/apt/sources.list
+# apt修改国内源
+RUN sed -i 's@deb.debian.org@repo.huaweicloud.com@g' /etc/apt/sources.list.d/debian.sources
 
 RUN rm /var/lib/apt/lists/* -vf
 

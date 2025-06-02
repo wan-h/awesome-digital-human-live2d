@@ -7,6 +7,7 @@
 import os
 import warnings
 
+# ================ 路径 ====================
 ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 CONFIG_ROOT_PATH = os.path.join(ROOT_PATH, "configs")
 CONFIG_TEMPLATE_FILE = os.path.join(CONFIG_ROOT_PATH, "config_template.yaml")

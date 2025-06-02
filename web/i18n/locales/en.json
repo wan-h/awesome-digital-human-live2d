@@ -1,0 +1,216 @@
+{
+  "Metadata": {
+    "title": "Walk In The Light",
+    "description": "Walk In The Light"
+  },
+  "Common": {
+    "close": "Close",
+    "ok": "OK",
+    "tips": "Tips",
+    "deleteTips": "Do you confirm the deletion?",
+    "uploadFile": "Upload File",
+    "uploadImage": "Upload Image",
+    "uploadImageOrVideo": "Upload Image or Video",
+    "fileSizeTip": "File size should be less than ",
+    "point": "Point",
+    "noData": "No data to display.",
+    "chargeSuccess": "The purchase was successful!",
+    "balanceInsufficient": "The balance is insufficient, please go to the personal account to recharge"
+  },
+  "HomePage": {
+    "about": {
+      "title": "About",
+      "headline": "All that we want to say",
+      "vision": "Technology makes people love the world even more",
+      "content": "hello world,cddavgaf aga gasdga gfa ga rg raeg reahear. GF WG w G WG  f dgsge. frqeger ghqe."
+    },
+    "products": "Products",
+    "store": "Store",
+    "go": "Go explore",
+    "feedback": "Feedback",
+    "contact": {
+      "title": "Contact Us",
+      "guide": "Choose how you want to contact us",
+      "aboutUs": "About Us",
+      "joinUs": "Join Us",
+      "businessCooperation": "Business Cooperation"
+    }
+  },
+  "Login": {
+    "login": "Login",
+    "logout": "Logout",
+    "username": "Username",
+    "newUsername": "New Username",
+    "editUsername": "Username Edit",
+    "password": "Password",
+    "register": "Register",
+    "forgot": "Forget Password?",
+    "loginWelcome": "Hey,long time no see!",
+    "loginTip": "Log in to your account to continue",
+    "notLoginTip": "Not Login",
+    "noAccount": "Don't have an account?",
+    "signup": "Sign Up",
+    "signupGuide": "Sign Up for Free",
+    "signupTip": "Create an account to continue",
+    "mobileNumber": "Mobile Number",
+    "sencCode": "Send Code",
+    "confirmPassword": "Confirm Password",
+    "verifyCode": "Verify Code",
+    "verifyCodeTip": "The verification code has been sent",
+    "verifyCodeError": "Verification code error",
+    "agree": "I have read and agree to ",
+    "privacyPolicy": "Privacy Policy",  
+    "termsOfService": "Terms of Service",
+    "alreadyAccount": "Already have an account?",
+    "reset": "Reset Password",
+    "errors": {
+      "terms": "Please agree to the terms and privacy policy",
+      "passwd": "Please check the password consistency",
+      "sendCode": "Send Code Failed",
+      "checkCode": "Check Code Failed",
+      "register": "Register Failed"
+    },
+    "registerSuccess": "Register Success",
+    "resetSuccess": "Reset Success"
+  },
+  "Products": {
+    "sentio": {
+      "enTitle": "Sentio",
+      "zhTitle": "遥以心照",
+      "create": {
+        "title": "Create",
+        "name": "App Name",
+        "desc": "App Description(Optional)"
+      },
+      "description": "An innovative AI digital human interaction solution, creating a warm digital human, injecting soul into your digital human, and wishing people in the digital world can connect with you.",
+      "micOpenError": "Microphone is not available",
+      "recordingTime": "Recording Time",
+      "speech2text": "Speech Recognition...",
+      "asrEnableTip": "Please enable the ASR",
+      "thinking": "Thinking",
+      "loading": "Loading",
+      "items": {
+        "setting": "Setting",
+        "gallery": "Gallery",
+        "publish": "Publish/Update",
+        "theme": "Limited Theme",
+        "workspace": "My Sapce",
+        "open": "Open Source",
+        "guide": "User Guide",
+        "about": "About Us"
+      },
+      "settings": {
+        "title": "Settings",
+        "switch": "Switch",
+        "selectEngine": "Select Engine",
+        "engineConfig": "Enghine Settings",
+        "difyLocalDeplay": "On-premise",
+        "difyLocalTip": "On-premise Dify is supported, but sharing is not supported.",
+        "basic": {
+          "title": "Basic",
+          "soundSwitch": "Sound Switch",
+          "showThink": "Show Think",
+          "lipFactor": "Lip Factor"
+        },
+        "asr": {
+          "title": "ASR"
+        },
+        "tts": {
+          "title": "TTS"
+        },
+        "agent": {
+          "title": "AI Agent"
+        }
+      },
+      "gallery": {
+        "title": "Gallery",
+        "backgrounds": {
+          "title": "Backgrounds",
+          "enable": "Enable",
+          "static": "Static",
+          "dynamic": "Dynamic",
+          "custom": "Custom",
+          "all": "All",
+          "select": "Select Type"
+        },
+        "characters": {
+          "title": "Characters",
+          "ip": "Offical",
+          "free": "Free",
+          "custom": "Custom",
+          "all": "All",
+          "select": "Select Type",
+          "customLink": "Custom Character Model",
+          "checkWaitTip": "Character model is being checked, please wait patiently"
+        }
+      },
+      "share": {
+        "title": "Share",
+        "link": "Share the link",
+        "website": "Embed into a web page",
+        "embeddedIframe": "Embed the following iframe to the destination in your website",
+        "embeddedScript": "Embed the following script to the destination in your website",
+        "shareDifyTip": "The locally deployed Dify cannot be shared",
+        "sharePermissionTip": "The sharing permission for this topic has not been activated",
+        "publishTip": "The app has been updated"
+      },
+      "theme": {
+        "title": "Limited Theme",
+        "changeTip": "Please configure the theme in the settings",
+        "freedom": {
+          "title": "Freedom",
+          "desc": "Freely edit your digital human"
+        },
+        "all-in-dify": {
+          "title": "All in Dify",
+          "desc": "Dify powers your digital human"
+        }
+      },
+      "workspace": {
+        "title": "My Space"
+      }
+    },
+    "transitor": {
+      "enTitle": "Transitor",
+      "zhTitle": "路过人间",
+      "description": "An innovative AI travel strategy to create the ultimate experience, life is just a hurried journey, may the moon and stars in the world be your passers-by."
+    }
+  },
+  "User": {
+    "accountInfo": "Account Information",
+    "username": "Username",
+    "phone": "Phone",
+    "edit": "Edit",
+    "charge": "Charge",
+    "feeInfo": "Fee Information",
+    "points": "Points",
+    "coupons": "Coupons",
+    "pointsUsed": "Points Used",
+    "axisPoints": "Points",
+    "axisDate": "Date",
+    "pointBanlance": "Point Balance",
+    "otherAmount": "Other Amount",
+    "weChatPay": "WeChat Pay",
+    "amountToPay": "Amount to Pay: ",
+    "payTime": "Remaining payment time: ",
+    "timeoutOrder": ", the timeout order will automatically fail.",
+    "paymentTimeout": "Payment Timeout, ",
+    "recharge": "Recharge",
+    "onlinePayment": "Online Payment",
+    "paySuccess": "Payment Successful",
+    "regeneration": "Regeneration",
+    "consumptionRecord": "Record of Consumption",
+    "chargeRecord": "Record of Charge",
+    "orderId": "Order ID",
+    "spendPoints": "Points Spending",
+    "endTime": "End Time",
+    "createdTime": "Created Time",
+    "paymentCompletionTime": "Payment Completion Time",
+    "orderStatus": "Order Status",
+    "chargeAmount": "Recharge Amount",
+    "waitingFor":"Waiting for processing",
+    "processing":"Processing",
+    "rechargeSuccessful":"Recharge successful",
+    "rechargeFailed":"Recharge failed"
+  }
+}

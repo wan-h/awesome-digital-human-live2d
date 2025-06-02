@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer utilities {
+  /* 隐藏 Chrome, Safari 和 Opera 的滚动条 */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* 隐藏 IE, Edge 和 Firefox 的滚动条 */
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE 和 Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  .full-height-minus-64px {
+    height: calc(100vh - 64px);
+  }
+}

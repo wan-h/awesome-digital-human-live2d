@@ -1,53 +1,46 @@
 # -*- coding: utf-8 -*-
 '''
-@File    :   baiduASR.py
-@Author  :   一力辉 
+@File    :   difyASR.py
+@Author  :   一力辉
 '''
 
-"""
-API文档:
-https://cloud.baidu.com/doc/SPEECH/s/qlcirqhz0
-"""
 
 from ..builder import ASREngines
-from ..engineBase import BaseEngine
-import io
-from typing import List, Optional
-from digitalHuman.utils import httpxAsyncClient
-from digitalHuman.utils import AudioMessage, TextMessage
-from digitalHuman.utils import logger
-from digitalHuman.utils.audio import wavToMp3
+from ..engineBase import BaseASREngine
+import io, base64
+from digitalHuman.protocol import AudioMessage, TextMessage, AUDIO_TYPE
+from digitalHuman.utils import logger, httpxAsyncClient, wavToMp3
 
-__all__ = ["DifyAPI"]
+__all__ = ["DifyApiAsr"]
 
 
-@ASREngines.register("DifyAPI")
-class DifyAPI(BaseEngine): 
-    async def run(self, input: AudioMessage, **kwargs) -> Optional[TextMessage]:
-        try: 
-            API_URL = ""
-            API_KEY = ""
-            # 参数填充
-            for paramter in self.parameters():
-                if paramter['NAME'] == "DIFY_API_URL":
-                    API_URL = paramter['DEFAULT'] if paramter['NAME'] not in kwargs else kwargs[paramter['NAME']]
-                if paramter['NAME'] == "DIFY_API_KEY":
-                    API_KEY = paramter['DEFAULT'] if paramter['NAME'] not in kwargs else kwargs[paramter['NAME']]
+@ASREngines.register("Dify")
+class DifyApiAsr(BaseASREngine): 
+    async def run(self, input: AudioMessage, **kwargs) -> TextMessage:
+        # 参数校验
+        paramters = self.checkParameter(**kwargs)
+        API_SERVER = paramters["api_server"]
+        API_KEY = paramters["api_key"]
+        API_USERNAME = paramters["username"]
 
-            headers = {
-                'Authorization': f'Bearer {API_KEY}'
-            }
+        headers = {
+            'Authorization': f'Bearer {API_KEY}'
+        }
 
-            files = {'file': ('userAudio', io.BytesIO(wavToMp3(input.data)), 'audio/mp3')}
-            resp = await httpxAsyncClient.post(API_URL + "/audio-to-text", headers=headers, files=files)
-            if resp.status_code != 200:
-                raise RuntimeError(f"status_code: {resp.status_code}")
-            
-            logger.debug(f"[ASR] Engine response: {resp.json()}")
-            result = resp.json()["text"]
-            message = TextMessage(data=result)
-            return message
-            
-        except Exception as e:
-            logger.error(f"[ASR] Engine run failed: {e}", exc_info=True)
-            return None
+        payload = {
+            'user': API_USERNAME
+        }
+
+        if isinstance(input.data, str):
+            input.data = base64.b64decode(input.data)
+        if input.type == AUDIO_TYPE.WAV:
+            input.data = wavToMp3(input.data)
+            input.type = AUDIO_TYPE.MP3
+        files = {'file': ('file', io.BytesIO(input.data), 'audio/mp3')}
+        response = await httpxAsyncClient.post(API_SERVER + "/audio-to-text", headers=headers, files=files, data=payload)
+        if response.status_code != 200:
+            raise RuntimeError(f"Dify asr api error: {response.status_code}")
+        result = response.json()["text"]
+        logger.debug(f"[ASR] Engine response: {result}")
+        message = TextMessage(data=result)
+        return message

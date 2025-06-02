@@ -4,9 +4,8 @@
 @Author  :   一力辉 
 '''
 
-from .baiduASR import BaiduAPI
-from .googleASR import GoogleAPI
-from .difyASR import DifyAPI
+from .tencentASR import TencentApiAsr
+from .difyASR import DifyApiAsr
 from .asrFactory import ASRFactory
 
 __all__ = ['ASRFactory']

@@ -1,0 +1,28 @@
+NAME: "Tencent-API"
+VERSION: "v0.0.1"
+DESC: "接入腾讯服务"
+META: {
+  official: "",
+  configuration: "https://console.cloud.tencent.com/asr",
+  tips: "",
+  fee: ""
+}
+# 暴露给前端的参数选项以及默认值
+PARAMETERS: [
+  {
+    name: "secret_id",
+    description: "tencent secret_id.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "secret_key",
+    description: "tencent secret_key.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  }
+]

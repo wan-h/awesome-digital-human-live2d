@@ -1,0 +1,39 @@
+NAME: "AliNLSTTS" # Name of the engine, will be used for registration
+VERSION: "v0.0.1"
+DESC: "接入Ali服务"
+META: {
+  official: "",
+  configuration: "https://nls-portal.console.aliyun.com/applist",
+  tips: "",
+  fee: ""
+}
+URL: "wss://nls-gateway-cn-shanghai.aliyuncs.com/ws/v1" # Default NLS Gateway URL, can change to other region
+FORMAT: "wav"         # Output audio format (mp3, wav). NLS SDK default is pcm, we change to `wav`.
+SAMPLE_RATE: 16000    # Audio sample rate. NLS SDK default is 16000 for pcm.
+# 暴露给前端的参数选项以及默认值
+PARAMETERS: [
+  {
+    name: "voice",
+    description: "Voice for AliNLS.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: "zhimi_emo"
+  },
+  {
+    name: "token",
+    description: "Ali API token.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "app_key",
+    description: "Ali API app key.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  }
+]

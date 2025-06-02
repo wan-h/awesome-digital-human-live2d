@@ -1,13 +1,36 @@
-NAME: "DifyAPI"
+NAME: "Dify"
 VERSION: "v0.0.1"
-# 需求参数
+DESC: "接入Dify应用"
+META: {
+  official: "https://dify.ai/",
+  configuration: "https://mp.weixin.qq.com/s/YXyHYN1dC_nJAOCco7ZJjg",
+  tips: "支持本地部署的Dify应用全",
+  fee: ""
+}
+# 暴露给前端的参数选项以及默认值
 PARAMETERS: [
   {
-    NAME: "DIFY_API_URL",
-    DEFAULT: ""
+    name: "api_server",
+    description: "Dify API Server.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
   },
   {
-    NAME: "DIFY_API_KEY",
-    DEFAULT: ""
+    name: "api_key",
+    description: "Dify API Key.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "username",
+    description: "Dify Username.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
   }
 ]

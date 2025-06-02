@@ -4,10 +4,10 @@
 @Author  :   一力辉 
 '''
 
-from .difyAgent import DifyAgent
+from .difyAgent import DifyApiAgent
 from .repeaterAgent import RepeaterAgent
-from .fastgptAgent import FastgptAgent
-from .openaiAgent import OpenaiAgent
+from .fastgptAgent import FastgptApiAgent
+from .openaiAgent import OpenaiApiAgent
 
 from .agentFactory import AgentFactory
 

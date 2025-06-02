@@ -1,6 +1,44 @@
-NAME: "EdgeAPI"
+NAME: "EdgeTTS"
 VERSION: "v0.0.1"
-PER: "zh-CN-XiaoxiaoNeural"
-RATE: "+0%"
-VOL: "+0%"
-PIT: "+0Hz"
+DESC: "适配EdgeTTS"
+META: {
+  official: "https://github.com/rany2/edge-tts",
+  configuration: "",
+  tips: "开源项目可能存在不稳定的情况",
+  fee: "free"
+}
+# 需求参数
+PARAMETERS: [
+  {
+    name: "voice",
+    description: "Voice for TTS.",
+    type: "string",
+    required: true,
+    choices: ["Getting from voice api..."],
+    default: "zh-CN-XiaoxiaoNeural"
+  },
+  {
+    name: "rate",
+    description: "Set rate, default +0%.",
+    type: "int",
+    required: false,
+    range: [-100, 100],
+    default: 0
+  },
+  {
+    name: "volume",
+    description: "Set volume, default +0%.",
+    type: "int",
+    required: false,
+    range: [-100, 100],
+    default: 0
+  },
+  {
+    name: "pitch",
+    description: "Set pitch, default +0Hz.",
+    type: "int",
+    required: false,
+    range: [-100, 100],
+    default: 0
+  }
+]

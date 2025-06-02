@@ -8,38 +8,38 @@ from ..builder import AGENTS
 from ..agentBase import BaseAgent
 import re
 import json
-from typing import List, Optional, Union
-from digitalHuman.utils import httpxAsyncClient
-from digitalHuman.utils import logger
-from digitalHuman.utils import AudioMessage, TextMessage
-
-__all__ = ["FastgptAgent"]
+from digitalHuman.protocol import *
+from digitalHuman.utils import httpxAsyncClient, logger, resonableStreamingParser
 
 
-@AGENTS.register("FastgptAgent")
-class FastgptAgent(BaseAgent):
+__all__ = ["FastgptApiAgent"]
 
+
+@AGENTS.register("FastGPT")
+class FastgptApiAgent(BaseAgent):
     async def run(
         self, 
-        input: Union[TextMessage, AudioMessage], 
+        input: TextMessage, 
         streaming: bool,
         **kwargs
     ):
         try:
-            if isinstance(input, AudioMessage):
-                raise RuntimeError("FastgptAgent does not support AudioMessage input yet")
+            if not streaming:
+                raise KeyError("FastGPT Agent only supports streaming mode")
+
             # 参数校验
-            for paramter in self.parameters():
-                if paramter['NAME'] not in kwargs:
-                    raise RuntimeError(f"Missing parameter: {paramter['NAME']}")
-            API_URL = kwargs["FASTGPT_API_URL"]
-            API_KEY = kwargs["FASTGPT_API_KEY"]
+            paramters = self.checkParameter(**kwargs)
+            base_url = paramters["base_url"]
+            api_key = paramters["api_key"]
+            uid = paramters["uid"]
+            conversation_id = paramters["conversation_id"] if "conversation_id" in paramters else ""
+
             headers = {
                 'Content-Type': 'application/json',
-                'Authorization': f'Bearer {API_KEY}'
+                'Authorization': f'Bearer {api_key}'
             }
-
             payload = {
+                "chatId": conversation_id,
                 "stream": streaming,
                 "detail": False,
                 "messages":[
@@ -47,40 +47,36 @@ class FastgptAgent(BaseAgent):
                         "role": "user",
                         "content": input.data,
                     }
-                ]
+                ],
+                "customUid": uid
             }
             pattern = re.compile(r'data:\s*({.*})')
-            if streaming:
-                async with httpxAsyncClient.stream('POST', API_URL + "/v1/chat/completions", headers=headers, json=payload) as response:
-                    if response.status_code != 200:
-                        raise RuntimeError(f"status_code: {response.status_code}")
+            coversaiotnIdRequire = False if conversation_id else True
+            if coversaiotnIdRequire:
+                conversation_id = await self.createConversation()
+                yield eventStreamConversationId(conversation_id)
+            async with httpxAsyncClient.stream('POST', base_url + "/v1/chat/completions", headers=headers, json=payload) as response:
+                async def generator():
                     async for chunk in response.aiter_lines():
                         chunkStr = chunk.strip()
                         if not chunkStr: continue
-                        # 过滤非data信息
-                        if not chunkStr.startswith("data:"): continue
+                        chunkData = pattern.search(chunkStr)
+                        if not chunkStr.endswith('}') or not chunkData: 
+                            if 'DONE' in chunkStr: break
+                            logger.warning(f"[AGENT] Engine return truncated data: {chunkStr}")
+                            continue
+                        chunkData = chunkData.group(1)
 
-                        # 使用正则表达式找到所有的data:后的内容  
-                        matches = re.findall(r'data: (.*?)(?=\ndata: |$)', chunkStr, re.DOTALL) 
-                        for match in matches:
-                            try:
-                                if match != '[DONE]':
-                                    data = json.loads(match)
-                                    if 'choices' in data:
-                                        if data["choices"][0]['finish_reason'] == "stop":
-                                            break
-                                        else:
-                                            logger.debug(f"[AGENT] Engine response: {data['choices'][0]['delta']['content']}")
-                                            yield data["choices"][0]["delta"]["content"]
-                            except Exception as e:
-                                logger.error(f"[AGENT] Engine run failed: {e}")
-                                yield "内部错误，请检查fastgpt信息。"
-
-
-            else:
-                response = await httpxAsyncClient.post(API_URL + "/v1/chat/completions", headers=headers, json=payload)
-                data = json.loads(response.text)
-                yield data['choices']
+                        data = json.loads(chunkData)
+                        # 处理流式返回字符串
+                        if len(data["choices"]) > 0:
+                            logger.debug(f"[AGENT] Engine response: {data}")
+                            content = data["choices"][0]['delta']['content']
+                            if content:
+                                yield (EVENT_TYPE.TEXT, content)
+                async for parseResult in resonableStreamingParser(generator()):
+                    yield parseResult
+            yield eventStreamDone()
         except Exception as e:
-            logger.error(f"[AGENT] Engine run failed: {e}", exc_info=True)
-            yield "fastgpt接口请求返回错误。"
+            logger.error(f"[FastgptApiAgent] Exception: {e}", exc_info=True)
+            yield eventStreamError(str(e))

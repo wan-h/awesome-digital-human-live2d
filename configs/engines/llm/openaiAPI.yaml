@@ -1,5 +1,32 @@
-NAME: "OpenaiAPI"
+NAME: "OpenAI"
 VERSION: "v0.0.1"
-MODEL: "gpt-3.5-turbo"
-LLM_URL: "http://10.39.59.3:3001/v1/chat/completions"
-SK: "sk-fastgpt"
+DESC: ""
+META: {
+  FEE: "free"
+}
+PARAMETERS: [
+  {
+    name: "model",
+    description: "ID of the model to use.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "base_url",
+    description: "The base url for request.",
+    type: "string",
+    required: false,
+    choices: [],
+    default: "https://api.openai.com/v1"
+  },
+  {
+    name: "api_key",
+    description: "The api key for request.",
+    type: "string",
+    required: true,
+    choices: [],
+    default: ""
+  }
+]
