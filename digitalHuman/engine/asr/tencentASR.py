@@ -105,8 +105,8 @@ class TencentApiAsr(BaseASREngine):
 
         # 参数校验
         paramters = self.checkParameter(**kwargs)
-        SECRECT_ID = paramters["secrect_id"]
-        SECRECT_KEY = paramters["secrect_key"]
+        SECRECT_ID = paramters["secret_id"]
+        SECRECT_KEY = paramters["secret_key"]
         headers, payload = self._buildRequest(input, TencentCloudApiKey(secret_id=SECRECT_ID, secret_key=SECRECT_KEY))
         response = await httpxAsyncClient.post(self._url, headers=headers, data=payload)
         if response.status_code != 200:

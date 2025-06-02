@@ -176,8 +176,8 @@ class TencentApiTts(BaseTTSEngine):
         voice = paramters["voice"]
         speed = paramters["speed"]
         volume = paramters["volume"]
-        SECRECT_ID = paramters["secrect_id"]
-        SECRECT_KEY = paramters["secrect_key"]
+        SECRECT_ID = paramters["secret_id"]
+        SECRECT_KEY = paramters["secret_key"]
         tencentCloudApiKey = TencentCloudApiKey(secret_id=SECRECT_ID, secret_key=SECRECT_KEY)
         headers, payload = self._buildRequest(input, tencentCloudApiKey, voice, volume, speed) 
         logger.debug(f"[TTS] Engine input: {input.data}")
