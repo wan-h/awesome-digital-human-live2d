@@ -63,7 +63,7 @@ PC端页面预览：
   * Agent支持：difyAgent（ASR、TTS均可接入Dify）、FastGPTAgent、OpenaiAgent
 > ### v3.0.0
 **强化交互体验**
-* [v3.0.0 - 2024-06-01](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
+* [v3.0.0 - 2025-06-01](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
   * 前端页面全面升级：nextjs + heroui + tailwind
   * 支持动态背景
   * 沉浸模式（实时交互、对话打断等等直接交互方式优化）
