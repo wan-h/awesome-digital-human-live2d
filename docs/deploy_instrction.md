@@ -62,9 +62,11 @@ docker-compose up --build -d
 
 ### 访问页面
 本地浏览器访问路径:   
-* http://localhost:8880 
+* 源码部署: http://localhost:3000  
+* 容器部署: http://localhost:8880 
 非本地浏览器访问路径:   
-* http://{部署服务器IP}:8880
+* 源码部署: http://{部署服务器IP}:3000  
+* 容器部署: http://{部署服务器IP}:8880
 
 ### 设置
 参考[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)中的设置部分
