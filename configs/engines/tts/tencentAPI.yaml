@@ -12,7 +12,7 @@ PARAMETERS: [
     name: "secret_id",
     description: "tencent secret_id.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },
@@ -20,7 +20,7 @@ PARAMETERS: [
     name: "secret_key",
     description: "tencent secret_key.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },

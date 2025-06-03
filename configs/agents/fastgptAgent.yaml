@@ -13,7 +13,7 @@ PARAMETERS: [
     name: "base_url",
     description: "FastGPT base url.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },
@@ -21,7 +21,7 @@ PARAMETERS: [
     name: "api_key",
     description: "FastGPT API Key.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },

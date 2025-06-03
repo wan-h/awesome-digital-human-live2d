@@ -13,7 +13,7 @@ PARAMETERS: [
     name: "api_server",
     description: "Dify API Server.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },
@@ -21,7 +21,7 @@ PARAMETERS: [
     name: "api_key",
     description: "Dify API Key.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },
@@ -29,7 +29,7 @@ PARAMETERS: [
     name: "username",
     description: "Dify Username.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   }

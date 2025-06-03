@@ -16,7 +16,7 @@ PARAMETERS: [
     name: "voice",
     description: "Voice for AliNLS.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: "zhimi_emo"
   },
@@ -24,7 +24,7 @@ PARAMETERS: [
     name: "token",
     description: "Ali API token.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },
@@ -32,7 +32,7 @@ PARAMETERS: [
     name: "app_key",
     description: "Ali API app key.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   }

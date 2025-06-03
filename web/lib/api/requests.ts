@@ -6,10 +6,6 @@ const SERVER_PROTOCOL = process.env.NEXT_PUBLIC_SERVER_PROTOCOL;
 const SERVER_PORT = process.env.NEXT_PUBLIC_SERVER_PORT;
 
 export function getHost(): string {
-  // 开发环境会做重定向
-  if (process.env.NEXT_PUBLIC_SERVER_MODE === "dev") {
-    return ""
-  }
   const SERVER_IP = process.env.NEXT_PUBLIC_SERVER_IP || globalThis.location?.hostname;
   let host = SERVER_PROTOCOL + "://" + SERVER_IP;
   // 非默认值端口显式添加

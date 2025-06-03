@@ -9,7 +9,7 @@ PARAMETERS: [
     name: "model",
     description: "ID of the model to use.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   },
@@ -25,7 +25,7 @@ PARAMETERS: [
     name: "api_key",
     description: "The api key for request.",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
     default: ""
   }
