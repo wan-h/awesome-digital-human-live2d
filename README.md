@@ -3,6 +3,7 @@
 **给数字人注入灵魂**  
 ---  
 🎉🎉🎉 社区官网公测版本正式发布: https://www.light4ai.com  
+[B站视频-社区官网介绍](https://www.bilibili.com/video/BV1YN72z7EBz)  
 官方支持(详情见[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)):  
 * 个人应用管理  
 * 内置服务接入  
