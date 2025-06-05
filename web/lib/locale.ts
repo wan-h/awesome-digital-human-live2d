@@ -15,7 +15,7 @@ export async function getUserLocale() {
         return defaultLocale;
     }
     
-    // 使用类型守卫确保类型安全
+    // Use type guard to ensure type safety
     const isValidLocale = (locale: string): locale is Locale => {
         return locales.includes(locale as Locale);
     };
