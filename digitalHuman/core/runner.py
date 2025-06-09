@@ -60,6 +60,10 @@ class BaseRunner(ABC):
                     continue
                 raise RuntimeError(f"Missing parameter: {paramter.name}")
             paramters[paramter.name] = kwargs[paramter.name]
+        # 额外参数填充
+        for k, v in kwargs.items():
+            if k not in paramters:
+                paramters[k] = v
         return paramters
     
     def setup(self):
