@@ -2,13 +2,14 @@ import "whatwg-fetch";
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import * as PROTOCOL from "../protocol";
 import { v4 as uuidv4 } from 'uuid';
-import { getHost, errorHandler, get, post, filePost, put, del } from "./requests";
+import { getHost, errorHandler, get, post, filePost, put, del, getWsUrl } from "./requests";
 
 const SERVER_VERSION = process.env.NEXT_PUBLIC_SERVER_VERSION;
 
 const BASE_PATH = "/adh"
 // =========================== ASR APIs ===========================
 const ASR_PATH = BASE_PATH + `/asr/${SERVER_VERSION}`
+export const STREAM_ASR_FULLY = getWsUrl(BASE_PATH + `/stream_asr/${SERVER_VERSION}`)
 
 export async function api_asr_get_list(): Promise<PROTOCOL.EngineDesc[]>{
     const path = `${ASR_PATH}/engine`;

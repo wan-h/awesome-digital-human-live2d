@@ -69,10 +69,20 @@ PC端页面预览：
   * 支持动态背景
   * 沉浸模式（实时交互、对话打断等等直接交互方式优化）
 
+> ### v3.0.1
+**强化ASR体验**
+* [v3.0.1 - 2025-06-11](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
+  * 前端配置支持 Stream ASR
+  * 后端支持 Stream ASR Engine - [文档](./docs/streaming_asr_usage.md)
+  * 创建 ASR Websocket 基础协议 - [文档](./docs/streaming_asr_protocol.md)
+  * 增加测试工具-[文档](./test/README.md)
+
+
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
 [开发说明](./docs/developer_instrction.md)  
 [v2.0.0 常见问题](./docs/Q&A.md)  
+[ASR客户端测试工具](./docs/asr_client_testing.md)  
 
 [v2.0.0 B站视频教程-部署](https://www.bilibili.com/video/BV1szePeaEak/)  
 [v2.0.0 B站视频教程-All-in-Dify部署](https://www.bilibili.com/video/BV1kZWvesE25/)

@@ -21,6 +21,12 @@ function getUrl(path: string): string {
   return getHost() + path;
 }
 
+export function getWsUrl(path: string): string {
+  // 如果包含http则直接返回(完整路径)
+  if (path.includes("ws")) return path;
+  return getHost().replace("https", "wss").replace("http", "ws") + path;
+}
+
 export function errorHandler(error: Error, signal: AbortSignal | null = null ) {
   // 主动取消请求
   if (signal && signal.aborted  ) {
