@@ -5,10 +5,8 @@
 '''
 
 import json
-from fastapi import APIRouter, UploadFile, Form, File
+from fastapi import APIRouter, UploadFile, Form
 from fastapi.responses import JSONResponse
-from digitalHuman.protocol import TextMessage, AUDIO_TYPE
-from digitalHuman.engine import EnginePool
 from digitalHuman.server.reponse import Response
 from digitalHuman.server.header import HeaderInfo
 from digitalHuman.server.models import *

@@ -45,10 +45,10 @@ pip install modelscope
 
 ```yaml
 # FunASR流式ASR引擎配置
-NAME: funasr_streaming_engine
+NAME: funasrStreamingEngine
 
 # 模型配置
-MODEL_NAME: "iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx"
+model_name: "iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx"
 ```
 
 #### 启动服务
@@ -275,19 +275,20 @@ await client.startRecording();
 如果需要集成其他ASR引擎，可以参考`FunasrStreamingASR`的实现:
 
 ```python
-from digitalHuman.engine.engineBase import AsyncStreamEngine
+from digitalHuman.engine.engineBase import AsyncStreamBaseEngine
 from digitalHuman.engine.builder import ASREngines
 
+
 @ASREngines.register("custom_streaming_asr")
-class CustomStreamingASR(AsyncStreamEngine):
+class CustomStreamingASR(AsyncStreamBaseEngine):
     def __init__(self, config):
         super().__init__(config)
         # 初始化自定义引擎
-    
+
     def setup(self):
         # 引擎设置逻辑
         pass
-    
+
     async def run_stream(self, audio_message, **kwargs):
         # 流式处理逻辑
         pass

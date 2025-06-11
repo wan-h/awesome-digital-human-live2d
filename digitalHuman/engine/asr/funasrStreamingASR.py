@@ -4,6 +4,7 @@ import numpy as np
 from yacs.config import CfgNode as CN
 
 from digitalHuman.engine.builder import ASREngines
+from digitalHuman.protocol import AudioMessage, TextMessage, AUDIO_TYPE, ENGINE_TYPE
 
 try:
     from funasr_onnx.paraformer_online_bin import Paraformer
@@ -15,27 +16,24 @@ except ImportError:
 
 from modelscope import snapshot_download
 
-from digitalHuman.engine.engineBase import AsyncStreamEngine
-from digitalHuman.utils.protocol import (
-    AudioFormatType,
-    AudioMessage,
-    TextMessage
-)
+from digitalHuman.engine.engineBase import AsyncStreamBaseEngine
+
 
 # 基本的日志配置
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-@ASREngines.register("funasr_streaming_engine")
-class FunasrStreamingASR(AsyncStreamEngine):
+@ASREngines.register("funasrStreamingEngine")
+class FunasrStreamingASR(AsyncStreamBaseEngine):
     """
     Funasr Streaming ASR Engine.
     使用 FunASR ONNX Paraformer 模型进行流式语音识别。
     """
 
-    def __init__(self, config: CN):
-        self.model_name = config.MODEL_NAME
+    def __init__(self, config: CN, type: ENGINE_TYPE = ENGINE_TYPE.ASR):
+
+        self.model_name = None
         self.model_revision = "v2.0.5"
         self.chunk_size_cfg = [
             8,
@@ -46,7 +44,7 @@ class FunasrStreamingASR(AsyncStreamEngine):
         self.model_dir = None
         self.model = None
         self.sample_rate = 16000  # Expected sample rate
-        super().__init__(config=config)
+        super().__init__(config=config, type=type)
         logger.info(
             f"FunasrStreamingASR initialized with model: {self.model_name}, chunk_size_cfg: {self.chunk_size_cfg}"
         )
@@ -66,6 +64,11 @@ class FunasrStreamingASR(AsyncStreamEngine):
             logger.info(
                 f"Downloading Funasr model: {self.model_name} revision: {self.model_revision}"
             )
+            filter_model_names = [p for p in self.parameters() if p.name == "model_name"]
+            if filter_model_names:
+                self.model_name = filter_model_names[0].default
+            else:
+                raise RuntimeError("Model name not found in parameters.")
             self.model_dir = snapshot_download(
                 self.model_name, revision=self.model_revision
             )
@@ -116,7 +119,7 @@ class FunasrStreamingASR(AsyncStreamEngine):
         # AudioMessage.data is bytes. We need to convert it.
         # Assuming PCM 16-bit signed mono audio.
 
-        if audio_message.format != AudioFormatType.WAV:
+        if audio_message.type != AUDIO_TYPE.WAV:
             logger.error(
                 f"Unsupported audio format: {audio_message.format}. Expected PCM."
             )
@@ -177,7 +180,7 @@ class FunasrStreamingASR(AsyncStreamEngine):
             # The example code's loop suggests the model internally manages history via `param_dict['cache']`.
             audio_message_for_conversion = AudioMessage(
                 data=audio_chunk,
-                format=AudioFormatType.WAV,
+                type=AUDIO_TYPE.WAV,
                 sampleRate=self.sample_rate,
                 sampleWidth=2,
             )

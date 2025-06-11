@@ -4,7 +4,8 @@ import struct
 import pytest
 from httpx_ws import aconnect_ws
 
-STREAM_API_PREFIX = "/adh/streaming_asr"
+STREAM_API_PREFIX = "/adh/stream_asr"
+FULLY_URL = f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/v0/engine"
 
 # 协议常量定义（与服务端保持一致）
 ACTION_HEADER_SIZE = 18
@@ -99,9 +100,7 @@ async def test_websocket_normal_flow(client, wavAudioZh):
     - 结束语音流并接收最终识别结果
     """
 
-    async with aconnect_ws(
-        f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/ws/asr/v0/stream"
-    ) as websocket:
+    async with aconnect_ws(FULLY_URL) as websocket:
         # Step 1: 接收 CONNECTION_ACK
         data = await websocket.receive_bytes()
         action, payload = parse_binary_message(data)
@@ -186,8 +185,7 @@ async def test_websocket_ping_pong(client):
     """
     测试 PING/PONG 心跳机制（使用新的二进制协议）
     """
-    async with aconnect_ws(
-        f"ws://127.0.0.1:8000{STREAM_API_PREFIX}/ws/asr/v0/stream"
+    async with aconnect_ws(FULLY_URL
     ) as websocket:
         # 接收 CONNECTION_ACK 和 ENGINE_READY
         data = await websocket.receive_bytes()

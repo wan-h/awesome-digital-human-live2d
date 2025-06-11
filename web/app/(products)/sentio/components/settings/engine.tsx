@@ -26,7 +26,8 @@ import {
     useChatRecordStore,
 } from "@/lib/store/sentio";
 import { InfoTip } from "@/components/tips/info";
-import {ParamsLoading, ParamsList} from "./params"
+import {ParamsLoading, ParamsList} from "./params";
+import { AsrModeSettings } from "./asrMode";
 
 const EngineSelector = memo(({
     engine,
@@ -244,7 +245,10 @@ export const EngineTab = memo(({ engineType }: { engineType: ENGINE_TYPE }) => {
 
 export function ASRTab() {
     return (
-        <EngineTab engineType={ENGINE_TYPE.ASR} />
+        <div className="flex flex-col gap-4">
+            <AsrModeSettings />
+            <EngineTab engineType={ENGINE_TYPE.ASR} />
+        </div>
     )
 }
 

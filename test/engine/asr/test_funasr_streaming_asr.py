@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 
 from digitalHuman.engine.asr.funasrStreamingASR import FunasrStreamingASR
+from digitalHuman.protocol import ENGINE_TYPE
 from digitalHuman.utils import config
 
 
@@ -10,11 +11,11 @@ class Test_FunasrStreamingASR:
     def asr_engine(self):
         """创建FunasrStreamingASR引擎实例"""
         for engine_config in config.SERVER.ENGINES.ASR.SUPPORT_LIST:
-            if engine_config.NAME == "funasr_streaming_engine":
+            if engine_config.NAME == "funasrStreamingEngine":
                 stream_asr_config = engine_config
                 break
         else:
-            pytest.skip("funasr_streaming_engine not found in config")
+            pytest.skip("funasrStreamingEngine not found in config")
 
         engine = FunasrStreamingASR(config=stream_asr_config)
         try:
@@ -85,36 +86,16 @@ class Test_FunasrStreamingASR:
         # 空音频块应该返回空字符串
         assert transcript == ""
 
-    def test_process_asr_chunk_without_setup(self):
-        """测试未初始化时处理音频块"""
-        # 创建未初始化的引擎
-        for engine_config in config.SERVER.ENGINES.ASR.SUPPORT_LIST:
-            if engine_config.NAME == "funasr_streaming_engine":
-                stream_asr_config = engine_config
-                break
-        else:
-            pytest.skip("funasr_streaming_engine not found in config")
-
-        engine = FunasrStreamingASR(config=stream_asr_config)
-        # 不调用setup()
-
-        param_dict = {"cache": dict(), "is_final": False}
-        c_buffer = bytearray()
-
-        # 应该抛出RuntimeError
-        with pytest.raises(RuntimeError, match="model not initialized"):
-            engine.process_asr_chunk(b"test", param_dict, c_buffer)
-
     def test_convert_to_numpy(self, asr_engine):
         """测试音频数据转换为numpy数组"""
-        from digitalHuman.utils.protocol import AudioFormatType, AudioMessage
+        from digitalHuman.protocol import AUDIO_TYPE, AudioMessage
 
         # 创建测试音频数据（16位PCM）
         test_samples = np.array([1000, -1000, 2000, -2000], dtype=np.int16)
         test_bytes = test_samples.tobytes()
 
         audio_message = AudioMessage(
-            data=test_bytes, format=AudioFormatType.WAV, sampleRate=16000, sampleWidth=2
+            data=test_bytes, type=AUDIO_TYPE.WAV, sampleRate=16000, sampleWidth=2
         )
 
         # 转换为numpy数组

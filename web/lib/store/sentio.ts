@@ -55,9 +55,11 @@ interface SentioAsrState {
     enable: boolean,
     engine: string,
     settings: { [key: string]: any },
+    streamMode: boolean, // 流式识别模式
     setEnable: (enable: boolean) => void,
     setEngine: (engine: string) => void,
-    setSettings: (settings: { [key: string]: any }) => void
+    setSettings: (settings: { [key: string]: any }) => void,
+    setStreamMode: (streamMode: boolean) => void
 }
 
 export const useSentioAsrStore = create<SentioAsrState>()(
@@ -66,9 +68,11 @@ export const useSentioAsrStore = create<SentioAsrState>()(
             enable: true,
             engine: "default",
             settings: {},
+            streamMode: false, // 默认使用传统模式
             setEnable: (enable: boolean) => set((state) => ({ enable: enable })),
             setEngine: (by: string) => set((state) => ({ engine: by })),
-            setSettings: (by: { [key: string]: any }) => set((state) => ({ settings: by }))
+            setSettings: (by: { [key: string]: any }) => set((state) => ({ settings: by })),
+            setStreamMode: (streamMode: boolean) => set((state) => ({ streamMode: streamMode }))
         }),
         {
             name: 'sentio-asr-storage',
