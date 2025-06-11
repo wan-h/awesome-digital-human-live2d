@@ -35,7 +35,6 @@ services:
     #   - "8000:8000"
     volumes:
       - ./configs:/workspace/configs
-      - ./digitalHuman:/workspace/digitalHuman
 # network
 networks:
   shared_network:
