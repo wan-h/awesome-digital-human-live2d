@@ -1,25 +1,30 @@
 # Funasr Streaming ASR Engine Configuration
 # For details on the model, see: https://www.modelscope.cn/models/iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx/summary
-NAME: funasrStreamingEngine
+NAME: funasrStreaming
 VERSION: "v0.0.1"
 DESC: "接入Stream ASR"
 META: {
   official: "https://github.com/modelscope/FunASR",
   tips: "支持本地部署的FunAsrStream应用",
-  fee: "free"
+  fee: "free",
+  infer_type: "stream"
 }
 PARAMETERS: [
   {
-    name: "model_name",
-    description: "the ast stream model",
+    name: "api_url",
+    description: "Funasr Streaming API URL",
     type: "string",
-    required: true,
+    required: false,
     choices: [],
-    default: "iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx"
+    default: "ws://127.0.0.1:10095"
+  },
+  {
+    name: "mode",
+    description: "Funasr Streaming mode",
+    type: "string",
+    required: false,
+    # choices: ["online", "offline", "2pass"],
+    choices: ["offline", "2pass"],
+    default: "2pass"
   }
 ]
-# model_revision: "v1.2.3" # Optional: Specify a revision if needed, otherwise defaults to latest.
-# chunk_size_ms: [8, 8, 4] # Optional: Override default if necessary. This is FunASR's model specific param.
-                           # [Number of frames in encoder pre-chunk, UEM frame number in encoder, Number of frames in decoder pre-chunk]
-                           # Each frame is 60ms.
-                           # Example: [8,8,4] -> [480ms, 480ms, 240ms]

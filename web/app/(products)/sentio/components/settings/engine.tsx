@@ -18,16 +18,16 @@ import {
     api_get_engine_config, 
     api_tts_get_voice 
 } from '@/lib/api/server';
-import { ENGINE_TYPE, EngineParamDesc, EngineDesc } from '@/lib/protocol';
+import { ENGINE_TYPE, EngineParamDesc, EngineDesc, IFER_TYPE, CHAT_MODE } from '@/lib/protocol';
 import {
     useSentioAsrStore,
     useSentioTtsStore,
     useSentioAgentStore,
     useChatRecordStore,
+    useSentioChatModeStore
 } from "@/lib/store/sentio";
 import { InfoTip } from "@/components/tips/info";
 import {ParamsLoading, ParamsList} from "./params";
-import { AsrModeSettings } from "./asrMode";
 
 const EngineSelector = memo(({
     engine,
@@ -45,7 +45,6 @@ const EngineSelector = memo(({
                 {engineList[engine]?.meta.official && <Link href={engineList[engine].meta.official} isExternal className="text-xs hover:underline">👉 前往官网</Link>}
                 {engineList[engine]?.meta.configuration && <Link href={engineList[engine].meta.configuration} isExternal className="text-xs hover:underline">👉 如何配置</Link>}
                 {engineList[engine]?.meta.tips && <p className="text-xs text-yellow-500">{`Tips: ${engineList[engine].meta.tips}`}</p>}
-                <p className="text-xs text-green-500">{`(${engineList[engine]?.meta.fee})`}</p>
             </div>
         )
     }
@@ -83,7 +82,8 @@ const EngineSelectorLoading = () => {
 export const EngineTab = memo(({ engineType }: { engineType: ENGINE_TYPE }) => {
     const t = useTranslations('Products.sentio.settings');
     const { clearChatRecord } = useChatRecordStore();
-    const { enable, engine, settings, setEnable, setEngine, setSettings } = (() => {
+    const { chatMode } = useSentioChatModeStore();
+    const { enable, engine, settings, setEnable, setInferType, setEngine, setSettings } = (() => {
         switch (engineType) {
             case ENGINE_TYPE.ASR:
                 return useSentioAsrStore();
@@ -153,25 +153,34 @@ export const EngineTab = memo(({ engineType }: { engineType: ENGINE_TYPE }) => {
         clearChatRecord();
         engineParams.current = [];
         setEngine(e);
+        setInferType(engineList.current[e].infer_type as IFER_TYPE);
         getEngineParams(engineType, e);
     };
 
     useEffect(() => {
         // 获取引擎列表
         api_get_engine_list(engineType).then((engines: EngineDesc[]) => {
-            engineList.current = engines.reduce((el: { [key: string]: EngineDesc }, engine) => {
+            const filterEngines = engines.filter(function(engine){
+                if (chatMode == CHAT_MODE.IMMSERSIVE) {
+                    return true;
+                } else {
+                    return engine.infer_type == IFER_TYPE.NORMAL;
+                }
+            })
+            engineList.current = filterEngines.reduce((el: { [key: string]: EngineDesc }, engine) => {
                 el[engine.name] = engine;
                 return el;
             }, {});
             
             setIsLoadingEngineList(false);
 
-            const names = engines.map((engine) => engine.name);
+            const names = filterEngines.map((engine) => engine.name);
             if (names.includes(engine)) {
                 // 存在存储引擎时加载
                 setIsLoadingEngineParams(true);
                 engineParams.current = [];
                 setEngine(engine);
+                setInferType(engineList.current[engine].infer_type as IFER_TYPE);
                 getEngineParams(engineType, engine);
             } else {
                 // 不存在时获取默认引擎
@@ -245,10 +254,7 @@ export const EngineTab = memo(({ engineType }: { engineType: ENGINE_TYPE }) => {
 
 export function ASRTab() {
     return (
-        <div className="flex flex-col gap-4">
-            <AsrModeSettings />
-            <EngineTab engineType={ENGINE_TYPE.ASR} />
-        </div>
+        <EngineTab engineType={ENGINE_TYPE.ASR} />
     )
 }
 

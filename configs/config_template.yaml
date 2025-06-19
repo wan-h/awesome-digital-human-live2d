@@ -5,7 +5,6 @@ COMMON:
 SERVER:
   IP: "0.0.0.0"
   PORT: 8880
-  STORAGE_DOMAIN: "https://light4ai.space"
   WORKSPACE_PATH: "./outputs"
   ENGINES:
     ASR: 

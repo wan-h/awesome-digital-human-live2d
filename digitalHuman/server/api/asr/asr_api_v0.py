@@ -106,3 +106,10 @@ async def api_asr_infer_file(
         response.data = ""
         response.error(str(e))
     return JSONResponse(content=response.validate(ASREngineOutput), status_code=200)
+# 流式
+@router.websocket("/engine/stream")
+async def api_asr_infer_stream(header: HeaderInfo, websocket: WebSocket):
+    """
+    流式asr引擎
+    """
+    await asr_stream_infer(header, websocket)

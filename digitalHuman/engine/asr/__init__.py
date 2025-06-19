@@ -7,6 +7,6 @@
 from .tencentASR import TencentApiAsr
 from .difyASR import DifyApiAsr
 from .asrFactory import ASRFactory
-from .funasrStreamingASR import FunasrStreamingASR
+from .funasrStreamingASR import FunasrStreamingAsr
 
 __all__ = ['ASRFactory']

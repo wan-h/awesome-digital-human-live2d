@@ -35,6 +35,19 @@ services:
     #   - "8000:8000"
     volumes:
       - ./configs:/workspace/configs
+  ash-funasr:
+    image: "registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr:funasr-runtime-sdk-online-cpu-0.1.12"
+    ports:
+      - "10095:10095"
+    volumes:
+      - ./docker/volumes/funasr-runtime-resources/models:/workspace/models
+      - ./docker/volumes/funasr-runtime-resources/sh/run_server_2pass.sh:/workspace/FunASR/runtime/run_server_2pass.sh
+      - ./docker/volumes/funasr-runtime-resources/sh/hotwords.txt:/workspace/FunASR/runtime/websocket/hotwords.txt
+    restart: always
+    networks:
+      - shared_network
+      - default
+    command: "bash /workspace/FunASR/runtime/run_server_2pass.sh"
 # network
 networks:
   shared_network:

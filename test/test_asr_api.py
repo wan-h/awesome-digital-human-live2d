@@ -7,6 +7,7 @@
 import base64
 import pytest
 from httpx import AsyncClient
+from digitalHuman.protocol import *
 
 class Test_ASR_API():
     @pytest.mark.asyncio(scope="session")

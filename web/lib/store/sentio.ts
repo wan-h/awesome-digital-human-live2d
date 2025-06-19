@@ -1,13 +1,15 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from 'zustand/middleware'
-import { ResourceModel, ChatMessage, CHAT_MODE, APP_TYPE } from '@/lib/protocol';
+import { ResourceModel, ChatMessage, CHAT_MODE, APP_TYPE, IFER_TYPE } from '@/lib/protocol';
 import * as CONSTANTS from '@/lib/constants';
 
 // ==================== 聊天记录 ==================
 interface SentioChatRecordState {
     chatRecord: ChatMessage[],
     addChatRecord: (message: ChatMessage) => void,
+    getLastRecord: () => ChatMessage | undefined,
     updateLastRecord: (message: ChatMessage) => void,
+    deleteLastRecord: () => void,
     clearChatRecord: () => void
 }
 export const useChatRecordStore = create<SentioChatRecordState>()(
@@ -15,7 +17,12 @@ export const useChatRecordStore = create<SentioChatRecordState>()(
         (set) => ({
             chatRecord: [],
             addChatRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord, message] })),
+            getLastRecord: () => { 
+                const chatRecord: ChatMessage[] = useChatRecordStore.getState().chatRecord;
+                return chatRecord.length > 0 ? chatRecord[chatRecord.length - 1] : undefined; 
+            },
             updateLastRecord: (message: ChatMessage) => set((state) => ({ chatRecord: [...state.chatRecord.slice(0, -1), message] })),
+            deleteLastRecord: () => set((state) => ({ chatRecord: [...state.chatRecord.slice(0, -1)] })),
             clearChatRecord: () => set((state) => ({ chatRecord: [] })),
         }),
         {
@@ -54,12 +61,12 @@ export const useSentioBasicStore = create<SentioBasicState>()(
 interface SentioAsrState {
     enable: boolean,
     engine: string,
+    infer_type: IFER_TYPE,
     settings: { [key: string]: any },
-    streamMode: boolean, // 流式识别模式
     setEnable: (enable: boolean) => void,
+    setInferType: (infer_type: IFER_TYPE) => void,
     setEngine: (engine: string) => void,
     setSettings: (settings: { [key: string]: any }) => void,
-    setStreamMode: (streamMode: boolean) => void
 }
 
 export const useSentioAsrStore = create<SentioAsrState>()(
@@ -67,12 +74,12 @@ export const useSentioAsrStore = create<SentioAsrState>()(
         (set) => ({
             enable: true,
             engine: "default",
+            infer_type: IFER_TYPE.NORMAL,
             settings: {},
-            streamMode: false, // 默认使用传统模式
             setEnable: (enable: boolean) => set((state) => ({ enable: enable })),
+            setInferType: (infer_type: IFER_TYPE) => set((state) => ({ infer_type: infer_type })),
             setEngine: (by: string) => set((state) => ({ engine: by })),
             setSettings: (by: { [key: string]: any }) => set((state) => ({ settings: by })),
-            setStreamMode: (streamMode: boolean) => set((state) => ({ streamMode: streamMode }))
         }),
         {
             name: 'sentio-asr-storage',
@@ -84,8 +91,10 @@ export const useSentioAsrStore = create<SentioAsrState>()(
 interface SentioTtsState {
     enable: boolean,
     engine: string,
+    infer_type: IFER_TYPE,
     settings: { [key: string]: any },
     setEnable: (enable: boolean) => void,
+    setInferType: (infer_type: IFER_TYPE) => void,
     setEngine: (engine: string) => void,
     setSettings: (settings: { [key: string]: any }) => void
 }
@@ -95,8 +104,10 @@ export const useSentioTtsStore = create<SentioTtsState>()(
         (set) => ({
             enable: true,
             engine: "default",
+            infer_type: IFER_TYPE.NORMAL,
             settings: {},
             setEnable: (enable: boolean) => set((state) => ({ enable: enable })),
+            setInferType: (infer_type: IFER_TYPE) => set((state) => ({ infer_type: infer_type })),
             setEngine: (by: string) => set((state) => ({ engine: by })),
             setSettings: (by: { [key: string]: any }) => set((state) => ({ settings: by }))
         }),
@@ -110,8 +121,10 @@ export const useSentioTtsStore = create<SentioTtsState>()(
 interface SentioAgentState {
     enable: boolean,
     engine: string,
+    infer_type: IFER_TYPE,
     settings: { [key: string]: any },
     setEnable: (enable: boolean) => void,
+    setInferType: (infer_type: IFER_TYPE) => void,
     setEngine: (engine: string) => void,
     setSettings: (settings: { [key: string]: any }) => void
 }
@@ -121,9 +134,11 @@ export const useSentioAgentStore = create<SentioAgentState>()(
         (set) => ({
             enable: true,
             engine: "default",
+            infer_type: IFER_TYPE.NORMAL,
             settings: {},
             // setEnable: (enable: boolean) => set((state) => ({ enable: enable })),
             setEnable: (enable: boolean) => set((state) => ({})),
+            setInferType: (infer_type: IFER_TYPE) => set((state) => ({ infer_type: infer_type })),
             setEngine: (by: string) => set((state) => ({ engine: by })),
             setSettings: (by: { [key: string]: any }) => set((state) => ({ settings: by }))
         }),

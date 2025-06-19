@@ -1,111 +1,76 @@
-import numpy as np
-import pytest
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
+import asyncio
+import json
+import pyaudio
+from digitalHuman.protocol import *
+import websockets
+from websockets import ClientConnection
 
-from digitalHuman.engine.asr.funasrStreamingASR import FunasrStreamingASR
-from digitalHuman.protocol import ENGINE_TYPE
-from digitalHuman.utils import config
 
+async def send_message(ws: ClientConnection, action: str, message: str | bytes = b'') -> None:
+    """发送WebSocket消息"""
+    data = struct_message(action, message)
+    await ws.send(data)
+    # logger.debug(f"Sent action: {action}, payload size: {len(data) - PROTOCOL_HEADER_SIZE} bytes")
 
-class Test_FunasrStreamingASR:
-    @pytest.fixture
-    def asr_engine(self):
-        """创建FunasrStreamingASR引擎实例"""
-        for engine_config in config.SERVER.ENGINES.ASR.SUPPORT_LIST:
-            if engine_config.NAME == "funasrStreamingEngine":
-                stream_asr_config = engine_config
-                break
-        else:
-            pytest.skip("funasrStreamingEngine not found in config")
+async def recv_message(ws: ClientConnection) -> Tuple[str, bytes]:
+    """接收WebSocket消息"""
+    message = await ws.recv()
+    action, payload = parse_message(message)
+    # logger.debug(f"Received action: {action.decode('utf-8').strip()}, payload size: {len(payload)} bytes")
+    return action, payload
 
-        engine = FunasrStreamingASR(config=stream_asr_config)
-        try:
-            engine.setup()
-            yield engine
-        finally:
-            engine.release()
+async def record_microphone(websocket: WebSocket):
+    FORMAT = pyaudio.paInt16
+    CHANNELS = 1
+    RATE = 16000
+    chunk_size = 60 * 10 / 10
+    CHUNK = int(RATE / 1000 * chunk_size)
 
-    def test_engine_initialization(self, asr_engine):
-        """测试引擎初始化"""
-        assert asr_engine.model is not None
-        assert asr_engine.sample_rate == 16000
-        assert asr_engine.chunk_size_cfg == [8, 8, 4]
+    p = pyaudio.PyAudio()
 
-    def test_start_asr_stream(self, asr_engine):
-        """测试开始ASR流"""
-        # 这个方法主要是重置状态，不会抛出异常即为成功
-        asr_engine.start_asr_stream()
+    stream = p.open(
+        format=FORMAT, channels=CHANNELS, rate=RATE, input=True, frames_per_buffer=CHUNK
+    )
 
-    def test_process_asr_chunk_with_real_audio(self, asr_engine, wavAudioZh):
-        """测试使用真实音频文件进行流式识别"""
-        # 读取音频文件
-        with open(wavAudioZh, "rb") as f:
-            # 跳过WAV文件头（通常是44字节）
-            f.seek(44)
-            audio_data = f.read()
+    while True:
+        payload = stream.read(CHUNK)
+        # print("[音频数据传输]client -> server: ENGINE_PARTIAL_INPUT")
+        await send_message(websocket, WS_RECV_ACTION_TYPE.ENGINE_PARTIAL_INPUT, payload)
+        await asyncio.sleep(0.005)
 
-        # 模拟流式处理：将音频分成多个块
-        chunk_size_bytes = 7680 * 2  # 480ms chunks for 16kHz
-        param_dict = {"cache": dict(), "is_final": False}
-        c_buffer = bytearray()
+async def asr_result(websocket: WebSocket):
+    while True:
+        action, payload = await recv_message(websocket)
+        print(f"[识别结果传输]server -> client: {action}, {payload.decode('utf-8')}")
 
-        transcriptions = []
+async def main():
+    url = f"ws://127.0.0.1:8880/adh/asr/v0/engine/stream"
+    items = {
+        "engine": "funasrStreaming",
+        "config": {
+            "api_url": "ws://127.0.0.1:10095",
+        },
+        "data": ""
+    }
+    async with websockets.connect(url) as ws:
+        print("[客户端启动引擎]client -> server: ENGINE_START")
+        message = struct_message(WS_RECV_ACTION_TYPE.ENGINE_START, json.dumps(items).encode("utf-8"))
+        await ws.send(message)
+        # 引擎初始化
+        message = await ws.recv()
+        action, payload = parse_message(message)
+        assert action == WS_SEND_ACTION_TYPE.ENGINE_INITIALZING
+        print("[服务端初始化引擎]server -> client: ENGINE_INITIALZING")
+        # 引擎准备就绪
+        message = await ws.recv()
+        action, payload = parse_message(message)
+        assert action == WS_SEND_ACTION_TYPE.ENGINE_STARTED
+        print("[服务端准备就绪]server -> client: ENGINE_STARTED")
+        task_record_microphone = asyncio.create_task(record_microphone(ws))
+        task_message = asyncio.create_task(asr_result(ws))
+        await asyncio.gather(task_record_microphone, task_message)
 
-        # 分块处理音频
-        for i in range(0, len(audio_data), chunk_size_bytes):
-            chunk = audio_data[i : i + chunk_size_bytes]
-            if not chunk:
-                break
-
-            # 判断是否为最后一个块
-            is_final = i + chunk_size_bytes >= len(audio_data)
-            param_dict["is_final"] = is_final
-
-            # 处理音频块
-            transcript = asr_engine.process_asr_chunk(chunk, param_dict, c_buffer)
-
-            if transcript:
-                transcriptions.append(transcript)
-
-        # 验证结果
-        assert len(transcriptions) > 0, "应该产生至少一个转录结果"
-
-        # 合并所有转录结果
-        full_transcript = "".join(transcriptions)
-        assert len(full_transcript) > 0, "完整转录结果不应为空"
-        assert full_transcript == "我认为跑步最重要的就是给我带来了身体健康"
-
-    def test_process_asr_chunk_empty_audio(self, asr_engine):
-        """测试处理空音频块"""
-        param_dict = {"cache": dict(), "is_final": False}
-        c_buffer = bytearray()
-
-        # 测试空音频块
-        empty_chunk = b""
-        transcript = asr_engine.process_asr_chunk(empty_chunk, param_dict, c_buffer)
-
-        # 空音频块应该返回空字符串
-        assert transcript == ""
-
-    def test_convert_to_numpy(self, asr_engine):
-        """测试音频数据转换为numpy数组"""
-        from digitalHuman.protocol import AUDIO_TYPE, AudioMessage
-
-        # 创建测试音频数据（16位PCM）
-        test_samples = np.array([1000, -1000, 2000, -2000], dtype=np.int16)
-        test_bytes = test_samples.tobytes()
-
-        audio_message = AudioMessage(
-            data=test_bytes, type=AUDIO_TYPE.WAV, sampleRate=16000, sampleWidth=2
-        )
-
-        # 转换为numpy数组
-        result = asr_engine._convert_to_numpy(audio_message)
-
-        # 验证结果
-        assert result is not None
-        assert isinstance(result, np.ndarray)
-        assert result.dtype == np.float32
-
-        # 验证归一化是否正确
-        expected = test_samples.astype(np.float32) / 32768.0
-        np.testing.assert_array_almost_equal(result, expected)
+if __name__ == '__main__':
+    asyncio.run(main())
