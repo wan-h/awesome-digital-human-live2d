@@ -4,7 +4,7 @@
 ---  
 🎉🎉🎉 社区官网公测版本正式发布: https://www.light4ai.com  
 [B站视频-社区官网介绍](https://www.bilibili.com/video/BV1YN72z7EBz)  
-官方支持(详情见[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)):  
+官网在开源版本基础上额外支持(详情见[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)):  
 * 个人应用管理  
 * 内置服务接入  
 * 限定主题  
@@ -68,21 +68,16 @@ PC端页面预览：
   * 前端页面全面升级：nextjs + heroui + tailwind
   * 支持动态背景
   * 沉浸模式（实时交互、对话打断等等直接交互方式优化）
+  * 支持流式引擎([协议文档](./docs/streaming_protocol.md))
+    * FunASR streaming(在沉浸模式可选)  
+  - [ ] 豆包支持
 
-> ### v3.0.1
-**强化ASR体验**
-* [v3.0.1 - 2025-06-11](https://github.com/wan-h/awesome-digital-human-live2d/tree/main)
-  * 前端配置支持 Stream ASR
-  * 后端支持 Stream ASR Engine - [文档](./docs/streaming_asr_usage.md)
-  * 创建 ASR Websocket 基础协议 - [文档](./docs/streaming_asr_protocol.md)
-  * 增加测试工具-[文档](./test/README.md)
 
 
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
 [开发说明](./docs/developer_instrction.md)  
 [v2.0.0 常见问题](./docs/Q&A.md)  
-[ASR客户端测试工具](./docs/asr_client_testing.md)  
 
 [v2.0.0 B站视频教程-部署](https://www.bilibili.com/video/BV1szePeaEak/)  
 [v2.0.0 B站视频教程-All-in-Dify部署](https://www.bilibili.com/video/BV1kZWvesE25/)
@@ -114,6 +109,7 @@ PC端页面预览：
 ### 开源项目
 * [Dify](https://github.com/langgenius/dify)  
 * [Live2D](https://github.com/Live2D)  
+* [FunASR](https://github.com/modelscope/FunASR)
 * 源码中涉及到的所有库作者
 
 ## 社区联系

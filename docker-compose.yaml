@@ -35,7 +35,7 @@ services:
     #   - "8000:8000"
     volumes:
       - ./configs:/workspace/configs
-  ash-funasr:
+  adh-funasr:
     image: "registry.cn-hangzhou.aliyuncs.com/funasr_repo/funasr:funasr-runtime-sdk-online-cpu-0.1.12"
     ports:
       - "10095:10095"
