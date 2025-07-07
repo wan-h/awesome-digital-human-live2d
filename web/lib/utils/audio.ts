@@ -116,6 +116,11 @@ function writeString(view: DataView, offset: number, string: string) {
   }
 }
 
+export const convertMp3ArrayBufferToWavArrayBuffer = async (mp3ArrayBuffer: ArrayBuffer): Promise<ArrayBuffer> => {
+  const mp3Blob = new Blob([mp3ArrayBuffer], { type: 'audio/mp3' })
+  const wavBlob = await convertMp3BlobToWavBlob(mp3Blob)
+  return wavBlob.arrayBuffer()
+}
 
 export const convertMp3BlobToWavBlob = async (mp3Blob: Blob): Promise<Blob> => {
   // 将Blob对象转换为ArrayBuffer对象

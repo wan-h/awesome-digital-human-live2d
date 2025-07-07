@@ -302,24 +302,13 @@ export const ChatStreamInput = memo(() => {
     const t = useTranslations('Products.sentio');
     const canvasRef = useRef<HTMLCanvasElement | null>(null)
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null)
-    const { engine: asrEngine, settings: asrSettings } = useSentioAsrStore();
     const { chat, abort } = useChatWithAgent();
     const { engine, settings } = useSentioAsrStore();
-    const { chatRecord, getLastRecord, updateLastRecord, addChatRecord, deleteLastRecord } = useChatRecordStore();
+    const { getLastRecord, updateLastRecord, addChatRecord, deleteLastRecord } = useChatRecordStore();
     const waveData = useRef<Uint8Array | null>();
     const drawId = useRef<number | null>(null);
     const [engineLoading, setEngineLoading] = useState<boolean>(true);
     const engineReady = useRef<boolean>(false);
-
-    const handleSpeechEnd = async (audio: Float32Array) => {
-        // 获取mp3数据, 转mp3的计算放到web客户端, 后端拿到的是mp3数据
-        const mp3Blob = convertFloat32ArrayToMp3(audio);
-        let asrResult = ""
-        asrResult = await api_asr_infer_file(asrEngine, asrSettings, mp3Blob);
-        if (asrResult.length > 0) {
-            chat(asrResult);
-        }
-    }
 
     const initCanvas = () => {
         const dpr = window.devicePixelRatio || 1
