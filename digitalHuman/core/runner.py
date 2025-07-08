@@ -7,7 +7,7 @@
 from typing import List, Dict
 from yacs.config import CfgNode as CN
 from abc import ABC, abstractmethod
-from digitalHuman.protocol import BaseMessage, ParamDesc, EngineDesc, ENGINE_TYPE
+from digitalHuman.protocol import BaseMessage, ParamDesc, EngineDesc, ENGINE_TYPE, INFER_TYPE
 
 __all__ = ["BaseRunner"]
 
@@ -28,10 +28,19 @@ class BaseRunner(ABC):
     def type(self) -> ENGINE_TYPE:
         return self._engineType
     
+    @property
+    def inferType(self) -> INFER_TYPE:
+        if "infer_type" not in self.meta(): return INFER_TYPE.NORMAL
+        if self.meta()['infer_type'] == 'stream': 
+            return INFER_TYPE.STREAM
+        else:
+            raise RuntimeError(f"Invalid infer type: {self.meta()['infer_type']}")
+    
     def desc(self) -> EngineDesc:
         return EngineDesc(
             name=self.name,
             type=self.type,
+            infer_type=self.inferType,
             desc=self.cfg.DESC if "DESC" in self.cfg else "",
             meta=self.meta()
         )

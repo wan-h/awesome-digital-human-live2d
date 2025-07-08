@@ -132,7 +132,7 @@ class EdgeApiTts(BaseTTSEngine):
             if message["type"] == "audio":
                 data += message["data"]
         # mp3 -> wav
-        data = mp3ToWav(data)
+        # data = mp3ToWav(data)
         message = AudioMessage(
             data=base64.b64encode(data).decode('utf-8'),
             sampleRate=16000,

@@ -5,10 +5,8 @@
 '''
 
 import json
-from fastapi import APIRouter, UploadFile, Form, File
+from fastapi import APIRouter, UploadFile, Form
 from fastapi.responses import JSONResponse
-from digitalHuman.protocol import TextMessage, AUDIO_TYPE
-from digitalHuman.engine import EnginePool
 from digitalHuman.server.reponse import Response
 from digitalHuman.server.header import HeaderInfo
 from digitalHuman.server.models import *
@@ -108,3 +106,10 @@ async def api_asr_infer_file(
         response.data = ""
         response.error(str(e))
     return JSONResponse(content=response.validate(ASREngineOutput), status_code=200)
+# 流式
+@router.websocket("/engine/stream")
+async def api_asr_infer_stream(header: HeaderInfo, websocket: WebSocket):
+    """
+    流式asr引擎
+    """
+    await asr_stream_infer(header, websocket)

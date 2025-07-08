@@ -8,6 +8,7 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from httpx import AsyncClient, ASGITransport
 import pytest, pytest_asyncio
+from fastapi.testclient import TestClient
 from digitalHuman.server import app
 
 
@@ -34,6 +35,11 @@ def version() -> str:
 @pytest.fixture
 def wavAudioZh() -> str:
     return os.path.join(TEST_SRC_AUDIO_PATH, "zh.wav")
+
+@pytest.fixture()
+def appClient() -> TestClient:
+    client = TestClient(app)
+    return client
 
 # pytest使用同一个事件循环
 # https://pytest-asyncio.readthedocs.io/en/latest/how-to-guides/run_session_tests_in_same_loop.html#

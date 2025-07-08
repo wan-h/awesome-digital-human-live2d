@@ -6,6 +6,11 @@ export enum ENGINE_TYPE {
     "AGENT" = "AGENT"
 }
 
+export enum IFER_TYPE {
+    "NORMAL" = "normal",
+    "STREAM" = "stream"
+}
+
 export enum PARAM_TYPE {
     "STRING" = "string",
     "INT" = "int",
@@ -126,6 +131,7 @@ export interface ChatMessage {
 export interface EngineDesc {
     name: string;
     type: ENGINE_TYPE;
+    infer_type: IFER_TYPE;
     desc: string;
     meta: {
         official: string;

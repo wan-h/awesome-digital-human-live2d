@@ -4,7 +4,7 @@
 ---  
 🎉🎉🎉 社区官网公测版本正式发布: https://www.light4ai.com  
 [B站视频-社区官网介绍](https://www.bilibili.com/video/BV1YN72z7EBz)  
-官方支持(详情见[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)):  
+官网在开源版本基础上额外支持(详情见[操作指南](https://light4ai.feishu.cn/docx/XmGFd5QJwoBdDox8M7zcAcRJnje)):  
 * 个人应用管理  
 * 内置服务接入  
 * 限定主题  
@@ -68,6 +68,11 @@ PC端页面预览：
   * 前端页面全面升级：nextjs + heroui + tailwind
   * 支持动态背景
   * 沉浸模式（实时交互、对话打断等等直接交互方式优化）
+  * 支持流式引擎([协议文档](./docs/streaming_protocol.md))
+    * FunASR streaming(在沉浸模式可选)  
+  - [ ] 豆包支持
+
+
 
 ## 部署&开发
 [部署说明](./docs/deploy_instrction.md)  
@@ -104,6 +109,7 @@ PC端页面预览：
 ### 开源项目
 * [Dify](https://github.com/langgenius/dify)  
 * [Live2D](https://github.com/Live2D)  
+* [FunASR](https://github.com/modelscope/FunASR)
 * 源码中涉及到的所有库作者
 
 ## 社区联系

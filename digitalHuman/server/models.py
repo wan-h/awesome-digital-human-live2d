@@ -21,7 +21,7 @@ class EngineParam(BaseResponse):
 class EngineInput(BaseModel):
     engine: str = 'default'
     config: Dict = {}
-    data: Union[str, bytes]
+    data: Union[str, bytes] = ""
 
 class AgentEngineInput(EngineInput):
     conversation_id: str = ""
