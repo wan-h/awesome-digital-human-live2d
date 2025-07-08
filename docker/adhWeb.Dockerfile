@@ -15,7 +15,7 @@ RUN apk update && apk add --no-cache python3 make gcc g++ musl-dev linux-headers
 
 # 安装npm依赖库
 RUN npm install -g pnpm \
-    && pnpm install \
+    && CI=true pnpm install \
     && pnpm run build
 
 ENTRYPOINT ["pnpm", "run", "start"]

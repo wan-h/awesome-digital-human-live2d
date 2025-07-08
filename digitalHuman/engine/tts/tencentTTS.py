@@ -115,6 +115,8 @@ class TencentApiTts(BaseTTSEngine):
             "Text": input.data,
             "SessionId": str(uuid4()),
             "VoiceType": tencentVoice.id,
+            # "Codec": "wav",
+            "Codec": "mp3",
             "Volume": volume,
             "Speed": speed,
             "EmotionCategory": emotionCategory

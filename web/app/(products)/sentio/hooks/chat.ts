@@ -10,6 +10,7 @@ import { CHAT_ROLE, EventResponse, STREAMING_EVENT_TYPE } from "@/lib/protocol";
 import { Live2dManager } from '@/lib/live2d/live2dManager';
 import { SENTIO_TTS_PUNC } from '@/lib/constants';
 import { base64ToArrayBuffer, ttsTextPreprocess } from '@/lib/func';
+import { convertMp3ArrayBufferToWavArrayBuffer } from "@/lib/utils/audio";
 import {
     api_tts_infer,
     api_agent_stream,
@@ -101,10 +102,12 @@ export function useChatWithAgent() {
                 let ttsText = "";
                 const ttsCallback = (ttsResult: string) => {
                     if (ttsResult != "") {
-                        const buffer = base64ToArrayBuffer(ttsResult);
-                        // 将音频数据放入队列
-                        Live2dManager.getInstance().pushAudioQueue(buffer);
-                        ttsText = "";
+                        const audioData = base64ToArrayBuffer(ttsResult);
+                        convertMp3ArrayBufferToWavArrayBuffer(audioData).then((buffer) => {
+                            // 将音频数据放入队列
+                            Live2dManager.getInstance().pushAudioQueue(buffer);
+                            ttsText = "";  
+                        })
                     }
                     // TTS处理完毕，继续处理下一个断句
                     doTTS();

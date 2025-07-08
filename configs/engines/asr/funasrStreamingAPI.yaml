@@ -1,0 +1,30 @@
+# Funasr Streaming ASR Engine Configuration
+# For details on the model, see: https://www.modelscope.cn/models/iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-online-onnx/summary
+NAME: funasrStreaming
+VERSION: "v0.0.1"
+DESC: "接入Stream ASR"
+META: {
+  official: "https://github.com/modelscope/FunASR",
+  tips: "支持本地部署的FunAsrStream应用",
+  fee: "free",
+  infer_type: "stream"
+}
+PARAMETERS: [
+  {
+    name: "api_url",
+    description: "Funasr Streaming API URL",
+    type: "string",
+    required: false,
+    choices: [],
+    default: "ws://adh-funasr:10095"
+  },
+  {
+    name: "mode",
+    description: "Funasr Streaming mode",
+    type: "string",
+    required: false,
+    # choices: ["online", "offline", "2pass"],
+    choices: ["2pass"],
+    default: "2pass"
+  }
+]

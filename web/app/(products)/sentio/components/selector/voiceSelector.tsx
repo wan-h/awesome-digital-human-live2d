@@ -6,6 +6,7 @@ import { useSentioTtsStore } from "@/lib/store/sentio";
 import { PauseCircleIcon, PlayCircleIcon } from "@heroicons/react/24/outline";
 import { api_tts_infer } from "@/lib/api/server";
 import { base64ToArrayBuffer } from "@/lib/func";
+import { convertMp3ArrayBufferToWavArrayBuffer } from "@/lib/utils/audio";
 import { SENTIO_VOICE_TEST_ZH, SENTIO_VOICE_TEST_EN } from '@/lib/constants';
 
 function VoiceSelector(props: {
@@ -39,14 +40,16 @@ function VoiceSelector(props: {
             source.start();
             ausioSource.current = source;
         }
-        // 创建一个新的 ArrayBuffer 并复制数据, 防止原始数据被decodeAudioData释放
-        const newAudioData = audioData.slice(0);
-        setStartConverting(false);
-        audioContext.decodeAudioData(newAudioData).then(
-            (buffer: AudioBuffer) => {
-                playAudioBuffer(buffer);
-            }
-        );
+        convertMp3ArrayBufferToWavArrayBuffer(audioData).then((audioBuffer) => {
+            // 创建一个新的 ArrayBuffer 并复制数据, 防止原始数据被decodeAudioData释放
+            const newAudioData = audioBuffer.slice(0);
+            setStartConverting(false);
+            audioContext.decodeAudioData(newAudioData).then(
+                (buffer: AudioBuffer) => {
+                    playAudioBuffer(buffer);
+                }
+            );
+        })
 
     }
     const ttsErrorCallback = () => {

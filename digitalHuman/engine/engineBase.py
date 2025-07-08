@@ -4,6 +4,7 @@
 @Author  :   一力辉 
 '''
 
+from fastapi import WebSocket
 from typing import List
 from abc import abstractmethod
 from digitalHuman.core import BaseRunner
@@ -32,4 +33,9 @@ class BaseTTSEngine(BaseEngine):
 
     @abstractmethod
     async def run(self, input: TextMessage, **kwargs) -> AudioMessage:
+        raise NotImplementedError
+
+class StreamBaseEngine(BaseEngine):
+    @abstractmethod
+    async def run(self, websocket: WebSocket, **kwargs) -> None:
         raise NotImplementedError
