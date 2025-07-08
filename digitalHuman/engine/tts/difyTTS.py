@@ -43,7 +43,7 @@ class DifyApiTts(BaseTTSEngine):
         # await asyncio.sleep(0)
         message = AudioMessage(
             # data=base64.b64encode(mp3ToWav(response.content)).decode('utf-8'),
-            data=base64.b64encode(response.content.decode('utf-8')),
+            data=base64.b64encode(response.content).decode('utf-8'),
             sampleRate=16000,
             sampleWidth=2,
         )
