@@ -244,9 +244,9 @@ export const ChatVadInput = memo(() => {
         const canvas = canvasRef.current!
         const ctx = ctxRef.current!
         if (canvas && ctx && waveData.current) {
-
+            const resolution = 3
             const dataArray = [].slice.call(waveData.current)
-            const lineLength = parseInt(`${canvas.width} / 3`)
+            const lineLength = parseInt(`${canvas.width / resolution}`)
             const gap = parseInt(`${dataArray.length / lineLength}`)
 
             ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -269,7 +269,7 @@ export const ChatVadInput = memo(() => {
                 else
                     ctx.rect(x, 16 - y, 2, y)
                 ctx.fill()
-                x += 3
+                x += resolution
             }
             ctx.closePath();
         }
@@ -335,8 +335,9 @@ export const ChatStreamInput = memo(() => {
         const ctx = ctxRef.current!
         if (canvas && ctx && waveData.current) {
             const dataArray = [].slice.call(waveData.current)
-            const lineLength = Math.ceil(canvas.width / 3);
-            const gap =Math.ceil(dataArray.length / lineLength)
+            const resolution = 10
+            const lineLength = parseInt(`${canvas.width / resolution}`)
+            const gap = parseInt(`${dataArray.length / lineLength}`)
             ctx.clearRect(0, 0, canvas.width, canvas.height)
             ctx.beginPath()
             let x = 0
@@ -357,7 +358,7 @@ export const ChatStreamInput = memo(() => {
                 else
                     ctx.rect(x, 16 - y, 2, y)
                 ctx.fill()
-                x += 3
+                x += resolution
             }
             ctx.closePath();
         }
