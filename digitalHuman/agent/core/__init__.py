@@ -8,7 +8,7 @@ from .difyAgent import DifyApiAgent
 from .repeaterAgent import RepeaterAgent
 from .fastgptAgent import FastgptApiAgent
 from .openaiAgent import OpenaiApiAgent
-
+from .cozeAgent import CozeApiAgent
 from .agentFactory import AgentFactory
 
 __all__ = ['AgentFactory']

@@ -4,9 +4,10 @@
 @Author  :   一力辉 
 '''
 
-from .tencentTTS import TencentApiTts
+from .tencentTTS import *
 from .edgeTTS import *
 from .difyTTS import *
+from .cozeTTS import *
 from .ttsFactory import TTSFactory
 # from .aliNLSTTS import AliNLSTTS
 

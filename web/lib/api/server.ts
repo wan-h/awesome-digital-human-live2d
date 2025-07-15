@@ -101,8 +101,9 @@ export async function api_tts_get_list(): Promise<PROTOCOL.EngineDesc[]>{
 
 export async function api_tts_get_voice(
     engine: string,
+    config: {}
 ): Promise<PROTOCOL.VoiceDesc[]>{
-    const path = `${TTS_PATH}/engine/${engine}/voice`;
+    const path = `${TTS_PATH}/engine/${engine}/voice?config=${encodeURIComponent(JSON.stringify(config))}`;
     return get(path, null).then((response: PROTOCOL.VoiceListResponse) => {
         return response.data
     }).catch(() => {

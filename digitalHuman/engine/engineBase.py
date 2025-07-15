@@ -28,7 +28,7 @@ class BaseASREngine(BaseEngine):
         raise NotImplementedError
 
 class BaseTTSEngine(BaseEngine):
-    async def voices(self) -> List[VoiceDesc]:
+    async def voices(self, **kwargs) -> List[VoiceDesc]:
         return []
 
     @abstractmethod

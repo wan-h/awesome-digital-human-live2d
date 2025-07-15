@@ -125,7 +125,8 @@ export const EngineTab = memo(({ engineType }: { engineType: ENGINE_TYPE }) => {
 
             // 获取TTS支持的语音列表(支持获取语音列表的引擎)
             if (engineType == ENGINE_TYPE.TTS && 'voice' in newSettings) {
-                api_tts_get_voice(engine).then((voices) => {
+                console.log('set voice', settings)
+                api_tts_get_voice(engine, settings).then((voices) => {
                     // 填充声音列表
                     for (var id in params) {
                         let param = params[id];

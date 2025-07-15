@@ -4,7 +4,7 @@
 @Author  :   一力辉 
 '''
 
-
+import json
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from digitalHuman.utils import config, logger
@@ -48,13 +48,14 @@ def api_get_tts_default():
 
 # ========================= 获取tts引擎声音列表 ===========================
 @router.get("/engine/{engine}/voice", response_model=VoiceListResp, summary="Get TTS Engine Voice List")
-async def api_get_tts_voice(engine: str):
+async def api_get_tts_voice(engine: str, config: str = '{}'):
     """
     获取tts引擎配置参数列表
     """
     response = Response()
+    config = json.loads(config) if config else {}
     try:
-        response.data = await get_tts_voice(engine)
+        response.data = await get_tts_voice(engine, **config)
     except Exception as e:
         response.data = []
         response.error(str(e))

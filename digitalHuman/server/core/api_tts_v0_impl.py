@@ -5,7 +5,7 @@
 '''
 
 
-from typing import List
+from typing import List, Dict
 from digitalHuman.engine import EnginePool, BaseTTSEngine
 from digitalHuman.utils import config
 from digitalHuman.protocol import ParamDesc, EngineDesc, ENGINE_TYPE, UserDesc, AudioMessage, TextMessage, VoiceDesc
@@ -20,9 +20,9 @@ def get_tts_list() -> List[EngineDesc]:
 def get_tts_default() -> EngineDesc:
     return enginePool.getEngine(ENGINE_TYPE.TTS, config.SERVER.ENGINES.TTS.DEFAULT).desc()
 
-async def get_tts_voice(name: str) -> List[VoiceDesc]:
+async def get_tts_voice(name: str, **kwargs) -> List[VoiceDesc]:
     engine: BaseTTSEngine = enginePool.getEngine(ENGINE_TYPE.TTS, name)
-    voices = await engine.voices()
+    voices = await engine.voices(**kwargs)
     return voices
 
 def get_tts_param(name: str) -> List[ParamDesc]:

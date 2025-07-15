@@ -1,0 +1,28 @@
+NAME: "Coze"
+VERSION: "v0.0.1"
+DESC: "接入Coze智能体"
+META: {
+  official: "https://www.coze.cn/",
+  configuration: "",
+  tips: "支持接入云端的Coze智能体",
+  fee: ""
+}
+# 暴露给前端的参数选项以及默认值
+PARAMETERS: [
+  {
+    name: "token",
+    description: "Coze Token.",
+    type: "string",
+    required: false,
+    choices: [],
+    default: ""
+  },
+  {
+    name: "voice",
+    description: "Voice for Coze.",
+    type: "string",
+    required: false,
+    choices: ["Getting from voice api..."],
+    default: "魅力女友"
+  },
+]
