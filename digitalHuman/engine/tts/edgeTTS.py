@@ -80,7 +80,7 @@ VOICE_LIST = [
 ]
 @TTSEngines.register("EdgeTTS")
 class EdgeApiTts(BaseTTSEngine):
-    async def voices(self) -> List[VoiceDesc]:
+    async def voices(self, **kwargs) -> List[VoiceDesc]:
         return VOICE_LIST
         """
         结构体

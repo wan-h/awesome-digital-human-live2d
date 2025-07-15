@@ -18,11 +18,19 @@ PARAMETERS: [
     default: ""
   },
   {
-    name: "voice",
-    description: "Voice for Coze.",
+    name: "bot_id",
+    description: "Coze bot_id.",
     type: "string",
     required: false,
-    choices: ["Getting from voice api..."],
-    default: "魅力女友"
+    choices: [],
+    default: ""
   },
+  # {
+  #   name: "voice",
+  #   description: "Voice for Coze.",
+  #   type: "string",
+  #   required: false,
+  #   choices: ["Getting from voice api..."],
+  #   default: "魅力女友"
+  # },
 ]

@@ -169,7 +169,7 @@ class TencentApiTts(BaseTTSEngine):
 
         return (headers, payload)
 
-    async def voices(self) -> List[VoiceDesc]:
+    async def voices(self, **kwargs) -> List[VoiceDesc]:
         return [VoiceDesc(name=v.name, gender=v.gender) for v in VOICE_LIST]
     
     async def run(self, input: TextMessage, **kwargs) -> AudioMessage:
