@@ -11,7 +11,7 @@ SERVER:
       SUPPORT_LIST: [ "difyAPI.yaml", "cozeAPI.yaml", "tencentAPI.yaml", "funasrStreamingAPI.yaml"]
       DEFAULT: "difyAPI.yaml"
     TTS: 
-      SUPPORT_LIST: [ "edgeAPI.yaml", "tencentAPI.yaml", "difyAPI.yaml", "cozeAPI.yaml" ]
+      SUPPORT_LIST: [ "edgeAPI.yaml", "tencentAPI.yaml", "difyAPI.yaml", "cozeAPI.yaml", "piperTTS.yaml" ]
       DEFAULT: "edgeAPI.yaml"
     LLM:
       SUPPORT_LIST: []

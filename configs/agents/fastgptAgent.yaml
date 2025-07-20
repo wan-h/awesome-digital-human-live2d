@@ -15,7 +15,7 @@ PARAMETERS: [
     type: "string",
     required: false,
     choices: [],
-    default: ""
+    default: "https://cloud.fastgpt.cn/api"
   },
   {
     name: "api_key",

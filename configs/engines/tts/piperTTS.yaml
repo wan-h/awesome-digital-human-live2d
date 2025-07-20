@@ -1,0 +1,22 @@
+NAME: "PiperTTSImproved"
+VERSION: "v1.0.0"
+DESC: "Piper TTS引擎，支持流式语音合成"
+META: {
+  official: "https://github.com/rhasspy/piper",
+  configuration: "需要安装Piper TTS和相应的语音模型",
+  tips: "本地运行的神经网络TTS系统，支持多种语言和声音",
+  fee: "free",
+  infer_type: "stream"
+}
+
+# 需求参数
+PARAMETERS: [
+  {
+    name: "voice",
+    description: "用于合成的语音模型",
+    type: "string",
+    required: false,
+    choices: ["zh_CN-huayan-medium"],
+    default: "zh_CN-huayan-medium"
+  }
+]

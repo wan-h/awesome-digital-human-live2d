@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from digitalHuman.server.api.common.common_api_v0 import router as commonRouter
 from digitalHuman.server.api.asr.asr_api_v0 import router as asrRouter
 from digitalHuman.server.api.tts.tts_api_v0 import router as ttsRouter
+from digitalHuman.server.api.tts.streaming_tts_api_v0 import router as streamingTTSRouter
 from digitalHuman.server.api.llm.llm_api_v0 import router as llmRouter
 from digitalHuman.server.api.agent.agent_api_v0 import router as agentRouter
 from digitalHuman.utils import config
@@ -35,5 +36,6 @@ GLOABLE_PREFIX = "/adh"
 app.include_router(commonRouter, prefix=GLOABLE_PREFIX, tags=["COMMON"])
 app.include_router(asrRouter, prefix=GLOABLE_PREFIX, tags=["ASR"])
 app.include_router(ttsRouter, prefix=GLOABLE_PREFIX, tags=["TTS"])
+app.include_router(streamingTTSRouter, prefix=GLOABLE_PREFIX, tags=["Streaming TTS"])
 app.include_router(llmRouter, prefix=GLOABLE_PREFIX, tags=["LLM"])
 app.include_router(agentRouter, prefix=GLOABLE_PREFIX, tags=["AGENT"])

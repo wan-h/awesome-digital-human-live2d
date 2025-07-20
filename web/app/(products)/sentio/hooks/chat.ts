@@ -6,7 +6,7 @@ import {
     useSentioBasicStore,
 } from "@/lib/store/sentio";
 import { useTranslations } from 'next-intl';
-import { CHAT_ROLE, EventResponse, STREAMING_EVENT_TYPE } from "@/lib/protocol";
+import { CHAT_ROLE, EventResponse, STREAMING_EVENT_TYPE, IFER_TYPE } from "@/lib/protocol";
 import { Live2dManager } from '@/lib/live2d/live2dManager';
 import { SENTIO_TTS_PUNC } from '@/lib/constants';
 import { base64ToArrayBuffer, ttsTextPreprocess } from '@/lib/func';
@@ -17,6 +17,7 @@ import {
 } from '@/lib/api/server';
 import { addToast } from "@heroui/react";
 import { SENTIO_RECODER_MIN_TIME, SENTIO_RECODER_MAX_TIME, SENTIO_TTS_SENTENCE_LENGTH_MIN } from "@/lib/constants";
+import { createStreamingTTSClient, StreamingTTSWebsocketClient } from "@/lib/api/streamingTtsWebsocket";
 
 export function useAudioTimer() {
     const t = useTranslations('Products.sentio');
@@ -64,18 +65,24 @@ const findPuncIndex = (content: string, beginIndex: number) => {
 export function useChatWithAgent() {
     const [ chatting, setChatting ] = useState(false);
     const { engine: agentEngine, settings: agentSettings } = useSentioAgentStore();
-    const { engine: ttsEngine, settings: ttsSettings } = useSentioTtsStore();
+    const { engine: ttsEngine, settings: ttsSettings, infer_type: ttsInferType } = useSentioTtsStore();
     const { sound } = useSentioBasicStore();
 
     const { addChatRecord, updateLastRecord } = useChatRecordStore();
     const controller = useRef<AbortController | null>(null);
     const conversationId = useRef<string>("");
     const messageId = useRef<string>("");
+    const streamingTtsClient = useRef<StreamingTTSWebsocketClient | null>(null);
 
     const abort = () => {
         setChatting(false);
         // 停止音频播放
         Live2dManager.getInstance().stopAudio();
+        // 断开流式TTS连接
+        if (streamingTtsClient.current) {
+            streamingTtsClient.current.disconnect();
+            streamingTtsClient.current = null;
+        }
         if (controller.current) {
             controller.current.abort("abort");
             controller.current = null;
@@ -97,6 +104,111 @@ export function useChatWithAgent() {
 
         const doTTS = () => {
             if (!!!controller.current) return;
+            
+            // 根据infer_type选择TTS模式
+            if (ttsInferType === IFER_TYPE.STREAM) {
+                doStreamingTTS();
+            } else {
+                doTraditionalTTS();
+            }
+        }
+
+        // 流式TTS处理
+        const doStreamingTTS = async () => {
+            // 初始化流式TTS客户端（如果尚未初始化）
+            if (!streamingTtsClient.current) {
+                try {
+                    streamingTtsClient.current = createStreamingTTSClient(
+                        ttsEngine,
+                        ttsSettings,
+                        {
+                            onConnected: () => {
+                                console.log('流式TTS连接成功');
+                            },
+                            onEngineReady: () => {
+                                console.log('流式TTS引擎就绪');
+                            },
+                            onAudioChunk: (audioData: Uint8Array) => {
+                                // 直接播放音频块，不需要转换
+                                Live2dManager.getInstance().playAudioChunk(audioData);
+                            },
+                            onStreamEnded: () => {
+                                console.log('流式TTS流结束');
+                            },
+                            onError: (error: string) => {
+                                console.error('流式TTS错误:', error);
+                            },
+                            onDisconnected: () => {
+                                console.log('流式TTS连接断开');
+                                streamingTtsClient.current = null;
+                            }
+                        }
+                    );
+                    await streamingTtsClient.current.connect();
+                } catch (error) {
+                    console.error('流式TTS连接失败:', error);
+                    // 回退到传统TTS
+                    doTraditionalTTS();
+                    return;
+                }
+            }
+
+            // agent持续输出中 | agentResponse未处理完毕
+            if (!agentDone || agentResponse.length > ttsProcessIndex) {
+                let ttsText = "";
+                
+                let beginIndex = ttsProcessIndex;
+                while (beginIndex >= ttsProcessIndex) {
+                    const puncIndex = findPuncIndex(agentResponse, beginIndex);
+                    // 找到断句
+                    if (puncIndex > beginIndex) {
+                        if (puncIndex - ttsProcessIndex > SENTIO_TTS_SENTENCE_LENGTH_MIN) {
+                            ttsText = agentResponse.substring(ttsProcessIndex, puncIndex + 1);
+                            ttsProcessIndex = puncIndex + 1;
+                            break;
+                        } else {
+                            // 长度不符合, 继续往后找
+                            beginIndex = puncIndex + 1;
+                            continue;
+                        }
+                    }
+                    // 未找到
+                    beginIndex = -1;
+                }
+                if (ttsText.length == 0 && agentDone) {
+                    // agent输出完毕，但未找到断句符号，则将剩余内容全部进行TTS
+                    ttsText = agentResponse.substring(ttsProcessIndex);
+                    ttsProcessIndex = agentResponse.length;
+                }
+                
+                if (ttsText != "") {
+                    // 处理断句tts
+                    const processText = ttsTextPreprocess(ttsText);
+                    if (!!processText && streamingTtsClient.current?.isReady()) {
+                        try {
+                            await streamingTtsClient.current.synthesizeText(processText);
+                        } catch (error) {
+                            console.error('流式TTS合成错误:', error);
+                        }
+                    }
+                    // 继续处理下一个断句
+                    setTimeout(() => {
+                        doTTS();
+                    }, 10);
+                } else {
+                    // 10ms 休眠定时器执行
+                    setTimeout(() => {
+                        doTTS();
+                    }, 10);
+                }
+            } else {
+                // 正常对话结束
+                setChatting(false);
+            }
+        }
+
+        // 传统TTS处理（保持原有逻辑）
+        const doTraditionalTTS = () => {
             // agent持续输出中 | agentResponse未处理完毕
             if (!agentDone || agentResponse.length > ttsProcessIndex) {
                 let ttsText = "";
@@ -229,7 +341,7 @@ export function useChatWithAgent() {
         return () => {
             abort(); // 终止对话
         }
-    }, [agentEngine, agentSettings])
+    }, [agentEngine, agentSettings, ttsEngine, ttsSettings, ttsInferType])
 
     return { chat, abort, chatting, conversationId };
 }

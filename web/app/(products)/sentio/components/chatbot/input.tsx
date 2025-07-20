@@ -8,7 +8,8 @@ import { CHAT_ROLE } from '@/lib/protocol';
 import { api_asr_infer_file } from '@/lib/api/server';
 import { createASRWebsocketClient, WS_RECV_ACTION_TYPE, WS_SEND_ACTION_TYPE } from '@/lib/api/websocket';
 import { useTranslations } from 'next-intl';
-import { convertToMp3, convertFloat32ArrayToMp3, AudioRecoder } from '@/lib/utils/audio';
+import { convertToMp3, convertFloat32ArrayToMp3, convertInt16ToAnalyseData } from '@/lib/utils/audio';
+import { AudioRecorder } from '@/lib/utils/asrWebSocket';
 import Recorder from 'js-audio-recorder';
 import { useMicVAD } from "@ricky0123/vad-react"
 import { useChatWithAgent, useAudioTimer } from '../../hooks/chat';
@@ -417,36 +418,41 @@ export const ChatStreamInput = memo(() => {
                 })
             }
         })
-        const audioRecoder = new AudioRecoder(
-            16000, 
-            1, 
-            16000 / 1000 * 60 * 2, // 60ms数据(字节数, 一个frame 16位, 2个byte)
-            (chunk: Uint8Array) => {
-                try {
-                    if (asrWsClient.isConnected && engineReady.current) {
-                        asrWsClient.sendMessage(WS_SEND_ACTION_TYPE.ENGINE_PARTIAL_INPUT, chunk) 
-                    }
-                } catch(error: any) {
-                    addToast({
-                        title: error.message,
-                        variant: "flat",
-                        color: "danger"
-                    })
-                }
-            },
-            (chunk: Float32Array) => {
-                if (engineReady.current) {
-                    waveData.current = convertFloat32ToAnalyseData(chunk);
-                }
-            }
+        const audioRecorder = new AudioRecorder(
+            16000,  // sampleRate
+            1,      // channels
+            1024    // chunkSize
         );
+        
+        // 配置音频块回调用于ASR
+        audioRecorder.setOnAudioChunk((chunk: Uint8Array) => {
+            try {
+                if (asrWsClient.isConnected && engineReady.current) {
+                    asrWsClient.sendMessage(WS_SEND_ACTION_TYPE.ENGINE_PARTIAL_INPUT, chunk);
+                }
+            } catch(error: any) {
+                addToast({
+                    title: error.message,
+                    variant: "flat",
+                    color: "danger"
+                });
+            }
+        });
+        
+        // 配置音频数据回调用于可视化
+        audioRecorder.setOnAudioData((data: Int16Array) => {
+            if (engineReady.current) {
+                waveData.current = convertInt16ToAnalyseData(data);
+            }
+        });
+        
         initCanvas();
         drawId.current = requestAnimationFrame(drawCanvas);
         asrWsClient.connect();
-        audioRecoder.start();
+        audioRecorder.startRecording();
 
         return () => {
-            audioRecoder.stop();
+            audioRecorder.stopRecording();
             asrWsClient.disconnect();
             !!drawId.current && cancelAnimationFrame(drawId.current);
         }
