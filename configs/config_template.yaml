@@ -9,13 +9,13 @@ SERVER:
   ENGINES:
     ASR: 
       SUPPORT_LIST: [ "difyAPI.yaml", "cozeAPI.yaml", "tencentAPI.yaml", "funasrStreamingAPI.yaml"]
-      DEFAULT: "difyAPI.yaml"
+      DEFAULT: "funasrStreamingAPI.yaml"
     TTS: 
-      SUPPORT_LIST: [ "edgeAPI.yaml", "tencentAPI.yaml", "difyAPI.yaml", "cozeAPI.yaml" ]
-      DEFAULT: "edgeAPI.yaml"
+      SUPPORT_LIST: [ "edgeAPI.yaml", "tencentAPI.yaml", "difyAPI.yaml", "cozeAPI.yaml", "piperTTS.yaml" ]
+      DEFAULT: "piperTTS.yaml"
     LLM:
       SUPPORT_LIST: []
       DEFAULT: ""
   AGENTS:
     SUPPORT_LIST: [ "repeaterAgent.yaml", "openaiAPI.yaml", "difyAgent.yaml", "fastgptAgent.yaml", "cozeAgent.yaml" ]
-    DEFAULT: "repeaterAgent.yaml"
+    DEFAULT: "fastgptAgent.yaml"

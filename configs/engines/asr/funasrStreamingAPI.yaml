@@ -16,7 +16,7 @@ PARAMETERS: [
     type: "string",
     required: false,
     choices: [],
-    default: "ws://adh-funasr:10095"
+    default: "ws://127.0.0.1:10095"
   },
   {
     name: "mode",

@@ -23,7 +23,7 @@ function getUrl(path: string): string {
 
 export function getWsUrl(path: string): string {
   // 如果包含http则直接返回(完整路径)
-  if (path.includes("ws")) return path;
+  if (path.startsWith("ws")) return path;
   return getHost().replace("https", "wss").replace("http", "ws") + path;
 }
 

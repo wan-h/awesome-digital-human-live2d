@@ -137,6 +137,7 @@ export class AudioRecorder {
     private targetChunkSize: number; // 服务器要求的音频块大小：240ms * 16000Hz * 2字节 = 15360字节
     private audioBuffer: number[] = [];
     private onAudioChunk?: (chunk: Uint8Array) => void;
+    public onAudioData?: (data: Int16Array) => void;
 
     constructor(
         sampleRate = 16000,
@@ -149,6 +150,16 @@ export class AudioRecorder {
         this.chunkSize = chunkSize;
         this.targetChunkSize = 7680 * 2; // 15360字节
         this.onAudioChunk = onAudioChunk;
+    }
+
+    // 公共方法设置音频块回调
+    public setOnAudioChunk(callback: (chunk: Uint8Array) => void): void {
+        this.onAudioChunk = callback;
+    }
+
+    // 公共方法设置音频数据回调
+    public setOnAudioData(callback: (data: Int16Array) => void): void {
+        this.onAudioData = callback;
     }
 
     async startRecording(): Promise<void> {
@@ -198,7 +209,13 @@ export class AudioRecorder {
             
             this.audioWorkletNode.port.onmessage = (event) => {
                 if (this.isRecording) {
-                    this.processAudioData(event.data);
+                    const int16Data = event.data;
+                    // 调用音频数据回调（用于可视化）
+                    if (this.onAudioData) {
+                        this.onAudioData(int16Data);
+                    }
+                    // 处理音频数据（用于ASR）
+                    this.processAudioData(int16Data);
                 }
             };
 

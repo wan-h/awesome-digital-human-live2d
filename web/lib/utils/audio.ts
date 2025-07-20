@@ -188,6 +188,16 @@ export const convertMp3BlobToWavBlob = async (mp3Blob: Blob): Promise<Blob> => {
   return wavBlob;
 }
 
+export const convertInt16ToAnalyseData = (int16Data: Int16Array): Uint8Array => {
+  const analyseData = new Uint8Array(int16Data.length);
+  for (let i = 0; i < int16Data.length; i++) {
+    // 将Int16范围(-32768到32767)转换为Uint8范围(0到255)
+    const normalized = (int16Data[i] + 32768) / 65535;
+    analyseData[i] = Math.floor(normalized * 255);
+  }
+  return analyseData;
+};
+
 export class AudioRecoder {
   private _sampleRate: number;
   private _channleCount: number;
